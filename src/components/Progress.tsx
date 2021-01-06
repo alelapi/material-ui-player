@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from '@material-ui/core/Slider';
 import { withStyles } from '@material-ui/core/styles';
 import { Time } from '../types';
@@ -26,7 +26,11 @@ interface ProgressProps {
 }
 
 const Progress = (props: ProgressProps) => {
-    const [progress, setProgress] = useState(timeToPercentage(props.time));
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        setProgress(timeToPercentage(props.time));
+    }, [props.time]);
 
     const onProgressClick = (_: any, value: number | number[]) => {
         const progressValue: number = !Number.isFinite(value) ? 0 : value as number;

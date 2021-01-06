@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { CardContent, Grid, Card } from '@material-ui/core';
 import { getMimeType } from '../lib/utils';
 import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
-import { Time, Player } from '../types';
+import { Time } from '../types';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,23 +51,22 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
     const [playing, setPlaying] = useState(false);
     const [time, setTime] = useState({} as Time);
     const [playerTimeout, setPlayerTimeout] = useState(null as ReturnType<typeof setInterval> | null);
-    const refPlayer: React.MutableRefObject<HTMLAudioElement | null> = useRef(null);
-    const [player, setPlayer] = useState(undefined as Player | undefined);
+    const player: React.MutableRefObject<HTMLAudioElement | null> = useRef(null);
 
     const pausePlaying = useCallback(() => {
-        player?.pause();
+        player?.current?.pause();
         playerTimeout && clearInterval(playerTimeout);
         setPlaying(false);
     }, [playerTimeout, player]);
 
     const setCurrentTime = useCallback((value: number) => {
-        if (!player) return;
+        if (!player?.current) return;
 
-        const currentTime: number = (value / 100) * player.duration;
-        player.currentTime = currentTime;
+        const currentTime: number = (value / 100) * (player.current.duration || 0);
+        player.current.currentTime = currentTime;
         const progressTime: Time = {
-            currentTime: player.currentTime,
-            duration: player.duration,
+            currentTime: player.current.currentTime,
+            duration: player.current.duration,
         };
         setTime(progressTime);
     }, [player]);
@@ -89,41 +88,40 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
     const classes = useStyles({ width });
 
     const intervalCheck = useCallback(() => {
-        if (!player) return;
+        if (!player?.current) return;
 
         const progressTime: Time = {
-            currentTime: player.currentTime,
-            duration: player.duration,
+            currentTime: player.current.currentTime,
+            duration: player.current.duration,
         };
         setTime(progressTime);
     }, [player]);
 
     const onPlay = useCallback(async () => {
-        if (!player) return;
+        if (!player?.current) return;
 
-        if (!player.src) {
+        if (!player.current.src) {
             const audioUrl = typeof src === 'string' ? src : await src;
             setUrl(audioUrl);
-            player.src = audioUrl;
-            player.load();
+            player.current.src = audioUrl;
+            player.current.load();
         }
 
         setPlaying(true);
         setPlayerTimeout(setInterval(intervalCheck, 50));
-        player.play();
+        player.current.play();
     }, [intervalCheck, src, player]);
 
     useEffect(() => {
-        const audioPlayer = new Player(refPlayer, {
-            autoplay,
-            loop,
-            onended: () => {
-                pausePlaying();
-                onEnded();
-            }
-        });
+        if (!player?.current) return;
+
+        player.current.autoplay = autoplay;
+        player.current.loop = loop;
+        player.current.onended = () => {
+            pausePlaying();
+            onEnded();
+        };
         
-        setPlayer(audioPlayer);
         stop();
         return () => {
             playerTimeout && clearInterval(playerTimeout);
@@ -131,28 +129,28 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
     }, [src]);
 
     const onVolumeChange = useCallback((volume: number) => {
-        if (!player) return;
-        player.volume = volume;
-    }, [player]);
+        if (!player?.current) return;
+        player.current.volume = volume;
+    }, []);
 
     const onMuteClick = useCallback((muted: boolean) => {
-        if (!player) return;
-        player.muted = muted;
-    }, [player]);
+        if (!player?.current) return;
+        player.current.muted = muted;
+    }, []);
 
     const onSpeedChange = useCallback((speed: number) => {
-        if (!player) return;
-        player.speed = speed;
-    }, [player]);
+        if (!player?.current) return;
+        player.current.playbackRate = speed;
+    }, []);
 
     const onProgressClick = useCallback(async (value: number) => {
-        if (!player) return;
-        if (!player.src) {
+        if (!player?.current) return;
+        if (!player.current.src) {
             const audioUrl = typeof src === 'string' ? src : await src;
             setUrl(audioUrl);
-            player.src = audioUrl;
-            player.load();
-            player.onMetadata = () => setCurrentTime(value);
+            player.current.src = audioUrl;
+            player.current.load();
+            player.current.onloadedmetadata = () => setCurrentTime(value);
             return;
         }
 
@@ -168,7 +166,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                     alignItems="center"
                 >
                     <audio
-                        ref={refPlayer}
+                        ref={player}
                         className={classes.audio}
                     >
                         {url && <source

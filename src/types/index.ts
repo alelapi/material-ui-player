@@ -1,6 +1,3 @@
-export { default as Player } from './player';
-export { default as PlayerVideo } from './playerVideo';
-
 export interface Time {
     currentTime: number;
     duration: number;
