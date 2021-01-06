@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
 import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { Player } from '../types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,7 +35,7 @@ const SpeedSlider = withStyles({
 })(Slider);
 
 interface SpeedBarProps {
-    onSpeedChange: Function;
+    onSpeedChange: (speed: number) => void;
 }
 
 const SpeedBar = (props: SpeedBarProps) => {

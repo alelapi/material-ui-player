@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { CardActions, CardContent, Grid, Card } from '@material-ui/core';
 import { getFade, getMimeType } from '../lib/utils';
 import { FadeSettings } from '../types';
@@ -65,21 +65,21 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
     const [playing, setPlaying] = useState(false);
     const [time, setTime] = useState({} as Time);
     const [fade, setFade] = useState(1);
-    const [muted, setMuted] = useState(false);
-    const [progress, setProgress] = useState(0);
     const [height, setHeight] = useState(0);
     const [width, setWidth] = useState(props.width);
     const [playerTimeout, setPlayerTimeout] = useState(null as ReturnType<typeof setInterval> | null)
     const refPlayer: React.MutableRefObject<HTMLVideoElement | null> = useRef(null);
-    const player = new PlayerVideo(refPlayer);
+    const [player, setPlayer] = useState(undefined as PlayerVideo | undefined);
 
-    const pausePlaying = () => {
-        player.pause();
+    const pausePlaying = useCallback(() => {
+        player?.pause();
         playerTimeout && clearInterval(playerTimeout);
         setPlaying(false);
-    };
+    }, [playerTimeout, player]);
 
-    const setTimeProgress = (value: number) => {
+    const setCurrentTime = useCallback((value: number) => {
+        if (!player) return;
+
         const currentTime: number = (value / 100) * player.duration;
         player.currentTime = currentTime;
         const progressTime: Time = {
@@ -87,38 +87,38 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
             duration: player.duration,
         };
         setTime(progressTime);
-        setProgress((progressTime.currentTime / progressTime.duration) * 100);
-    };
+    }, [player]);
 
-    const setSize = () => {
+    const setSize = useCallback(() => {
+        if (!player) return;
+
         if (width) {
             setHeight(player.height * width / player.width);
             return;
         }
         setWidth(player.width);
         setHeight(player.height);
-    }
+    }, [player]);
 
-    const stop = () => {
+    const stop = useCallback(() => {
         pausePlaying();
-        setTimeProgress(0);
-    };
+        setCurrentTime(0);
+    }, [pausePlaying, setCurrentTime]);
 
     const {
         src,
-        onEnded = stop,
+        onEnded = () => setCurrentTime(0),
         onBackwardClick = () => {},
         onForwardClick = () => {},
+        loop = !!props.loop,
+        autoplay = !!props.autoplay,
         fadeSettings,
     } = props;
     const classes = useStyles({ width, height });
 
-    const intervalCheck = () => {
-        if (player.ended) {
-            onEnded();
-            playerTimeout && clearInterval(playerTimeout);
-            return;
-        }
+    const intervalCheck = useCallback(() => {
+        if (!player) return;
+
         const currentFade = getFade(fadeSettings, player.duration, player.currentTime);
         setFade(currentFade);
         const progressTime: Time = {
@@ -126,11 +126,12 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
             duration: player.duration,
         };
         setTime(progressTime);
-        setProgress((progressTime.currentTime / progressTime.duration) * 100);
-    };
+    }, [player]);
 
-    const onPlay = async () => {
-        if (!url) {
+    const onPlay = useCallback(async () => {
+        if (!player) return;
+
+        if (!player.src) {
             const videoUrl = typeof src === 'string' ? src : await src;
             setUrl(videoUrl);
             player.src = videoUrl;
@@ -140,13 +141,21 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
         setPlaying(true);
         setPlayerTimeout(setInterval(intervalCheck, 50));
         player.play();
-    };
+    }, [intervalCheck, src, player]);
 
     useEffect(() => {
-        player.autoplay = !!props.autoplay;
-        player.loop = !!props.loop;
+        const audioPlayer = new PlayerVideo(refPlayer, {
+            autoplay,
+            loop,
+            onended: () => {
+                pausePlaying();
+                onEnded();
+            }
+        });
+        
+        setPlayer(audioPlayer);
         stop();
-        if (typeof src === 'string') {
+        if (typeof src === 'string' && player) {
             setUrl(src);
             player.src = src;
             player.load();
@@ -155,36 +164,39 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
             }
             return;
         }
+        return () => {
+            playerTimeout && clearInterval(playerTimeout);
+        }
     }, [src]);
 
-    const onVolumeClick = (volume: number) => {
+    const onVolumeChange = useCallback((volume: number) => {
+        if (!player) return;
         player.volume = volume;
-    };
+    }, [player]);
 
-    const onMuteClick = () => {
-        player.muted = !muted;
-        setMuted(!muted);
-    };
+    const onMuteClick = useCallback((muted: boolean) => {
+        if (!player) return;
+        player.muted = muted;
+    }, [player]);
 
-    const onProgressClick = async (value: number) => {
+    const onSpeedChange = useCallback((speed: number) => {
+        if (!player) return;
+        player.speed = speed;
+    }, [player]);
+
+    const onProgressClick = useCallback(async (value: number) => {
+        if (!player) return;
         if (!player.src) {
             const videoUrl = typeof src === 'string' ? src : await src;
             setUrl(videoUrl);
             player.src = videoUrl;
             player.load();
-            player.onMetadata = () => {
-                setTimeProgress(value);
-                setSize();
-            }
+            player.onMetadata = () => setCurrentTime(value);
             return;
         }
 
-        setTimeProgress(value);
-    };
-
-    const onSpeedChange = (speed: number) => {
-        player.speed = speed;
-    };
+        setCurrentTime(value);
+    }, [src, setCurrentTime, player]);
 
     return (
         <Card className={classes.card}>
@@ -206,7 +218,7 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                         xs={12}
                     >
                         <Progress
-                            progress={progress}
+                            time={time}
                             onProgressClick={async v => await onProgressClick(v)}
                         />
                     </Grid>
@@ -249,7 +261,7 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                     >
                         <VolumeBar
                             onMuteClick={onMuteClick}
-                            onVolumeClick={onVolumeClick}
+                            onVolumeChange={onVolumeChange}
                         />
                     </Grid>
                 </Grid>

@@ -37,9 +37,7 @@ export interface MaterialUIAudioProps {
     src: string | Promise<string>;
     forward?: boolean;
     backward?: boolean;
-    // eslint-disable-next-line no-unused-vars
     onForwardClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    // eslint-disable-next-line no-unused-vars
     onBackwardClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     onEnded?: () => void;
     autoplay?: boolean;
@@ -52,19 +50,19 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
     const [url, setUrl] = useState('');
     const [playing, setPlaying] = useState(false);
     const [time, setTime] = useState({} as Time);
-    const [muted, setMuted] = useState(false);
-    const [progress, setProgress] = useState(0);
     const [playerTimeout, setPlayerTimeout] = useState(null as ReturnType<typeof setInterval> | null);
     const refPlayer: React.MutableRefObject<HTMLAudioElement | null> = useRef(null);
-    const player = new Player(refPlayer);
+    const [player, setPlayer] = useState(undefined as Player | undefined);
 
     const pausePlaying = useCallback(() => {
-        player.pause();
+        player?.pause();
         playerTimeout && clearInterval(playerTimeout);
         setPlaying(false);
-    }, [playerTimeout]);
+    }, [playerTimeout, player]);
 
-    const setTimeProgress = useCallback((value: number) => {
+    const setCurrentTime = useCallback((value: number) => {
+        if (!player) return;
+
         const currentTime: number = (value / 100) * player.duration;
         player.currentTime = currentTime;
         const progressTime: Time = {
@@ -72,39 +70,38 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
             duration: player.duration,
         };
         setTime(progressTime);
-        setProgress((progressTime.currentTime / progressTime.duration) * 100);
-    }, []);
+    }, [player]);
 
     const stop = useCallback(() => {
         pausePlaying();
-        setTimeProgress(0);
-    }, [pausePlaying, setTimeProgress]);
+        setCurrentTime(0);
+    }, [pausePlaying, setCurrentTime]);
 
     const {
         src,
-        onEnded = stop,
+        onEnded = () => setCurrentTime(0),
         onBackwardClick = () => {},
         onForwardClick = () => {},
+        loop = !!props.loop,
+        autoplay = !!props.autoplay,
         width,
     } = props;
     const classes = useStyles({ width });
 
     const intervalCheck = useCallback(() => {
-        if (player.ended) {
-            onEnded();
-            playerTimeout && clearInterval(playerTimeout);
-            return;
-        }
+        if (!player) return;
+
         const progressTime: Time = {
             currentTime: player.currentTime,
             duration: player.duration,
         };
         setTime(progressTime);
-        setProgress((progressTime.currentTime / progressTime.duration) * 100);
-    }, [onEnded]);
+    }, [player]);
 
     const onPlay = useCallback(async () => {
-        if (!url) {
+        if (!player) return;
+
+        if (!player.src) {
             const audioUrl = typeof src === 'string' ? src : await src;
             setUrl(audioUrl);
             player.src = audioUrl;
@@ -114,39 +111,53 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
         setPlaying(true);
         setPlayerTimeout(setInterval(intervalCheck, 50));
         player.play();
-    }, [intervalCheck, url, src]);
+    }, [intervalCheck, src, player]);
 
     useEffect(() => {
-        player.autoplay = !!props.autoplay;
-        player.loop = !!props.loop;
+        const audioPlayer = new Player(refPlayer, {
+            autoplay,
+            loop,
+            onended: () => {
+                pausePlaying();
+                onEnded();
+            }
+        });
+        
+        setPlayer(audioPlayer);
         stop();
-    }, [src, props.autoplay, props.loop]);
+        return () => {
+            playerTimeout && clearInterval(playerTimeout);
+        }
+    }, [src]);
 
-    const onVolumeClick = useCallback((volume: number) => {
+    const onVolumeChange = useCallback((volume: number) => {
+        if (!player) return;
         player.volume = volume;
-    }, []);
+    }, [player]);
 
-    const onMuteClick = useCallback(() => {
-        player.muted = !muted;
-        setMuted(!muted);
-    }, [muted]);
+    const onMuteClick = useCallback((muted: boolean) => {
+        if (!player) return;
+        player.muted = muted;
+    }, [player]);
+
+    const onSpeedChange = useCallback((speed: number) => {
+        if (!player) return;
+        player.speed = speed;
+    }, [player]);
 
     const onProgressClick = useCallback(async (value: number) => {
+        if (!player) return;
         if (!player.src) {
             const audioUrl = typeof src === 'string' ? src : await src;
             setUrl(audioUrl);
             player.src = audioUrl;
             player.load();
-            player.onMetadata = () => setTimeProgress(value);
+            player.onMetadata = () => setCurrentTime(value);
             return;
         }
 
-        setTimeProgress(value);
-    }, [src, setTimeProgress]);
-
-    const onSpeedChange = useCallback((speed: number) => {
-        player.speed = speed;
-    }, []);
+        setCurrentTime(value);
+    }, [src, setCurrentTime, player]);
 
     return (
         <Card className={classes.card}>
@@ -170,7 +181,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                         xs={12}
                     >
                         <Progress
-                            progress={progress}
+                            time={time}
                             onProgressClick={async v => await onProgressClick(v)}
                         />
                     </Grid>
@@ -213,7 +224,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                     >
                         <VolumeBar
                             onMuteClick={onMuteClick}
-                            onVolumeClick={onVolumeClick}
+                            onVolumeChange={onVolumeChange}
                         />
                     </Grid>
                 </Grid>

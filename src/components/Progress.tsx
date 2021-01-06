@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Slider from '@material-ui/core/Slider';
 import { withStyles } from '@material-ui/core/styles';
+import { Time } from '../types';
+import { timeToPercentage } from '../lib/utils';
 
 const ProgressSlider = withStyles({
     thumb: {
@@ -20,18 +22,21 @@ const ProgressSlider = withStyles({
 interface ProgressProps {
     // eslint-disable-next-line no-unused-vars
     onProgressClick: (value: number) => void;
-    progress: number;
+    time?: Time;
 }
 
 const Progress = (props: ProgressProps) => {
+    const [progress, setProgress] = useState(timeToPercentage(props.time));
+
     const onProgressClick = (_: any, value: number | number[]) => {
         const progressValue: number = !Number.isFinite(value) ? 0 : value as number;
+        setProgress(progressValue);
         props.onProgressClick(progressValue);
     };
 
     return (
         <ProgressSlider
-            value={props.progress}
+            value={progress}
             onChange={onProgressClick}
         />
     );

@@ -30,8 +30,8 @@ const VolumeSlider = withStyles({
 })(Slider);
 
 interface VolumeBarProps {
-    onVolumeClick: Function;
-    onMuteClick: Function;
+    onVolumeChange: (volume: number) => void;
+    onMuteClick: (muted: boolean) => void;
 }
 
 const VolumeBar = (props: VolumeBarProps) => {
@@ -42,12 +42,13 @@ const VolumeBar = (props: VolumeBarProps) => {
     const onVolumeChange = (_: any, newValue: number | number[]) => {
         const volume: number = (newValue as number);
         setVolumeBar(volume);
-        props.onVolumeClick(volume / 100);
+        props.onVolumeChange(volume / 100);
     };
 
     const onMuteClick = () => {
-        setMuted(!muted);
-        props.onMuteClick();
+        const newState = !muted;
+        setMuted(newState);
+        props.onMuteClick(newState);
     };
 
     return (

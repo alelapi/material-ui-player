@@ -1,10 +1,13 @@
 import React  from 'react';
-
+import { PlayerSettings } from './index';
 export default class Player {
     ref: React.MutableRefObject<HTMLMediaElement | null> ;
 
-    constructor(ref: React.MutableRefObject<HTMLMediaElement | null>) {
+    constructor(ref: React.MutableRefObject<HTMLMediaElement | null>, settings: PlayerSettings) {
         this.ref = ref;
+        this.onended = settings.onended;
+        this.autoplay = settings.autoplay;
+        this.loop = settings.loop;
     }
 
     get duration(): number {
@@ -60,10 +63,6 @@ export default class Player {
         this.ref.current.muted = value;
     }
 
-    get ended(): boolean {
-        return this.ref?.current?.ended || false;
-    }
-
     get loop(): boolean {
         return this.ref?.current?.loop || false;
     }
@@ -85,6 +84,11 @@ export default class Player {
     set onMetadata(callback: () => void) {
         if (!this.ref?.current) return;
         this.ref.current.onloadedmetadata = callback;
+    }
+
+    set onended(callback: () => void) {
+        if (!this.ref?.current) return;
+        this.ref.current.onended  = callback;
     }
 
     play() {

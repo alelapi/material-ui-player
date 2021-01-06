@@ -1,10 +1,13 @@
-import { FadeSettings } from '../types';
+import { FadeSettings, Time } from '../types';
 
-export const getTime = (n: number): string => {
+const getTime = (n: number): string => {
     const seconds: number = !Number.isFinite(n) ? 0 : Math.trunc(n);
     const dateString: string = new Date(seconds * 1000).toISOString();
     return seconds >= 3600 ? dateString.substr(11, 8) : dateString.substr(14, 5);
 };
+
+export const timeToPercentage = (time?: Time): number => time ? (time.currentTime / time.duration) * 100 : 0
+export const timeToString = (time: Time): string => `${getTime(time.currentTime)}/${getTime(time.duration)}`;
 
 export const getMimeType = (url: string): string => {
     const mimeMap: Record<string, string> = {
