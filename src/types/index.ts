@@ -8,9 +8,3 @@ export interface FadeSettings {
     fadeOutTime: number;
 }
 
-export interface PlayerSettings {
-    onended: () => void;
-    loop: boolean;
-    autoplay: boolean;
-}
-

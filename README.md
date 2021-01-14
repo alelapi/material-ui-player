@@ -41,6 +41,7 @@ Prop | Description | Default | Component
 `loop` | Set to `true` or falsy to set loop on audio | `undefined` | Audio, Video
 `width` | Set the width of the player | Audio: `undefined` (fit parent container) <br /> Video: `undefined` (video maintain original size, card fit parent container) | Audio, Video
 `speed` | Set to `true` or falsy to show speed control | `undefined` | Audio, Video
+`mute` | Set to `true` or falsy to show mute button | `undefined` | Audio, Video
 `fadeSettings` | Object with `fadeInTime` and `fadeOutTime` (number, seconds) to fadein and fadeout video | `undefined` | Video
 
 #### Callback props

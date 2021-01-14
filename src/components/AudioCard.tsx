@@ -44,6 +44,7 @@ export interface MaterialUIAudioProps {
     loop?: boolean;
     width?: number;
     speed?: boolean;
+    mute?: boolean;
 }
 
 const MaterialUIAudio = (props: MaterialUIAudioProps) => {
@@ -223,6 +224,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                         <VolumeBar
                             onMuteClick={onMuteClick}
                             onVolumeChange={onVolumeChange}
+                            mute={props.mute}
                         />
                     </Grid>
                 </Grid>

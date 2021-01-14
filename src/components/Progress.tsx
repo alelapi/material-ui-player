@@ -22,11 +22,11 @@ const ProgressSlider = withStyles({
 interface ProgressProps {
     // eslint-disable-next-line no-unused-vars
     onProgressClick: (value: number) => void;
-    time?: Time;
+    time: Time;
 }
 
 const Progress = (props: ProgressProps) => {
-    const [progress, setProgress] = useState(0);
+    const [progress, setProgress] = useState(timeToPercentage(props.time));
 
     useEffect(() => {
         setProgress(timeToPercentage(props.time));

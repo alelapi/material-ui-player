@@ -32,6 +32,7 @@ const VolumeSlider = withStyles({
 interface VolumeBarProps {
     onVolumeChange: (volume: number) => void;
     onMuteClick: (muted: boolean) => void;
+    mute?: boolean;
 }
 
 const VolumeBar = (props: VolumeBarProps) => {
@@ -53,13 +54,15 @@ const VolumeBar = (props: VolumeBarProps) => {
 
     return (
         <div className={classes.root}>
-            <IconButton
-                color="primary"
-                aria-label="Mute"
-                onClick={onMuteClick}
-            >
+            {props.mute && 
+                <IconButton
+                    color="primary"
+                    aria-label="Mute"
+                    onClick={onMuteClick}
+                >
                 {muted ? <VolumeOff /> : <VolumeUp />}
-            </IconButton>
+                </IconButton>
+            }
             <VolumeSlider
                 value={volumeBar}
                 onChange={onVolumeChange}
