@@ -62,6 +62,7 @@ export interface MaterialUIVideoProps {
 
 const MaterialUIVideo = (props: MaterialUIVideoProps) => {
     const [url, setUrl] = useState('');
+    const [videoKey, setVideoKey] = useState(Math.random());
     const [playing, setPlaying] = useState(false);
     const [time, setTime] = useState({} as Time);
     const [fade, setFade] = useState(1);
@@ -69,6 +70,10 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
     const [width, setWidth] = useState(props.width);
     const [playerTimeout, setPlayerTimeout] = useState(null as ReturnType<typeof setInterval> | null)
     const player: React.MutableRefObject<HTMLVideoElement | null> = useRef(null);
+
+    useEffect(() => {
+        setVideoKey(Math.random());
+    }, [props.src]);
 
     const pausePlaying = useCallback(() => {
         player?.current?.pause();
@@ -198,7 +203,12 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
         <Card className={classes.card}>
             <CardContent className={classes.cardContent}>
                 <div className={classes.videoContainer}>
-                    <video style={{ opacity: fade }} ref={player} className={classes.video}>
+                    <video
+                        style={{ opacity: fade }}
+                        ref={player}
+                        key={videoKey}
+                        className={classes.video}
+                    >
                         {url && <source type={getMimeType(url)} src={url} />}
                     </video>
                 </div>

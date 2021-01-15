@@ -49,10 +49,15 @@ export interface MaterialUIAudioProps {
 
 const MaterialUIAudio = (props: MaterialUIAudioProps) => {
     const [url, setUrl] = useState('');
+    const [audioKey, setAudioKey] = useState(Math.random());
     const [playing, setPlaying] = useState(false);
     const [time, setTime] = useState({} as Time);
     const [playerTimeout, setPlayerTimeout] = useState(null as ReturnType<typeof setInterval> | null);
     const player: React.MutableRefObject<HTMLAudioElement | null> = useRef(null);
+
+    useEffect(() => {
+        setAudioKey(Math.random());
+    }, [props.src]);
 
     const pausePlaying = useCallback(() => {
         player?.current?.pause();
@@ -168,6 +173,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                 >
                     <audio
                         ref={player}
+                        key={audioKey}
                         className={classes.audio}
                     >
                         {url && <source

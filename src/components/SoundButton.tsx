@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { getMimeType } from '../lib/utils';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
@@ -21,8 +21,13 @@ export interface SoundButtonProps {
 
 const SoundButton = (props: SoundButtonProps) => {
     const [url, setUrl] = useState('');
+    const [audioKey, setAudioKey] = useState(Math.random());
     const player: React.MutableRefObject<HTMLAudioElement | null> = useRef(null);
     const classes = useStyles();
+
+    useEffect(() => {
+        setAudioKey(Math.random());
+    }, [props.src]);
 
     const onPlay = useCallback(async () => {
         if (!player?.current) return;
@@ -42,6 +47,7 @@ const SoundButton = (props: SoundButtonProps) => {
             onClick={onPlay}
         >
             <audio
+                key={audioKey}
                 ref={player}
                 className={classes.audio}
             >
