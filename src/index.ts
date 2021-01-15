@@ -1,1 +1,1 @@
-export { AudioCard, VideoCard } from './components';
+export { AudioCard, VideoCard, SoundButton } from './components';

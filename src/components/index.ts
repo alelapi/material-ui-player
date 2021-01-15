@@ -5,3 +5,4 @@ export { default as VideoCard } from './VideoCard';
 export { default as ControlKeys } from './ControlKeys';
 export { default as MediaTime } from './MediaTime';
 export { default as Progress } from './Progress';
+export { default as SoundButton } from './SoundButton';
