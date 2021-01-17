@@ -1,11 +1,11 @@
-import React, { useRef, useEffect, useCallback, useReducer } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { CardContent, Grid, Card } from '@material-ui/core';
 import { getMimeType, getUrl } from '../lib/utils';
 import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
-import { Time } from '../types';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { State, ActionType } from '../state/types';
-import reducer from '../state/reducer';
+import { State } from '../state/types';
+import { MaterialUIMediaProps } from '../types';
+import { useMedia } from '../hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,17 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export interface MaterialUIAudioProps {
-    src: string | Promise<string> | (() => Promise<string>) | (() => string);
-    forward?: boolean;
-    backward?: boolean;
-    onForwardClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    onBackwardClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    onEnded?: () => void;
-    autoplay?: boolean;
-    loop?: boolean;
-    width?: number;
-    speed?: boolean;
+export interface MaterialUIAudioProps extends MaterialUIMediaProps {
     mute?: boolean;
 }
 
@@ -58,41 +48,16 @@ const getInitialState = (props: MaterialUIAudioProps): State => ({
         duration: 0,
     },
     playerTimeout: null,
-    width: props.width
+    width: props.width,
+    src: props.src,
 })
 
 const MaterialUIAudio = (props: MaterialUIAudioProps) => {
-    const [state, dispatch] = useReducer(reducer, getInitialState(props));
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
-
-    const pausePlaying = useCallback(() => {
-        player.current.pause();
-        state.playerTimeout && clearInterval(state.playerTimeout);
-        dispatch({ type: ActionType.PAUSE });
-    }, [state.playerTimeout]);
-
-    const setCurrentTime = useCallback((value?: number) => {
-        const currentTime: number = value === undefined ? 
-                                        player.current.currentTime : 
-                                        (value / 100) * (player.current.duration || 0);
-        
-        if (value !== undefined) {
-            player.current.currentTime = currentTime;
-        }
-        
-        const progressTime: Time = {
-            currentTime,
-            duration: player.current.duration,
-        };
-        dispatch({ 
-            type: ActionType.UPDATE_TIME,
-            payload: { time: progressTime },
-        });
-    }, []);
+    const { state, pause, setCurrentTime, load, play, stop, setProgress } = useMedia(getInitialState(props));
 
     const {
-        src,
-        onEnded = () => setCurrentTime(0),
+        onEnded = () => setCurrentTime(player.current, 0),
         onBackwardClick = () => {},
         onForwardClick = () => {},
         loop = !!props.loop,
@@ -103,69 +68,24 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
             const audioUrl = await getUrl(props.src);
-            dispatch({ 
-                type: ActionType.UPDATE_URL,
-                payload: audioUrl,
-            });
-            player.current.src = audioUrl;
-            player.current.load();
+            load(player.current, audioUrl);
         }
 
-        dispatch({ 
-            type: ActionType.PLAY,
-            payload: setInterval(() => {
-                setCurrentTime()
-            }, 50),
-        });
-        await player.current.play();
-    }, [setCurrentTime, src, player]);
-
-    useEffect(() => {
-        dispatch({ 
-            type: ActionType.UPDATE_KEY,
-            payload: Math.random(),
-        });
-    }, [src]);
-
-    useEffect(() => {
-        return () => {
-            state.playerTimeout && clearInterval(state.playerTimeout);
-        }
-    }, [state.playerTimeout]);
+        await play(player.current);
+    }, [load, play, props.src]);
 
     useEffect(() => {
         player.current.autoplay = autoplay;
         player.current.loop = loop;
         player.current.onended = () => {
-            pausePlaying();
+            pause(player.current);
             onEnded();
         };
-    }, [pausePlaying, onEnded, autoplay, loop]);
+    }, [pause, onEnded, autoplay, loop]);
 
     useEffect(() => {
         autoplay && onPlay();
     }, [autoplay, onPlay]);
-
-    const onProgressClick = useCallback(async (value: number) => {
-        if (!player.current.src) {
-            const audioUrl = await getUrl(props.src);
-            dispatch({ 
-                type: ActionType.UPDATE_URL,
-                payload: audioUrl,
-            });
-            player.current.src = audioUrl;
-            player.current.load();
-            player.current.onloadedmetadata = () => setCurrentTime(value);
-            return;
-        }
-
-        setCurrentTime(value);
-    }, [src, setCurrentTime, player]);
-
-    const onStopClick = useCallback(() => {
-        pausePlaying();
-        setCurrentTime(0);
-    }, [pausePlaying, setCurrentTime]);
 
     return (
         <Card className={classes.card}>
@@ -191,7 +111,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                     >
                         <Progress
                             time={state.time}
-                            onProgressClick={async v => await onProgressClick(v)}
+                            onProgressClick={async v => await setProgress(player.current, v)}
                         />
                     </Grid>
                     <Grid
@@ -204,14 +124,14 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                                 time={state.time}
                             />
                             <ControlKeys
-                                onPauseClick={pausePlaying}
+                                onPauseClick={() => pause(player.current)}
                                 onPlayClick={onPlay}
                                 backward={props.backward}
                                 forward={props.forward}
                                 playing={state.playing}
                                 onForwardClick={onForwardClick}
                                 onBackwardClick={onBackwardClick}
-                                onStopClick={onStopClick}
+                                onStopClick={() => stop(player.current)}
                             />
                         </div>
                     </Grid>

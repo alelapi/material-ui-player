@@ -8,3 +8,19 @@ export interface FadeSettings {
     fadeOutTime: number;
 }
 
+export interface BaseProps {
+    src: string | Promise<string> | (() => Promise<string>) | (() => string);
+    onEnded?: () => void;
+}
+
+export interface MaterialUIMediaProps extends BaseProps {
+    forward?: boolean;
+    backward?: boolean;
+    onForwardClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onBackwardClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    autoplay?: boolean;
+    loop?: boolean;
+    width?: number;
+    speed?: boolean;
+}
+
