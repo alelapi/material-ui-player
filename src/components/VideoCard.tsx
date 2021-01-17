@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useReducer } from 'react';
 import { CardActions, CardContent, Grid, Card } from '@material-ui/core';
 import { getFade, getMimeType } from '../lib/utils';
 import { FadeSettings } from '../types';
 import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
 import { Time } from '../types';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { State, ActionType } from '../state/types';
+import reducer from '../state/reducer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -60,53 +62,67 @@ export interface MaterialUIVideoProps {
     speed?: boolean;
 }
 
-const MaterialUIVideo = (props: MaterialUIVideoProps) => {
-    const [url, setUrl] = useState('');
-    const [videoKey, setVideoKey] = useState(Math.random());
-    const [playing, setPlaying] = useState(false);
-    const [time, setTime] = useState({} as Time);
-    const [fade, setFade] = useState(1);
-    const [height, setHeight] = useState((props.width || 0) * 9/16);
-    const [width, setWidth] = useState(props.width);
-    const [playerTimeout, setPlayerTimeout] = useState(null as ReturnType<typeof setInterval> | null)
-    const player: React.MutableRefObject<HTMLVideoElement | null> = useRef(null);
+const getInitialState = (props: MaterialUIVideoProps): State => ({
+    url: '',
+    key: Math.random(),
+    playing: false,
+    time: {
+        currentTime: 0,
+        duration: 0,
+    },
+    fade: 1,
+    width: props.width,
+    height: (props.width || 0) * 9/16,
+    playerTimeout: null,
+});
 
-    useEffect(() => {
-        setVideoKey(Math.random());
-    }, [props.src]);
+const MaterialUIVideo = (props: MaterialUIVideoProps) => {
+    const [state, dispatch] = useReducer(reducer, getInitialState(props));
+    const player: React.MutableRefObject<HTMLVideoElement> = useRef(null!);
 
     const pausePlaying = useCallback(() => {
-        player?.current?.pause();
-        playerTimeout && clearInterval(playerTimeout);
-        setPlaying(false);
-    }, [playerTimeout]);
+        player.current.pause();
+        state.playerTimeout && clearInterval(state.playerTimeout);
+        dispatch({ type: ActionType.PAUSE });
+    }, [state.playerTimeout]);
 
-    const setCurrentTime = useCallback((value: number) => {
-        if (!player?.current) return;
-
-        const currentTime: number = (value / 100) * (player.current.duration || 0);
-        player.current.currentTime = currentTime;
+    const setCurrentTime = useCallback((value?: number) => {
+        const currentFade = getFade(props.fadeSettings, player.current.duration, player.current.currentTime);
+        const currentTime: number = value === undefined ? 
+                                        player.current.currentTime : 
+                                        (value / 100) * (player.current.duration || 0);
+        
+        if (value !== undefined) {
+            player.current.currentTime = currentTime;
+        }
+        
         const progressTime: Time = {
-            currentTime: player.current.currentTime,
+            currentTime,
             duration: player.current.duration,
         };
-        setTime(progressTime);
-    }, []);
+        dispatch({ 
+            type: ActionType.UPDATE_TIME,
+            payload: { 
+                time: progressTime,
+                fade: currentFade,
+            }
+        });
+    }, [props.fadeSettings]);
 
     const setSize = useCallback(() => {
-        if (!player?.current) return;
-        if (width) {
-            setHeight(player.current.videoHeight * width / player.current.videoWidth);
-            return;
-        }
-        setWidth(player.current.videoWidth);
-        setHeight(player.current.videoHeight);
-    }, [width]);
-
-    const stop = useCallback(() => {
-        pausePlaying();
-        setCurrentTime(0);
-    }, [pausePlaying, setCurrentTime]);
+        const width = state.width || player.current.videoWidth;
+        const height = state.width ? 
+            (player.current.videoHeight * width / player.current.videoWidth) : 
+            player.current.videoHeight;
+        
+        dispatch({ 
+            type: ActionType.UPDATE_SIZE,
+            payload: {
+                width,
+                height
+            },
+        });
+    }, [state.width]);
 
     const {
         src,
@@ -115,81 +131,63 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
         onForwardClick = () => {},
         loop = !!props.loop,
         autoplay = !!props.autoplay,
-        fadeSettings,
     } = props;
-    const classes = useStyles({ width, height });
-
-    const intervalCheck = useCallback(() => {
-        if (!player?.current) return;
-
-        const currentFade = getFade(fadeSettings, player.current.duration, player.current.currentTime);
-        setFade(currentFade);
-        const progressTime: Time = {
-            currentTime: player.current.currentTime,
-            duration: player.current.duration,
-        };
-        setTime(progressTime);
-    }, [fadeSettings]);
+    const classes = useStyles({ width: state.width, height: state.height! });
 
     const onPlay = useCallback(async () => {
-        if (!player?.current) return;
-
         if (!player.current.src) {
             const videoUrl = typeof src === 'string' ? src : await src;
-            setUrl(videoUrl);
+            dispatch({ 
+                type: ActionType.UPDATE_URL,
+                payload: videoUrl,
+            });
             player.current.src = videoUrl;
             player.current.load();
             player.current.onloadedmetadata = setSize;
         }
 
-        setPlaying(true);
-        setPlayerTimeout(setInterval(intervalCheck, 50));
-        player.current.play();
-    }, [player, intervalCheck, src, setSize]);
+        dispatch({ 
+            type: ActionType.PLAY,
+            payload: setInterval(() => {
+                setCurrentTime();
+            }, 50),
+        });
+        await player.current.play();
+    }, [src, setSize, setCurrentTime]);
 
     useEffect(() => {
-        if (!player?.current) return;
+        dispatch({ 
+            type: ActionType.UPDATE_KEY,
+            payload: Math.random(),
+        });
+    }, [src]);
 
+    useEffect(() => {
+        return () => {
+            state.playerTimeout && clearInterval(state.playerTimeout);
+        }
+    }, [state.playerTimeout]);
+
+    useEffect(() => {
         player.current.autoplay = autoplay;
         player.current.loop = loop;
         player.current.onended = () => {
             pausePlaying();
             onEnded();
         };
-        
-        stop();
-        if (typeof src === 'string') {
-            setUrl(src);
-            player.current.src = src;
-            player.current.load();
-            player.current.onloadedmetadata = setSize;
-        }
+    }, [pausePlaying, onEnded, autoplay, loop]);
 
-        return () => {
-            playerTimeout && clearInterval(playerTimeout);
-        }
-    }, [src]);
-
-    const onVolumeChange = useCallback((volume: number) => {
-        if (!player?.current) return;
-        player.current.volume = volume;
-    }, []);
-
-    const onMuteClick = useCallback((muted: boolean) => {
-        if (!player?.current) return;
-        player.current.muted = muted;
-    }, []);
-
-    const onSpeedChange = useCallback((speed: number) => {
-        if (!player?.current) return;
-        player.current.playbackRate = speed;
-    }, []);
+    useEffect(() => {
+        autoplay && onPlay();
+    }, [autoplay, onPlay]);
 
     const onProgressClick = useCallback(async (value: number) => {
-        if (!player?.current) return;
         if (!player.current.src) {
             const videoUrl = typeof src === 'string' ? src : await src;
-            setUrl(videoUrl);
+            dispatch({ 
+                type: ActionType.UPDATE_URL,
+                payload: videoUrl,
+            });
             player.current.src = videoUrl;
             player.current.load();
             player.current.onloadedmetadata = () => setCurrentTime(value);
@@ -199,17 +197,22 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
         setCurrentTime(value);
     }, [src, setCurrentTime]);
 
+    const onStopClick = useCallback(() => {
+        pausePlaying();
+        setCurrentTime(0);
+    }, [pausePlaying, setCurrentTime]);
+
     return (
         <Card className={classes.card}>
             <CardContent className={classes.cardContent}>
                 <div className={classes.videoContainer}>
                     <video
-                        style={{ opacity: fade }}
+                        style={{ opacity: state.fade }}
                         ref={player}
-                        key={videoKey}
+                        key={state.key}
                         className={classes.video}
                     >
-                        {url && <source type={getMimeType(url)} src={url} />}
+                        {state.url && <source type={getMimeType(state.url)} src={state.url} />}
                     </video>
                 </div>
             </CardContent>
@@ -224,7 +227,7 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                         xs={12}
                     >
                         <Progress
-                            time={time}
+                            time={state.time}
                             onProgressClick={async v => await onProgressClick(v)}
                         />
                     </Grid>
@@ -235,17 +238,17 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                     >
                         <div className={classes.controls}>
                             <MediaTime
-                                time={time}
+                                time={state.time}
                             />
                             <ControlKeys
                                 onPauseClick={pausePlaying}
                                 onPlayClick={onPlay}
                                 backward={props.backward}
                                 forward={props.forward}
-                                playing={playing}
+                                playing={state.playing}
                                 onForwardClick={onForwardClick}
                                 onBackwardClick={onBackwardClick}
-                                onStopClick={stop}
+                                onStopClick={onStopClick}
                             />
                         </div>
                     </Grid>
@@ -256,7 +259,7 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                             sm={3}
                         >
                             <SpeedBar
-                                onSpeedChange={onSpeedChange}
+                                player={player.current}
                             />
                         </Grid>
                     }
@@ -266,8 +269,7 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                         sm={props.speed ? 3 : 6}
                     >
                         <VolumeBar
-                            onMuteClick={onMuteClick}
-                            onVolumeChange={onVolumeChange}
+                            player={player.current}
                         />
                     </Grid>
                 </Grid>

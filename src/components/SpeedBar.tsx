@@ -34,7 +34,7 @@ const SpeedSlider = withStyles({
 })(Slider);
 
 interface SpeedBarProps {
-    onSpeedChange: (speed: number) => void;
+    player: HTMLMediaElement;
 }
 
 const SpeedBar = (props: SpeedBarProps) => {
@@ -47,12 +47,12 @@ const SpeedBar = (props: SpeedBarProps) => {
     const onSpeedChange = (_: any, newValue: number | number[]) => {
         const speed: number = (newValue as number);
         setSpeedBar(speed);
-        props.onSpeedChange(toSpeedValue(speed));
+        props.player.playbackRate = toSpeedValue(speed);
     };
 
     const onNormalSpeedClick = () => {
         setSpeedBar(defaultSpeed);
-        props.onSpeedChange(toSpeedValue(defaultSpeed));
+        props.player.playbackRate = toSpeedValue(defaultSpeed);
     };
 
     return (

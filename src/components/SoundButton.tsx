@@ -22,7 +22,7 @@ export interface SoundButtonProps {
 const SoundButton = (props: SoundButtonProps) => {
     const [url, setUrl] = useState('');
     const [audioKey, setAudioKey] = useState(Math.random());
-    const player: React.MutableRefObject<HTMLAudioElement | null> = useRef(null);
+    const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
     const classes = useStyles();
 
     useEffect(() => {
@@ -30,8 +30,6 @@ const SoundButton = (props: SoundButtonProps) => {
     }, [props.src]);
 
     const onPlay = useCallback(async () => {
-        if (!player?.current) return;
-
         if (!player.current.src) {
             const audioUrl = typeof props.src === 'string' ? props.src : await props.src;
             setUrl(audioUrl);
