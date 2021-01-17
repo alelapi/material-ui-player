@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { getMimeType } from '../lib/utils';
+import { getMimeType, getUrl } from '../lib/utils';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import IconButton from '@material-ui/core/IconButton';
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface SoundButtonProps {
-    src: string | Promise<string>;
+    src: string | Promise<string> | (() => Promise<string>) | (() => string);
 }
 
 const SoundButton = (props: SoundButtonProps) => {
@@ -31,7 +32,7 @@ const SoundButton = (props: SoundButtonProps) => {
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
-            const audioUrl = typeof props.src === 'string' ? props.src : await props.src;
+            const audioUrl = await getUrl(props.src);
             setUrl(audioUrl);
             player.current.src = audioUrl;
             player.current.load();

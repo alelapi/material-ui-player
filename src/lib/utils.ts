@@ -6,7 +6,7 @@ const getTime = (n: number): string => {
     return seconds >= 3600 ? dateString.substr(11, 8) : dateString.substr(14, 5);
 };
 
-export const timeToPercentage = (time?: Time): number => time ? (time.currentTime / time.duration) * 100 : 0
+export const timeToPercentage = (time?: Time): number => time ? (time.currentTime / time.duration) * 100 : 0;
 export const timeToString = (time: Time): string => `${getTime(time.currentTime)}/${getTime(time.duration)}`;
 
 export const getMimeType = (url: string): string => {
@@ -47,4 +47,9 @@ export const getFade = (settings: FadeSettings | undefined, duration: number, cu
     }
 
     return 1;
-}
+};
+
+export const getUrl = async (src: string | Promise<string> | (() => Promise<string>) | (() => string)): Promise<string> => {
+    if (typeof src === 'function') return await src();
+    return await src;
+};

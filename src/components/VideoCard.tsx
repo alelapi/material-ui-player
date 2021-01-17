@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback, useReducer } from 'react';
 import { CardActions, CardContent, Grid, Card } from '@material-ui/core';
-import { getFade, getMimeType } from '../lib/utils';
+import { getFade, getMimeType, getUrl } from '../lib/utils';
 import { FadeSettings } from '../types';
 import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
 import { Time } from '../types';
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface MaterialUIVideoProps {
-    src: string | Promise<string>;
+    src: string | Promise<string> | (() => Promise<string>) | (() => string);
     forward?: boolean;
     backward?: boolean;
     onForwardClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -136,7 +136,7 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
-            const videoUrl = typeof src === 'string' ? src : await src;
+            const videoUrl = await getUrl(props.src);
             dispatch({ 
                 type: ActionType.UPDATE_URL,
                 payload: videoUrl,
@@ -183,7 +183,7 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
 
     const onProgressClick = useCallback(async (value: number) => {
         if (!player.current.src) {
-            const videoUrl = typeof src === 'string' ? src : await src;
+            const videoUrl = await getUrl(props.src);
             dispatch({ 
                 type: ActionType.UPDATE_URL,
                 payload: videoUrl,

@@ -37,12 +37,12 @@ import { AudioCard, VideoCard } from 'material-ui-player'
 <SoundButton src={fetch('<my url>')} />
 
 ```
-
+string | Promise<string> | (() => Promise<string>) | (() => string)
 ### Props
 
 Prop | Description | Default | Component
 ---- | ----------- | ------- | ---------
-`src` | `string` or `Promise<string>` <br /> - The url of a media to play&nbsp; ◦ &nbsp;Can be a relative or absolute url <br /> A Promise resolved into a string (the url) after Play button clicked. This case can be useful when you are using Firebase Storage, where you need to call an API to retrieve the download Url. | (mandatory) | AudioCard, VideoCard, SoundButton
+`src` | `string` or `Promise<string>` or `() => string` or `() => Promise<string>` <br /> - The url of a media to play&nbsp; ◦ &nbsp;Can be a relative or absolute url <br /> A Promise resolved into a string (the url) after Play button clicked. This case can be useful when you are using Firebase Storage, where you need to call an API to retrieve the download Url. | (mandatory) | AudioCard, VideoCard, SoundButton
 `forward` | Set to `true` or falsy to show forward button  | `undefined` | AudioCard, VideoCard
 `backward` | Set to `true` or falsy to show backward button | `undefined` | AudioCard, VideoCard
 `autoplay` | Set to `true` or falsy to set autoplay on audio | `undefined` | AudioCard, VideoCard

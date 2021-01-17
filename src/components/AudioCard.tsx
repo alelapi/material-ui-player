@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback, useReducer } from 'react';
 import { CardContent, Grid, Card } from '@material-ui/core';
-import { getMimeType } from '../lib/utils';
+import { getMimeType, getUrl } from '../lib/utils';
 import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
 import { Time } from '../types';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface MaterialUIAudioProps {
-    src: string | Promise<string>;
+    src: string | Promise<string> | (() => Promise<string>) | (() => string);
     forward?: boolean;
     backward?: boolean;
     onForwardClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -102,7 +102,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
-            const audioUrl = typeof src === 'string' ? src : await src;
+            const audioUrl = await getUrl(props.src);
             dispatch({ 
                 type: ActionType.UPDATE_URL,
                 payload: audioUrl,
@@ -148,7 +148,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
 
     const onProgressClick = useCallback(async (value: number) => {
         if (!player.current.src) {
-            const audioUrl = typeof src === 'string' ? src : await src;
+            const audioUrl = await getUrl(props.src);
             dispatch({ 
                 type: ActionType.UPDATE_URL,
                 payload: audioUrl,
