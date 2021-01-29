@@ -32,8 +32,12 @@ const getInitialState = (props: BaseProps): State => ({
 
 const SoundButton = (props: BaseProps) => {
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
-    const { state, pause, load } = useMedia(getInitialState(props));
+    const { state, pause, load, updateSrc } = useMedia(getInitialState(props));
     const classes = useStyles();
+
+    useEffect(() => {
+        updateSrc(props.src);
+    }, [props.src, updateSrc]);
 
     const {
         onEnded = () => {},

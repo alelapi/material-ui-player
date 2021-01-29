@@ -84,10 +84,13 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
         });
     }, [state.width, dispatch]);
 
-    useEffect(() => {
+    const updateSrc = useCallback((src: string | Promise<string> | (() => Promise<string>) | (() => string)) => {
         dispatch({ 
             type: ActionType.UPDATE_KEY,
-            payload: Math.random(),
+            payload: {
+                key: Math.random(),
+                src,
+            },
         });
     }, []);
 
@@ -97,7 +100,7 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
         }
     }, [state.playerTimeout]);
 
-    return { state, pause, stop, setCurrentTime, load, play, setProgress, setSize };
+    return { state, pause, stop, setCurrentTime, load, play, setProgress, setSize, updateSrc };
 }
 
 export default useMedia;

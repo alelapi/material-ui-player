@@ -27,7 +27,8 @@ const reducer = (state: State, action: StateAction): State => {
         case ActionType.UPDATE_KEY:
             return { 
                 ...state, 
-                key: action.payload 
+                key: action.payload.key,
+                src: action.payload.src,
             };
         case ActionType.UPDATE_SIZE:
             return { 
