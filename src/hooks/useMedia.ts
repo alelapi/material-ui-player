@@ -95,12 +95,16 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     }, []);
 
     useEffect(() => {
+        updateSrc(state.src);
+    }, [state.src, updateSrc]);
+
+    useEffect(() => {
         return () => {
             state.playerTimeout && clearInterval(state.playerTimeout);
         }
     }, [state.playerTimeout]);
 
-    return { state, pause, stop, setCurrentTime, load, play, setProgress, setSize, updateSrc };
+    return { state, pause, stop, setCurrentTime, load, play, setProgress, setSize };
 }
 
 export default useMedia;

@@ -54,7 +54,7 @@ const getInitialState = (props: MaterialUIAudioProps): State => ({
 
 const MaterialUIAudio = (props: MaterialUIAudioProps) => {
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
-    const { state, pause, setCurrentTime, load, play, stop, setProgress, updateSrc } = useMedia(getInitialState(props));
+    const { state, pause, setCurrentTime, load, play, stop, setProgress } = useMedia(getInitialState(props));
 
     const {
         onEnded = () => setCurrentTime(player.current, 0),
@@ -64,10 +64,6 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
         autoplay = !!props.autoplay,
     } = props;
     const classes = useStyles({ width: state.width || 0 });
-
-    useEffect(() => {
-        updateSrc(props.src);
-    }, [props.src, updateSrc]);
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {

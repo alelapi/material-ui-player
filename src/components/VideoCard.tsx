@@ -69,7 +69,7 @@ const getInitialState = (props: MaterialUIVideoProps): State => ({
 
 const MaterialUIVideo = (props: MaterialUIVideoProps) => {
     const player: React.MutableRefObject<HTMLVideoElement> = useRef(null!);
-    const { state, pause, setSize, load, play, stop, setCurrentTime, setProgress, updateSrc } = useMedia(getInitialState(props), props.fadeSettings);
+    const { state, pause, setSize, load, play, stop, setCurrentTime, setProgress } = useMedia(getInitialState(props), props.fadeSettings);
 
     const {
         onEnded = () => setCurrentTime(player.current, 0),
@@ -79,10 +79,6 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
         autoplay = !!props.autoplay,
     } = props;
     const classes = useStyles({ width: state.width, height: state.height! });
-
-    useEffect(() => {
-        updateSrc(props.src);
-    }, [props.src, updateSrc]);
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
