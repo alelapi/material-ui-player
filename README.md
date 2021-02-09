@@ -37,7 +37,6 @@ import { AudioCard, VideoCard } from 'material-ui-player'
 <SoundButton src={fetch('<my url>')} />
 
 ```
-string | Promise<string> | (() => Promise<string>) | (() => string)
 ### Props
 
 Prop | Description | Default | Component
