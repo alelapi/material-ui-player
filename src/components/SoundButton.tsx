@@ -52,6 +52,8 @@ const SoundButton = (props: BaseProps) => {
             load(player.current, audioUrl);
         }
 
+        player.current.pause();
+        player.current.currentTime = 0;
         player.current.play();
     }, [props.src, load]);
 
