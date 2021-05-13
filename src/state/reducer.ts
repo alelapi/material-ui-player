@@ -15,26 +15,30 @@ const reducer = (state: State, action: StateAction): State => {
             };
         case ActionType.UPDATE_URL:
             return {
-                ...state,  
-                url: action.payload 
+                ...state,
+                url: action.payload
             };
         case ActionType.PLAY:
-            return { 
-                ...state, 
+            return {
+                ...state,
                 playing: true,
                 playerTimeout: action.payload,
             };
         case ActionType.UPDATE_KEY:
-            return { 
-                ...state, 
+            return {
+                ...state,
                 key: action.payload.key,
                 src: action.payload.src,
             };
         case ActionType.UPDATE_SIZE:
-            return { 
-                ...state, 
+            return {
+                ...state,
                 width: action.payload.width,
                 height: action.payload.height,
+            };
+        case ActionType.RELOAD:
+            return {
+                ...action.payload,
             };
         default:
             return state;

@@ -1,12 +1,13 @@
 import { Time } from '../types';
 
 export enum ActionType {
-    PAUSE,
-    UPDATE_TIME,
-    UPDATE_URL,
-    PLAY,
-    UPDATE_KEY,
-    UPDATE_SIZE,
+    PAUSE = "PAUSE",
+    UPDATE_TIME = "UPDATE_TIME",
+    UPDATE_URL = "UPDATE_URL",
+    PLAY = "PLAY",
+    UPDATE_KEY = "UPDATE_KEY",
+    UPDATE_SIZE = "UPDATE_SIZE",
+    RELOAD = "RELOAD",
 }
 
 export interface StateAction {

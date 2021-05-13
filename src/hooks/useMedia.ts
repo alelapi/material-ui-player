@@ -15,21 +15,21 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
 
     const setCurrentTime = useCallback((el: HTMLMediaElement, value?: number) => {
         const currentFade = fadeSettings ? getFade(fadeSettings, el.duration, el.currentTime) : undefined;
-        const currentTime: number = value === undefined ? 
-                                        el.currentTime : 
-                                        (value / 100) * (el.duration || 0);
-        
+        const currentTime: number = value === undefined ?
+            el.currentTime :
+            (value / 100) * (el.duration || 0);
+
         if (value !== undefined) {
             el.currentTime = currentTime;
         }
-        
+
         const progressTime: Time = {
             currentTime,
             duration: el.duration,
         };
-        dispatch({ 
+        dispatch({
             type: ActionType.UPDATE_TIME,
-            payload: { 
+            payload: {
                 time: progressTime,
                 fade: currentFade,
             }
@@ -37,7 +37,7 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     }, [fadeSettings]);
 
     const load = useCallback((el: HTMLMediaElement, url: string) => {
-        dispatch({ 
+        dispatch({
             type: ActionType.UPDATE_URL,
             payload: url,
         });
@@ -46,7 +46,7 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     }, []);
 
     const play = useCallback(async (el: HTMLMediaElement) => {
-        dispatch({ 
+        dispatch({
             type: ActionType.PLAY,
             payload: setInterval(() => {
                 setCurrentTime(el)
@@ -74,8 +74,8 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     const setSize = useCallback((el: HTMLVideoElement) => {
         const width = state.width || el.videoWidth;
         const height = state.width ? (el.videoHeight * width / el.videoWidth) : el.videoHeight;
-        
-        dispatch({ 
+
+        dispatch({
             type: ActionType.UPDATE_SIZE,
             payload: {
                 width,
@@ -85,7 +85,7 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     }, [state.width, dispatch]);
 
     const updateSrc = useCallback((src: string | Promise<string> | (() => Promise<string>) | (() => string)) => {
-        dispatch({ 
+        dispatch({
             type: ActionType.UPDATE_KEY,
             payload: {
                 key: Math.random(),
@@ -93,6 +93,13 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
             },
         });
     }, []);
+
+    useEffect(() => {
+        dispatch({
+            type: ActionType.RELOAD,
+            payload: initialState,
+        });
+    }, [initialState.src]);
 
     useEffect(() => {
         updateSrc(state.src);
