@@ -16,28 +16,57 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const VolumeSlider = withStyles({
+const lineThick = {
+    'thin': 5,
+    'medium': 10,
+    'large': 15
+};
+
+const lineMargin = {
+    'thin': -1,
+    'medium': -4,
+    'large': -6
+};
+
+const thumbThick = {
+    'thin': 15,
+    'medium': 20,
+    'large': 25
+};
+
+const VolumeSlider = (props: VolumeBarProps) => withStyles((theme: Theme) => ({
     thumb: {
-        width: 15,
-        height: 15,
+        width: thumbThick[props.thickness || 'thin'],
+        height: thumbThick[props.thickness || 'thin'],
+        color: theme.palette[props.color || 'primary'].main,
+        display: props.thumb === false ? 'none' : 'block',
+        marginTop: lineMargin[props.thickness || 'thin'] - 5,
     },
     rail: {
-        height: 5,
+        height: lineThick[props.thickness || 'thin'],
+        color: theme.palette[props.color || 'primary'].main,
+        marginTop: lineMargin[props.thickness || 'thin'],
     },
     track: {
-        height: 5,
+        height: lineThick[props.thickness || 'thin'],
+        color: theme.palette[props.color || 'primary'].main,
+        marginTop: lineMargin[props.thickness || 'thin'],
     },
-})(Slider);
+}))(Slider);
 
-interface VolumeBarProps {
+export interface VolumeBarProps {
     mute?: boolean;
     player: HTMLMediaElement;
+    color?: 'primary' | 'secondary';
+    thickness?: 'thin' | 'medium' | 'large';
+    thumb?: boolean;
 }
 
-const VolumeBar = (props: VolumeBarProps) => {
+export const VolumeBar = (props: VolumeBarProps) => {
     const [volumeBar, setVolumeBar] = useState(100);
     const [muted, setMuted] = useState(false);
     const classes = useStyles();
+    const PlayerSlider = VolumeSlider(props);
 
     const onVolumeChange = (_: any, newValue: number | number[]) => {
         const volume: number = (newValue as number);
@@ -53,21 +82,19 @@ const VolumeBar = (props: VolumeBarProps) => {
 
     return (
         <div className={classes.root}>
-            {props.mute && 
+            {props.mute &&
                 <IconButton
-                    color="primary"
+                    color={props.color || 'primary'}
                     aria-label="Mute"
                     onClick={onMuteClick}
                 >
-                {muted ? <VolumeOff /> : <VolumeUp />}
+                    {muted ? <VolumeOff /> : <VolumeUp />}
                 </IconButton>
             }
-            <VolumeSlider
+            <PlayerSlider
                 value={volumeBar}
                 onChange={onVolumeChange}
             />
         </div>
     );
 };
-
-export default VolumeBar;
