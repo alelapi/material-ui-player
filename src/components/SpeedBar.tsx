@@ -20,27 +20,56 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const SpeedSlider = withStyles({
+const lineThick = {
+    'thin': 5,
+    'medium': 10,
+    'large': 15
+};
+
+const lineMargin = {
+    'thin': -1,
+    'medium': -4,
+    'large': -6
+};
+
+const thumbThick = {
+    'thin': 15,
+    'medium': 20,
+    'large': 25
+};
+
+const SpeedSlider = (props: SpeedBarProps) => withStyles((theme: Theme) => ({
     thumb: {
-        width: 15,
-        height: 15,
+        width: thumbThick[props.thickness || 'thin'],
+        height: thumbThick[props.thickness || 'thin'],
+        color: theme.palette[props.color || 'primary'].main,
+        display: props.thumb === false ? 'none' : 'block',
+        marginTop: lineMargin[props.thickness || 'thin'] - 5,
     },
     rail: {
-        height: 5,
+        height: lineThick[props.thickness || 'thin'],
+        color: theme.palette[props.color || 'primary'].main,
+        marginTop: lineMargin[props.thickness || 'thin'],
     },
     track: {
-        height: 5,
+        height: lineThick[props.thickness || 'thin'],
+        color: theme.palette[props.color || 'primary'].main,
+        marginTop: lineMargin[props.thickness || 'thin'],
     },
-})(Slider);
+}))(Slider);
 
-interface SpeedBarProps {
+export interface SpeedBarProps {
     player: HTMLMediaElement;
+    color?: 'primary' | 'secondary';
+    thickness?: 'thin' | 'medium' | 'large';
+    thumb?: boolean;
 }
 
-const SpeedBar = (props: SpeedBarProps) => {
+export const SpeedBar = (props: SpeedBarProps) => {
     const defaultSpeed: number = 50;
     const [speedBar, setSpeedBar] = useState(defaultSpeed);
     const classes = useStyles();
+    const PlayerSpeedBar = SpeedSlider(props);
 
     const toSpeedValue = (speed: number) => speed * 0.018 + 0.1;
 
@@ -58,7 +87,7 @@ const SpeedBar = (props: SpeedBarProps) => {
     return (
         <div className={classes.root}>
             <Button
-                color="primary"
+                color={props.color || 'primary'}
                 variant="contained"
                 aria-label="Normal speed"
                 size="small"
@@ -67,7 +96,7 @@ const SpeedBar = (props: SpeedBarProps) => {
             >
                 1x
             </Button>
-            <SpeedSlider
+            <PlayerSpeedBar
                 defaultValue={defaultSpeed}
                 value={speedBar}
                 onChange={onSpeedChange}
@@ -76,4 +105,3 @@ const SpeedBar = (props: SpeedBarProps) => {
     );
 };
 
-export default SpeedBar;

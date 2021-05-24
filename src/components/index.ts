@@ -1,5 +1,5 @@
 export * from './VolumeBar';
-export { default as SpeedBar } from './SpeedBar';
+export * from './SpeedBar';
 export { default as AudioCard } from './AudioCard';
 export { default as VideoCard } from './VideoCard';
 export { default as ControlKeys } from './ControlKeys';
