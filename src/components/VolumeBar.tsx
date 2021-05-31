@@ -46,11 +46,13 @@ const VolumeSlider = (props: VolumeBarProps) => withStyles((theme: Theme) => ({
         height: lineThick[props.thickness || 'thin'],
         color: theme.palette[props.color || 'primary'].main,
         marginTop: lineMargin[props.thickness || 'thin'],
+        borderRadius: lineThick[props.thickness || 'thin'],
     },
     track: {
         height: lineThick[props.thickness || 'thin'],
         color: theme.palette[props.color || 'primary'].main,
         marginTop: lineMargin[props.thickness || 'thin'],
+        borderRadius: lineThick[props.thickness || 'thin'],
     },
 }))(Slider);
 
