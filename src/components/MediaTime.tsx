@@ -11,13 +11,12 @@ const useStyles = makeStyles(() =>
     })
 );
 
-interface MediaTimeProps {
+export interface MediaTimeProps {
     time: Time;
 }
 
-const MediaTime = (props: MediaTimeProps) => {
+export const MediaTime = (props: MediaTimeProps) => {
     const classes = useStyles();
     return (<div className={classes.time}>{timeToString(props.time)}</div>);
 };
 
-export default MediaTime;

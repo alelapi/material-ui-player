@@ -6,7 +6,7 @@ import PlayArrow from '@material-ui/icons/PlayArrow';
 import Pause from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
 
-interface ControlKeysProps {
+export interface ControlKeysProps {
     onPauseClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     onPlayClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     backward?: boolean;
@@ -15,13 +15,14 @@ interface ControlKeysProps {
     onForwardClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     onBackwardClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     onStopClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    color?: 'primary' | 'secondary',
 }
 
-const ControlKeys = (props: ControlKeysProps) => (
+export const ControlKeys = (props: ControlKeysProps) => (
     <div>
         {props.backward !== undefined &&
             <IconButton
-                color="primary"
+                color={props.color}
                 disabled={props.backward === false}
                 aria-label="Backward"
                 onClick={props.onBackwardClick}
@@ -30,22 +31,22 @@ const ControlKeys = (props: ControlKeysProps) => (
             </IconButton>
         }
         <IconButton
-            color="primary"
+            color={props.color}
             aria-label="Stop"
             onClick={props.onStopClick}
         >
-            <StopIcon/>
+            <StopIcon />
         </IconButton>
         <IconButton
-            color="primary"
+            color={props.color}
             disabled={!props.playing}
             aria-label="Pause"
             onClick={props.onPauseClick}
         >
-            <Pause/>
+            <Pause />
         </IconButton>
         <IconButton
-            color="primary"
+            color={props.color}
             disabled={props.playing}
             aria-label="Play"
             onClick={props.onPlayClick}
@@ -54,7 +55,7 @@ const ControlKeys = (props: ControlKeysProps) => (
         </IconButton>
         {props.forward !== undefined &&
             <IconButton
-                color="primary"
+                color={props.color}
                 disabled={props.forward === false}
                 aria-label="Forward"
                 onClick={props.onForwardClick}
@@ -63,6 +64,5 @@ const ControlKeys = (props: ControlKeysProps) => (
             </IconButton>
         }
     </div>
-);
+)
 
-export default ControlKeys;

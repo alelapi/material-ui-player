@@ -1,7 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { Progress, ProgressProps } from '../components';
-import { Time } from '../types';
 
 export default {
     title: 'Components/Progress',
@@ -27,11 +26,17 @@ export default {
 
 const Template: Story<ProgressProps> = (args) => <Progress {...args} />;
 
-const time: Time = {
-    currentTime: 12,
-    duration: 87
-};
 export const Default = Template.bind({});
 Default.args = {
-    time,
+    time: {
+        currentTime: 12,
+        duration: 87
+    },
+};
+export const Reset = Template.bind({});
+Reset.args = {
+    time: {
+        currentTime: 0,
+        duration: 87
+    },
 };
