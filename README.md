@@ -3,9 +3,11 @@
 </h1>
 
 [![NPM version][npm-image]][npm-url]
+![Types included][types-image]
 
 [npm-image]: https://img.shields.io/npm/v/material-ui-player.svg
 [npm-url]: https://npmjs.org/package/material-ui-player
+[types-image]: https://badgen.net/npm/types/tslib
 
 <p align='center'>
   Simple React components for playing audio and video, using <a href="https://material-ui.com/">Material UI</a>
