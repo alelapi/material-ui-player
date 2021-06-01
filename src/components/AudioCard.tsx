@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         card: {
-            width: (props: { width: number }) => props.width || '100%',
+            width: '100%',
         },
         audio: {
             display: 'none',
@@ -48,22 +48,21 @@ const getInitialState = (props: MaterialUIAudioProps): State => ({
         duration: 0,
     },
     playerTimeout: null,
-    width: props.width,
     src: props.src,
 })
 
-const MaterialUIAudio = (props: MaterialUIAudioProps) => {
+export const MaterialUIAudio = (props: MaterialUIAudioProps) => {
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
     const { state, pause, setCurrentTime, load, play, stop, setProgress } = useMedia(getInitialState(props));
 
     const {
         onEnded = () => setCurrentTime(player.current, 0),
-        onBackwardClick = () => {},
-        onForwardClick = () => {},
+        onBackwardClick = () => { },
+        onForwardClick = () => { },
         loop = !!props.loop,
         autoplay = !!props.autoplay,
     } = props;
-    const classes = useStyles({ width: state.width || 0 });
+    const classes = useStyles();
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
@@ -111,6 +110,8 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                     >
                         <Progress
                             time={state.time}
+                            color={props.color}
+                            thickness={props.thickness}
                             onProgressClick={async v => await setProgress(player.current, v)}
                         />
                     </Grid>
@@ -132,6 +133,7 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                                 onForwardClick={onForwardClick}
                                 onBackwardClick={onBackwardClick}
                                 onStopClick={() => stop(player.current)}
+                                color={props.color}
                             />
                         </div>
                     </Grid>
@@ -143,6 +145,8 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                         >
                             <SpeedBar
                                 player={player.current}
+                                color={props.color}
+                                thickness={props.thickness}
                             />
                         </Grid>
                     }
@@ -154,6 +158,8 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                         <VolumeBar
                             mute={props.mute}
                             player={player.current}
+                            color={props.color}
+                            thickness={props.thickness}
                         />
                     </Grid>
                 </Grid>
@@ -161,5 +167,3 @@ const MaterialUIAudio = (props: MaterialUIAudioProps) => {
         </Card>
     );
 };
-
-export default MaterialUIAudio;

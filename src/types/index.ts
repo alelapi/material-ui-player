@@ -11,6 +11,7 @@ export interface FadeSettings {
 export interface BaseProps {
     src: string | Promise<string> | (() => Promise<string>) | (() => string);
     onEnded?: () => void;
+    color?: 'primary' | 'secondary';
 }
 
 export interface MaterialUIMediaProps extends BaseProps {
@@ -22,5 +23,6 @@ export interface MaterialUIMediaProps extends BaseProps {
     loop?: boolean;
     width?: number;
     speed?: boolean;
+    thickness?: 'thin' | 'medium' | 'large';
 }
 

@@ -22,6 +22,7 @@ export default {
             action: 'stop'
         },
         color: {
+            defaultValue: 'primary',
             control: {
                 type: 'radio',
                 options: ['primary', 'secondary']

@@ -8,12 +8,21 @@ export default {
     component: VolumeBar,
     argTypes: {
         color: {
+            defaultValue: 'primary',
             control: {
                 type: 'radio',
                 options: ['primary', 'secondary']
             }
         },
+        mute: {
+            defaultValue: true,
+            control: {
+                type: 'radio',
+                options: [true, false]
+            }
+        },
         thickness: {
+            defaultValue: 'medium',
             control: {
                 type: 'radio',
                 options: ['thin', 'medium', 'large']
@@ -30,8 +39,8 @@ Default.args = {
     player: mediaPlayer,
 };
 
-export const ShowMute = Template.bind({});
-ShowMute.args = {
+export const HideMute = Template.bind({});
+HideMute.args = {
     player: mediaPlayer,
-    mute: true,
+    mute: false,
 };

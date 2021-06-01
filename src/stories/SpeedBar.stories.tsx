@@ -8,12 +8,14 @@ export default {
     component: SpeedBar,
     argTypes: {
         color: {
+            defaultValue: 'primary',
             control: {
                 type: 'radio',
                 options: ['primary', 'secondary']
             }
         },
         thickness: {
+            defaultValue: 'medium',
             control: {
                 type: 'radio',
                 options: ['thin', 'medium', 'large']

@@ -62,19 +62,19 @@ const getInitialState = (props: MaterialUIVideoProps): State => ({
     },
     fade: 1,
     width: props.width,
-    height: (props.width || 0) * 9/16,
+    height: (props.width || 0) * 9 / 16,
     playerTimeout: null,
     src: props.src,
 });
 
-const MaterialUIVideo = (props: MaterialUIVideoProps) => {
+export const MaterialUIVideo = (props: MaterialUIVideoProps) => {
     const player: React.MutableRefObject<HTMLVideoElement> = useRef(null!);
     const { state, pause, setSize, load, play, stop, setCurrentTime, setProgress } = useMedia(getInitialState(props), props.fadeSettings);
 
     const {
         onEnded = () => setCurrentTime(player.current, 0),
-        onBackwardClick = () => {},
-        onForwardClick = () => {},
+        onBackwardClick = () => { },
+        onForwardClick = () => { },
         loop = !!props.loop,
         autoplay = !!props.autoplay,
     } = props;
@@ -129,6 +129,8 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                     >
                         <Progress
                             time={state.time}
+                            color={props.color}
+                            thickness={props.thickness}
                             onProgressClick={async v => await setProgress(player.current, v)}
                         />
                     </Grid>
@@ -150,6 +152,7 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                                 onForwardClick={onForwardClick}
                                 onBackwardClick={onBackwardClick}
                                 onStopClick={() => stop(player.current)}
+                                color={props.color}
                             />
                         </div>
                     </Grid>
@@ -161,6 +164,8 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                         >
                             <SpeedBar
                                 player={player.current}
+                                color={props.color}
+                                thickness={props.thickness}
                             />
                         </Grid>
                     }
@@ -171,6 +176,8 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                     >
                         <VolumeBar
                             player={player.current}
+                            color={props.color}
+                            thickness={props.thickness}
                         />
                     </Grid>
                 </Grid>
@@ -178,5 +185,3 @@ const MaterialUIVideo = (props: MaterialUIVideoProps) => {
         </Card>
     );
 }
-
-export default MaterialUIVideo;

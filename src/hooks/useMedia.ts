@@ -14,7 +14,7 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     }, [state.playerTimeout]);
 
     const setCurrentTime = useCallback((el: HTMLMediaElement, value?: number) => {
-        const currentFade = fadeSettings ? getFade(fadeSettings, el.duration, el.currentTime) : undefined;
+        const currentFade = fadeSettings ? getFade(fadeSettings, el.duration, el.currentTime) : 1;
         const currentTime: number = value === undefined ?
             el.currentTime :
             (value / 100) * (el.duration || 0);
