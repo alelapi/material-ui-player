@@ -2,6 +2,10 @@
   Material UI Player
 </h1>
 
+[![NPM version][npm-image]][npm-url]
+
+[npm-url]: https://npmjs.org/package/material-ui-player
+
 <p align='center'>
   Simple React components for playing audio and video, using <a href="https://material-ui.com/">Material UI</a>
 </p>
