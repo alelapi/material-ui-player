@@ -4,6 +4,7 @@
 
 [![NPM version][npm-image]][npm-url]
 ![Types included][types-image]
+[![install size](https://packagephobia.com/badge?p=material-ui-player@0.1.12)](https://packagephobia.com/result?p=material-ui-player@0.1.12)
 
 [npm-image]: https://img.shields.io/npm/v/material-ui-player.svg
 [npm-url]: https://npmjs.org/package/material-ui-player
