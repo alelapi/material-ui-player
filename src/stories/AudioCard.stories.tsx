@@ -10,15 +10,15 @@ export default {
             defaultValue: 'primary',
             control: {
                 type: 'radio',
-                options: ['primary', 'secondary']
-            }
+            },
+            options: ['primary', 'secondary']
         },
         thickness: {
             defaultValue: 'medium',
             control: {
                 type: 'radio',
-                options: ['thin', 'medium', 'large']
-            }
+            },
+            options: ['thin', 'medium', 'large']
         },
         onForwardClick: {
             action: 'forward'
@@ -33,36 +33,36 @@ export default {
             defaultValue: true,
             control: {
                 type: 'radio',
-                options: [true, false]
-            }
+            },
+            options: [true, false]
         },
         backward: {
             defaultValue: true,
             control: {
                 type: 'radio',
-                options: [true, false]
-            }
+            },
+            options: [true, false]
         },
         mute: {
             defaultValue: true,
             control: {
                 type: 'radio',
-                options: [true, false]
-            }
+            },
+            options: [true, false]
         },
         speed: {
             defaultValue: true,
             control: {
                 type: 'radio',
-                options: [true, false]
-            }
+            },
+            options: [true, false]
         },
         loop: {
             defaultValue: false,
             control: {
                 type: 'radio',
-                options: [true, false]
-            }
+            },
+            options: [true, false]
         },
     }
 } as Meta;

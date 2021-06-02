@@ -11,22 +11,22 @@ export default {
             defaultValue: 'primary',
             control: {
                 type: 'radio',
-                options: ['primary', 'secondary']
-            }
+            },
+            options: ['primary', 'secondary']
         },
         mute: {
             defaultValue: true,
             control: {
                 type: 'radio',
-                options: [true, false]
-            }
+            },
+            options: [true, false]
         },
         thickness: {
             defaultValue: 'medium',
             control: {
                 type: 'radio',
-                options: ['thin', 'medium', 'large']
-            }
+            },
+            options: ['thin', 'medium', 'large']
         }
     }
 } as Meta;

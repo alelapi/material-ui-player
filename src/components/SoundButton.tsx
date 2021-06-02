@@ -12,9 +12,6 @@ const useStyles = makeStyles((theme: Theme) =>
         audio: {
             display: 'none',
         },
-        listenButton: {
-            color: theme.palette.primary.main,
-        },
     })
 );
 
@@ -30,13 +27,13 @@ const getInitialState = (props: BaseProps): State => ({
     src: props.src,
 });
 
-const SoundButton = (props: BaseProps) => {
+export const SoundButton = (props: BaseProps) => {
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
     const { state, pause, load } = useMedia(getInitialState(props));
     const classes = useStyles();
 
     const {
-        onEnded = () => {},
+        onEnded = () => { },
     } = props;
 
     useEffect(() => {
@@ -60,6 +57,7 @@ const SoundButton = (props: BaseProps) => {
     return (
         <IconButton
             onClick={onPlay}
+            color={props.color}
         >
             <audio
                 key={state.key}
@@ -73,10 +71,8 @@ const SoundButton = (props: BaseProps) => {
             </audio>
             <VolumeUpIcon
                 fontSize="large"
-                className={classes.listenButton}
             />
         </IconButton>
     );
 };
 
-export default SoundButton;

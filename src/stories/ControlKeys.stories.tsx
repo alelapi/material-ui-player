@@ -25,8 +25,8 @@ export default {
             defaultValue: 'primary',
             control: {
                 type: 'radio',
-                options: ['primary', 'secondary']
-            }
+            },
+            options: ['primary', 'secondary']
         },
     }
 } as Meta;
