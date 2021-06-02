@@ -74,7 +74,7 @@ export const SoundButton = (props: SoundButtonProps) => {
                     src={state.url}
                 />}
             </audio>
-            { props.PlayProps?.icon || <VolumeUpIcon
+            { props.PlayProps?.icons?.[0] || <VolumeUpIcon
                 fontSize="large"
             />}
         </IconButton>

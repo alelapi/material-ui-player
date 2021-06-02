@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         card: {
             width: '100%',
+            backgroundColor: (props: MaterialUIAudioProps) => props.background || 'inherit'
         },
         audio: {
             display: 'none',
@@ -62,7 +63,7 @@ export const MaterialUIAudio = (props: MaterialUIAudioProps) => {
         loop = !!props.loop,
         autoplay = !!props.autoplay,
     } = props;
-    const classes = useStyles();
+    const classes = useStyles(props);
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
@@ -134,6 +135,11 @@ export const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                                 onBackwardClick={onBackwardClick}
                                 onStopClick={() => stop(player.current)}
                                 color={props.color}
+                                BackwardProps={props.BackwardProps}
+                                StopProps={props.StopProps}
+                                PauseProps={props.PauseProps}
+                                PlayProps={props.PlayProps}
+                                ForwardProps={props.ForwardProps}
                             />
                         </div>
                     </Grid>
@@ -160,6 +166,7 @@ export const MaterialUIAudio = (props: MaterialUIAudioProps) => {
                             player={player.current}
                             color={props.color}
                             thickness={props.thickness}
+                            MuteProps={props.MuteProps}
                         />
                     </Grid>
                 </Grid>

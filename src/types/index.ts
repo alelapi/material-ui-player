@@ -12,6 +12,7 @@ export interface BaseProps {
     src: string | Promise<string> | (() => Promise<string>) | (() => string);
     onEnded?: () => void;
     color?: MaterialUIColor;
+    PlayProps?: IconButtonProps;
 }
 
 export interface MaterialUIMediaProps extends BaseProps {
@@ -24,11 +25,17 @@ export interface MaterialUIMediaProps extends BaseProps {
     width?: number;
     speed?: boolean;
     thickness?: SliderThickness;
+    BackwardProps?: IconButtonProps;
+    StopProps?: IconButtonProps;
+    PauseProps?: IconButtonProps;
+    ForwardProps?: IconButtonProps;
+    MuteProps?: IconButtonProps;
+    background?: string;
 }
 
 export interface IconButtonProps {
     attributes?: Record<string, any>;
-    icon?: React.Component;
+    icons?: Array<JSX.Element>;
 }
 
 export type MaterialUIColor = 'default' | 'inherit' | 'primary' | 'secondary';

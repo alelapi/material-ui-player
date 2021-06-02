@@ -1,7 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { SoundButton } from '../components';
-import { BaseProps } from '../types';
+import { SoundButton, SoundButtonProps } from '../components';
 
 export default {
     title: 'Components/SoundButton',
@@ -11,8 +10,8 @@ export default {
             defaultValue: 'primary',
             control: {
                 type: 'radio',
-                options: ['primary', 'secondary']
-            }
+            },
+            options: ['primary', 'secondary']
         },
         onEnded: {
             action: 'end'
@@ -20,7 +19,7 @@ export default {
     }
 } as Meta;
 
-const Template: Story<BaseProps> = (args) => <SoundButton {...args} />;
+const Template: Story<SoundButtonProps> = (args) => <SoundButton {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

@@ -4,7 +4,7 @@ import VolumeUp from '@material-ui/icons/VolumeUp';
 import IconButton from '@material-ui/core/IconButton';
 import Slider from '@material-ui/core/Slider';
 import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
-import { MaterialUIColor, SliderThickness } from '../types';
+import { MaterialUIColor, SliderThickness, IconButtonProps } from '../types';
 import { getSliderSizes } from '../lib/utils';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,6 +39,7 @@ export interface VolumeBarProps {
     color?: MaterialUIColor;
     thickness?: SliderThickness;
     thumb?: boolean;
+    MuteProps?: IconButtonProps;
 }
 
 export const VolumeBar = (props: VolumeBarProps) => {
@@ -66,8 +67,11 @@ export const VolumeBar = (props: VolumeBarProps) => {
                     color={props.color || 'primary'}
                     aria-label="Mute"
                     onClick={onMuteClick}
+                    {...props.MuteProps?.attributes}
                 >
-                    {muted ? <VolumeOff /> : <VolumeUp />}
+                    {muted ?
+                        props.MuteProps?.icons?.[0] || <VolumeOff /> :
+                        props.MuteProps?.icons?.[1] || <VolumeUp />}
                 </IconButton>
             }
             <PlayerSlider

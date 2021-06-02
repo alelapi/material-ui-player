@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'inline-block',
         },
         video: {
-            width: (props: { width: number | undefined, height: number }) => props.width,
-            height: (props: { width: number | undefined, height: number }) => props.height,
+            width: (props: StylesProps) => props.width,
+            height: (props: StylesProps) => props.height,
         },
         actions: {
             display: 'flex',
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
         card: {
             display: 'flex',
             flexDirection: 'column',
+            backgroundColor: (props: StylesProps) => props.background || 'inherit'
         },
         cardContent: {
             display: 'flex',
@@ -47,6 +48,12 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     })
 );
+
+interface StylesProps {
+    width?: number;
+    height: number;
+    background?: string;
+}
 
 export interface MaterialUIVideoProps extends MaterialUIMediaProps {
     fadeSettings?: FadeSettings;
@@ -78,7 +85,7 @@ export const MaterialUIVideo = (props: MaterialUIVideoProps) => {
         loop = !!props.loop,
         autoplay = !!props.autoplay,
     } = props;
-    const classes = useStyles({ width: state.width, height: state.height! });
+    const classes = useStyles({ width: state.width, height: state.height!, background: props.background });
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
@@ -153,6 +160,11 @@ export const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                                 onBackwardClick={onBackwardClick}
                                 onStopClick={() => stop(player.current)}
                                 color={props.color}
+                                BackwardProps={props.BackwardProps}
+                                StopProps={props.StopProps}
+                                PauseProps={props.PauseProps}
+                                PlayProps={props.PlayProps}
+                                ForwardProps={props.ForwardProps}
                             />
                         </div>
                     </Grid>
@@ -178,6 +190,7 @@ export const MaterialUIVideo = (props: MaterialUIVideoProps) => {
                             player={player.current}
                             color={props.color}
                             thickness={props.thickness}
+                            MuteProps={props.MuteProps}
                         />
                     </Grid>
                 </Grid>

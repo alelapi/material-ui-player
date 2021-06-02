@@ -34,7 +34,7 @@ export const ControlKeys = (props: ControlKeysProps) => (
                 onClick={props.onBackwardClick}
                 {...props.BackwardProps?.attributes}
             >
-                {props.BackwardProps?.icon || <FastRewind />}
+                {props.BackwardProps?.icons?.[0] || <FastRewind />}
             </IconButton>
         }
         <IconButton
@@ -43,7 +43,7 @@ export const ControlKeys = (props: ControlKeysProps) => (
             onClick={props.onStopClick}
             {...props.StopProps?.attributes}
         >
-            {props.StopProps?.icon || <StopIcon />}
+            {props.StopProps?.icons?.[0] || <StopIcon />}
         </IconButton>
         <IconButton
             color={props.color}
@@ -52,7 +52,7 @@ export const ControlKeys = (props: ControlKeysProps) => (
             onClick={props.onPauseClick}
             {...props.PauseProps?.attributes}
         >
-            {props.PauseProps?.icon || <Pause />}
+            {props.PauseProps?.icons?.[0] || <Pause />}
         </IconButton>
         <IconButton
             color={props.color}
@@ -61,7 +61,7 @@ export const ControlKeys = (props: ControlKeysProps) => (
             onClick={props.onPlayClick}
             {...props.PlayProps?.attributes}
         >
-            {props.PlayProps?.icon || <PlayArrow />}
+            {props.PlayProps?.icons?.[0] || <PlayArrow />}
         </IconButton>
         {props.forward !== undefined &&
             <IconButton
@@ -71,7 +71,7 @@ export const ControlKeys = (props: ControlKeysProps) => (
                 onClick={props.onForwardClick}
                 {...props.ForwardProps?.attributes}
             >
-                {props.ForwardProps?.icon || <FastForward />}
+                {props.ForwardProps?.icons?.[0] || <FastForward />}
             </IconButton>
         }
     </div>

@@ -10,15 +10,15 @@ export default {
             defaultValue: 'primary',
             control: {
                 type: 'radio',
-                options: ['primary', 'secondary']
-            }
+            },
+            options: ['primary', 'secondary']
         },
         thickness: {
             defaultValue: 'medium',
             control: {
                 type: 'radio',
-                options: ['thin', 'medium', 'large']
-            }
+            },
+            options: ['thin', 'medium', 'large']
         },
         onForwardClick: {
             action: 'forward'
