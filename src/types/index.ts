@@ -11,7 +11,7 @@ export interface FadeSettings {
 export interface BaseProps {
     src: string | Promise<string> | (() => Promise<string>) | (() => string);
     onEnded?: () => void;
-    color?: 'primary' | 'secondary';
+    color?: MaterialUIColor;
 }
 
 export interface MaterialUIMediaProps extends BaseProps {
@@ -23,6 +23,14 @@ export interface MaterialUIMediaProps extends BaseProps {
     loop?: boolean;
     width?: number;
     speed?: boolean;
-    thickness?: 'thin' | 'medium' | 'large';
+    thickness?: SliderThickness;
 }
 
+export interface IconButtonProps {
+    attributes?: Record<string, any>;
+    icon?: React.Component;
+}
+
+export type MaterialUIColor = 'default' | 'inherit' | 'primary' | 'secondary';
+
+export type SliderThickness = 'thin' | 'medium' | 'large';

@@ -46,3 +46,8 @@ Playing.args = {
     forward: true,
     playing: true
 };
+
+export const NoBackwardAndForward = Template.bind({});
+NoBackwardAndForward.args = {
+    playing: false
+};

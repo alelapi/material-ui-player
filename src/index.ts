@@ -1,1 +1,1 @@
-export { AudioCard, VideoCard, SoundButton } from './components';
+export { MaterialUIAudio, MaterialUIVideo, SoundButton } from './components';

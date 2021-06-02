@@ -1,4 +1,4 @@
-import { FadeSettings, Time } from '../types';
+import { FadeSettings, Time, SliderThickness } from '../types';
 
 const getTime = (n: number): string => {
     const seconds: number = !Number.isFinite(n) ? 0 : Math.trunc(n);
@@ -53,3 +53,43 @@ export const getUrl = async (src: string | Promise<string> | (() => Promise<stri
     if (typeof src === 'function') return await src();
     return await src;
 };
+
+const lineThick = {
+    'thin': 5,
+    'medium': 10,
+    'large': 15
+};
+
+const lineMargin = {
+    'thin': -1,
+    'medium': -4,
+    'large': -6
+};
+
+const thumbThick = {
+    'thin': 15,
+    'medium': 20,
+    'large': 25
+};
+
+export const getSliderSizes = (thickness?: SliderThickness, others?: any) =>
+({
+    thumb: {
+        width: thumbThick[thickness || 'thin'],
+        height: thumbThick[thickness || 'thin'],
+        marginTop: lineMargin[thickness || 'thin'] - 5,
+        ...others.thumb
+    },
+    rail: {
+        height: lineThick[thickness || 'thin'],
+        marginTop: lineMargin[thickness || 'thin'],
+        borderRadius: lineThick[thickness || 'thin'],
+        ...others.rail
+    },
+    track: {
+        height: lineThick[thickness || 'thin'],
+        marginTop: lineMargin[thickness || 'thin'],
+        borderRadius: lineThick[thickness || 'thin'],
+        ...others.track
+    }
+})

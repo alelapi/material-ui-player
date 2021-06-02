@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
 import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
+import { MaterialUIColor, SliderThickness } from '../types';
+import { getSliderSizes } from '../lib/utils';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,50 +22,25 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const lineThick = {
-    'thin': 5,
-    'medium': 10,
-    'large': 15
-};
-
-const lineMargin = {
-    'thin': -1,
-    'medium': -4,
-    'large': -6
-};
-
-const thumbThick = {
-    'thin': 15,
-    'medium': 20,
-    'large': 25
-};
-
 const SpeedSlider = (props: SpeedBarProps) => withStyles((theme: Theme) => ({
-    thumb: {
-        width: thumbThick[props.thickness || 'thin'],
-        height: thumbThick[props.thickness || 'thin'],
-        color: theme.palette[props.color || 'primary'].main,
-        display: props.thumb === false ? 'none' : 'block',
-        marginTop: lineMargin[props.thickness || 'thin'] - 5,
-    },
-    rail: {
-        height: lineThick[props.thickness || 'thin'],
-        color: theme.palette[props.color || 'primary'].main,
-        marginTop: lineMargin[props.thickness || 'thin'],
-        borderRadius: lineThick[props.thickness || 'thin'],
-    },
-    track: {
-        height: lineThick[props.thickness || 'thin'],
-        color: theme.palette[props.color || 'primary'].main,
-        marginTop: lineMargin[props.thickness || 'thin'],
-        borderRadius: lineThick[props.thickness || 'thin'],
-    },
+    ...getSliderSizes(props.thickness, ({
+        thumb: {
+            color: theme.palette[props.color || 'primary'].main,
+            display: props.thumb === false ? 'none' : 'block',
+        },
+        rail: {
+            color: theme.palette[props.color || 'primary'].main,
+        },
+        track: {
+            color: theme.palette[props.color || 'primary'].main,
+        },
+    })),
 }))(Slider);
 
 export interface SpeedBarProps {
     player: HTMLMediaElement;
-    color?: 'primary' | 'secondary';
-    thickness?: 'thin' | 'medium' | 'large';
+    color?: MaterialUIColor;
+    thickness?: SliderThickness;
     thumb?: boolean;
 }
 
