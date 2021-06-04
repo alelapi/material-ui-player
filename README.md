@@ -24,6 +24,8 @@
 - [Why use this package](#why-use-this-package)
 - [Usage](#usage)
 - [Props](#props)
+- [Callback props](#callback-props)
+- [Note](#note)
 - [License](#license)
 
 ### Why use this package
@@ -64,7 +66,7 @@ import { AudioCard, VideoCard } from 'material-ui-player'
 
 Prop | Description | Default | Component
 ---- | ----------- | ------- | ---------
-`src` | `string` or `Promise<string>` or `() => string` or `() => Promise<string>` <br /> - The url of a media to play&nbsp; ◦ &nbsp;Can be a relative or absolute url <br /> A Promise resolved into a string (the url) after Play button clicked. This case can be useful when you are using Firebase Storage, where you need to call an API to retrieve the download Url. | (mandatory) | AudioCard, VideoCard, SoundButton
+`src` | `string` or `Promise<string>` or `() => string` or `() => Promise<string>` <br /> - The url of a media to play&nbsp; ◦ &nbsp;Can be a relative or absolute url <br /> A Promise resolved into a string (the url) after Play button clicked. This case can be useful when you are using Firebase Storage, where you need to call an API to retrieve the download Url. | (mandatory) | all
 `forward` | Set to `true` or falsy to show forward button  | `undefined` | AudioCard, VideoCard
 `backward` | Set to `true` or falsy to show backward button | `undefined` | AudioCard, VideoCard
 `autoplay` | Set to `true` or falsy to set autoplay on audio | `undefined` | AudioCard, VideoCard
@@ -73,8 +75,13 @@ Prop | Description | Default | Component
 `speed` | Set to `true` or falsy to show speed control | `undefined` | AudioCard, VideoCard
 `mute` | Set to `true` or falsy to show mute button | `undefined` | AudioCard, VideoCard
 `fadeSettings` | Object with `fadeInTime` and `fadeOutTime` (number, seconds) to fadein and fadeout video | `undefined` | VideoCard
+`thickness` | Set sliders line thickness (`thin`, `medium` or `large`) | `medium` | AudioCard, VideoCard
+`background` | Set container card background | `inherit` | all
+`PlayProps` | enable customization using Material UI IconButton props | `undefined` | all
+`BackwardProps`, `StopProps`, `PauseProps`, `ForwardProps`, `MuteProps` | enable customization using Material UI IconButton props | `undefined` | AudioCard, VideoCard
 
-#### Callback props
+
+### Callback props
 
 Callback props take a function that gets fired on various player events:
 
@@ -85,10 +92,14 @@ Prop | Description | Component
 `onEnded` | Called when media ended | AudioCard, VideoCard
 
 
-#### Please note:
-This module has following peerDependencies:
- React (>=17.0.0)
- Material UI (@material-ui/core: >=4.0.0, @material-ui/icons: >=4.0.0). 
+### Note
+Please Note: this module has following peerDependencies:
+```
+    "@material-ui/core": "^4.0.0",
+    "@material-ui/icons": "^4.0.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+```
   
 ### License
 
