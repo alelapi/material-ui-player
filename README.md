@@ -30,8 +30,8 @@
 
 ### Why use this package
 
-- Allow customization on traditional ```<audio>``` and ```<video>``` HTML tags
-- Easy play media files stored in Firebase Storage or anywhere that need to retrieve the download URL
+- Allow customization on traditional ```<audio>``` and ```<video>``` HTML elements
+- Easy play media files stored in Firebase Storage or anywhere need to retrieve the download URL
 - Material-UI components like : theming, customizations and low level components
 - Use modern React hook and coding conventions
 - Documentation made with Storybook
