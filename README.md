@@ -19,6 +19,21 @@
 <li>SoundButton: IconButton to only play audio files (ideal for short audios)</li>
 </ul>
 
+## Contents
+
+- [Why use this package](#why-use-this-package)
+- [Usage](#usage)
+- [Props](#props)
+- [License](#license)
+
+### Why use this package
+
+- Allow customization on traditional ```<audio>``` and ```<video>``` HTML tags
+- Easy play media files stored in Firebase Storage or anywhere that need to retrieve the download URL
+- Material-UI components like : theming, customizations and low level components
+- Use modern React hook and coding conventions
+- Documentation made with Storybook
+
 ### Usage
 
 ```bash
@@ -74,5 +89,9 @@ Prop | Description | Component
 This module has following peerDependencies:
  React (>=17.0.0)
  Material UI (@material-ui/core: >=4.0.0, @material-ui/icons: >=4.0.0). 
+  
+### License
+
+Released under MIT License
 
 
