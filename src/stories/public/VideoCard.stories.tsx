@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { MaterialUIVideo, MaterialUIVideoProps } from '../components';
+import { MaterialUIVideo, MaterialUIVideoProps } from '../../components';
 
 export default {
     title: 'Components/MaterialUIVideo',

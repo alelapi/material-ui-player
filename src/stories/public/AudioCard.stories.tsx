@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { MaterialUIAudio, MaterialUIAudioProps } from '../components';
+import { MaterialUIAudio, MaterialUIAudioProps } from '../../components';
 
 export default {
     title: 'Components/MaterialUIAudio',

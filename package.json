@@ -10,8 +10,8 @@
   "scripts": {
     "prepublish": "tsc",
     "build": "webpack",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -c .storybook -o public"
+    "storybook": "start-storybook -p 6006 -c .storybook",
+    "build-storybook": "build-storybook -c .storybook/public -o public"
   },
   "keywords": [
     "react",
