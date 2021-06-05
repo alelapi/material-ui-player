@@ -1,6 +1,4 @@
-<h1>
-  Material UI Player
-</h1>
+# Material UI Player
 
 [![NPM version][npm-image]][npm-url]
 ![Types included][types-image]
