@@ -2,12 +2,12 @@
 
 name: Deploy Pages
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   push:
     branches:
       - main
-      
+
   workflow_dispatch:
 
 jobs:
@@ -26,6 +26,10 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Copy Intro
+        run: cat ./README.md >> ./src/stories/public/intro.stories.mdx
+        working-directory: .
 
       - name: Build
         run: yarn build-storybook
