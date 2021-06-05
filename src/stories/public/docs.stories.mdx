@@ -2,7 +2,7 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 <Meta title="Docs" />
 
-## Contents
+# Contents
 
 - [Why use this package](#why-use-this-package)
 - [Usage](#usage)
@@ -11,7 +11,7 @@ import { Meta } from "@storybook/addon-docs/blocks";
 - [Note](#note)
 - [License](#license)
 
-### Why use this package
+## Why use this package
 
 - Allow customization on traditional `<audio>` and `<video>` HTML elements
 - Easy play media files stored in Firebase Storage or anywhere need to retrieve the download URL
@@ -19,7 +19,7 @@ import { Meta } from "@storybook/addon-docs/blocks";
 - Use modern React hook and coding conventions
 - Documentation made with Storybook
 
-### Usage
+## Usage
 
 ```bash
 npm install material-ui-player # or yarn add material-ui-player
@@ -46,7 +46,7 @@ import { AudioCard, VideoCard } from 'material-ui-player'
 
 ```
 
-### Props
+## Props
 
 | Prop                                                                    | Description                                                                                                                                                                                                                                                                                                                                                          | Default                                                                                                                       | Component            |
 | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------- |
@@ -64,7 +64,7 @@ import { AudioCard, VideoCard } from 'material-ui-player'
 | `PlayProps`                                                             | enable customization using Material UI IconButton props                                                                                                                                                                                                                                                                                                              | `undefined`                                                                                                                   | all                  |
 | `BackwardProps`, `StopProps`, `PauseProps`, `ForwardProps`, `MuteProps` | enable customization using Material UI IconButton props                                                                                                                                                                                                                                                                                                              | `undefined`                                                                                                                   | AudioCard, VideoCard |
 
-### Callback props
+## Callback props
 
 Callback props take a function that gets fired on various player events:
 
@@ -74,7 +74,7 @@ Callback props take a function that gets fired on various player events:
 | `onBackwardClick` | Called when backward button is clicked | AudioCard, VideoCard |
 | `onEnded`         | Called when media ended                | AudioCard, VideoCard |
 
-### Note
+## Note
 
 Please Note: this module has following peerDependencies:
 
@@ -85,6 +85,6 @@ Please Note: this module has following peerDependencies:
     "react-dom": "^17.0.0",
 ```
 
-### License
+## License
 
 Released under MIT License
