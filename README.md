@@ -13,14 +13,10 @@
 [min-image]:https://badgen.net/bundlephobia/min/material-ui-player
 [min-url]:https://bundlephobia.com/result?p=material-ui-player
 
-<p align='center'>
-  Simple React components for playing audio and video, using <a href="https://material-ui.com/">Material UI</a>
-</p>
-<ul>
-<li>AudioCard: Audio element with controls</li>
-<li>VideoCard: Video element with controls</li>
-<li>SoundButton: IconButton to only play audio files (ideal for short audios)</li>
-</ul>
+Simple React components for playing audio and video, using [material-ui](https://material-ui.com/)
+- AudioCard: Audio element with controls
+- VideoCard: Video element with controls
+- SoundButton: IconButton to only play audio files (ideal for short audios)
 
 ## Contents
 
