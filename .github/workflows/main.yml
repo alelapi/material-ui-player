@@ -28,7 +28,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Copy Intro
-        run: cat ./README.md >> ./src/stories/public/intro.stories.mdx
+        run: cat README.md >> src/stories/public/intro.stories.mdx
         working-directory: .
 
       - name: Build
