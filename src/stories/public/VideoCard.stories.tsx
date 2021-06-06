@@ -1,10 +1,10 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { MaterialUIVideo, MaterialUIVideoProps } from '../../components';
+import { VideoCard, VideoCardProps } from '../../components/VideoCard';
 
 export default {
-    title: 'Components/MaterialUIVideo',
-    component: MaterialUIVideo,
+    title: 'Components/VideoCard',
+    component: VideoCard,
     argTypes: {
         color: {
             defaultValue: 'primary',
@@ -67,7 +67,7 @@ export default {
     }
 } as Meta;
 
-const Template: Story<MaterialUIVideoProps> = (args) => <MaterialUIVideo {...args} />;
+const Template: Story<VideoCardProps> = (args) => <VideoCard {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

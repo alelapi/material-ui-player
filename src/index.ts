@@ -1,1 +1,5 @@
-export { MaterialUIAudio, MaterialUIVideo, SoundButton } from './components';
+export {
+    AudioCard,
+    VideoCard,
+    SoundButton
+} from './components';

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { MaterialUIAudio, MaterialUIAudioProps } from '../../components';
+import { AudioCard, AudioCardProps } from '../../components';
 
 export default {
-    title: 'Components/MaterialUIAudio',
-    component: MaterialUIAudio,
+    title: 'Components/AudioCard',
+    component: AudioCard,
     argTypes: {
         color: {
             defaultValue: 'primary',
@@ -67,7 +67,7 @@ export default {
     }
 } as Meta;
 
-const Template: Story<MaterialUIAudioProps> = (args) => <MaterialUIAudio {...args} />;
+const Template: Story<AudioCardProps> = (args) => <AudioCard {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

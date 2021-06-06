@@ -55,11 +55,11 @@ interface StylesProps {
     background?: string;
 }
 
-export interface MaterialUIVideoProps extends MaterialUIMediaProps {
+export interface VideoCardProps extends MaterialUIMediaProps {
     fadeSettings?: FadeSettings;
 }
 
-const getInitialState = (props: MaterialUIVideoProps): State => ({
+const getInitialState = (props: VideoCardProps): State => ({
     url: '',
     key: Math.random(),
     playing: false,
@@ -74,7 +74,7 @@ const getInitialState = (props: MaterialUIVideoProps): State => ({
     src: props.src,
 });
 
-export const MaterialUIVideo = (props: MaterialUIVideoProps) => {
+export const VideoCard = (props: VideoCardProps) => {
     const player: React.MutableRefObject<HTMLVideoElement> = useRef(null!);
     const { state, pause, setSize, load, play, stop, setCurrentTime, setProgress } = useMedia(getInitialState(props), props.fadeSettings);
 

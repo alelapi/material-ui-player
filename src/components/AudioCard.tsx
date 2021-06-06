@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         card: {
             width: '100%',
-            backgroundColor: (props: MaterialUIAudioProps) => props.background || 'inherit'
+            backgroundColor: (props: AudioCardProps) => props.background || 'inherit'
         },
         audio: {
             display: 'none',
@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export interface MaterialUIAudioProps extends MaterialUIMediaProps {
+export interface AudioCardProps extends MaterialUIMediaProps {
     mute?: boolean;
 }
 
-const getInitialState = (props: MaterialUIAudioProps): State => ({
+const getInitialState = (props: AudioCardProps): State => ({
     url: '',
     key: Math.random(),
     playing: false,
@@ -52,7 +52,7 @@ const getInitialState = (props: MaterialUIAudioProps): State => ({
     src: props.src,
 })
 
-export const MaterialUIAudio = (props: MaterialUIAudioProps) => {
+export const AudioCard = (props: AudioCardProps) => {
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
     const { state, pause, setCurrentTime, load, play, stop, setProgress } = useMedia(getInitialState(props));
 
