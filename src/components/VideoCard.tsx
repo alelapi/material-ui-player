@@ -12,10 +12,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         controls: {
             display: 'flex',
+            flexDirection: 'row',
             alignItems: 'center',
-            [theme.breakpoints.down('sm')]: {
-                justifyContent: 'space-around',
-            },
         },
         videoContainer: {
             backgroundColor: theme.palette.common.black,
@@ -143,30 +141,35 @@ export const VideoCard = (props: VideoCardProps) => {
                     </Grid>
                     <Grid
                         item
-                        xs={12}
-                        sm={6}
+                        sm={1}
+                        xs={2}
+                        className={classes.controls}
                     >
-                        <div className={classes.controls}>
-                            <MediaTime
-                                time={state.time}
-                            />
-                            <ControlKeys
-                                onPauseClick={() => pause(player.current)}
-                                onPlayClick={onPlay}
-                                backward={props.backward}
-                                forward={props.forward}
-                                playing={state.playing}
-                                onForwardClick={onForwardClick}
-                                onBackwardClick={onBackwardClick}
-                                onStopClick={() => stop(player.current)}
-                                color={props.color}
-                                BackwardProps={props.BackwardProps}
-                                StopProps={props.StopProps}
-                                PauseProps={props.PauseProps}
-                                PlayProps={props.PlayProps}
-                                ForwardProps={props.ForwardProps}
-                            />
-                        </div>
+                        <MediaTime
+                            time={state.time}
+                        />
+                    </Grid>
+                    <Grid
+                        item
+                        sm={5}
+                        xs={10}
+                    >
+                        <ControlKeys
+                            onPauseClick={() => pause(player.current)}
+                            onPlayClick={onPlay}
+                            backward={props.backward}
+                            forward={props.forward}
+                            playing={state.playing}
+                            onForwardClick={onForwardClick}
+                            onBackwardClick={onBackwardClick}
+                            onStopClick={() => stop(player.current)}
+                            color={props.color}
+                            BackwardProps={props.BackwardProps}
+                            StopProps={props.StopProps}
+                            PauseProps={props.PauseProps}
+                            PlayProps={props.PlayProps}
+                            ForwardProps={props.ForwardProps}
+                        />
                     </Grid>
                     {props.speed &&
                         <Grid

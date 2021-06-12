@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: 'row',
             alignItems: 'center',
             maxWidth: theme.spacing(40),
+            marginRight: theme.spacing(2)
         },
     })
 );
