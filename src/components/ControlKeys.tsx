@@ -1,10 +1,6 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import FastForward from '@material-ui/icons/FastForward';
-import FastRewind from '@material-ui/icons/FastRewind';
-import PlayArrow from '@material-ui/icons/PlayArrow';
-import Pause from '@material-ui/icons/Pause';
-import StopIcon from '@material-ui/icons/Stop';
+import { IconButton } from '@material-ui/core';
+import { FastForward, FastRewind, PlayArrow, Pause, Stop as StopIcon } from '@material-ui/icons';
 import { IconButtonProps, MaterialUIColor } from '../types';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 

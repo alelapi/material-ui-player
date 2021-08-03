@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import VolumeOff from '@material-ui/icons/VolumeOff';
-import VolumeUp from '@material-ui/icons/VolumeUp';
-import IconButton from '@material-ui/core/IconButton';
-import Slider from '@material-ui/core/Slider';
+import { VolumeOff, VolumeUp } from '@material-ui/icons';
+import { IconButton, Slider } from '@material-ui/core';
 import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
 import { MaterialUIColor, SliderThickness, IconButtonProps } from '../types';
 import { getSliderSizes } from '../lib/utils';
