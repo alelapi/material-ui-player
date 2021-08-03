@@ -1,6 +1,6 @@
 {
   "name": "material-ui-player",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "types": "dist/index.d.ts",
   "description": "React/Material-UI Audio and Video Components",
   "main": "dist/index.js",
