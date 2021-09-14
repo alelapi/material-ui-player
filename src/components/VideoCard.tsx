@@ -125,7 +125,7 @@ export const VideoCard = (props: VideoCardProps) => {
             <CardActions className={classes.actions}>
                 <Grid
                     container
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center"
                 >
                     <Grid

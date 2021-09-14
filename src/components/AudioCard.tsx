@@ -90,7 +90,7 @@ export const AudioCard = (props: AudioCardProps) => {
             <CardContent className={classes.container}>
                 <Grid
                     container
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center"
                 >
                     <audio
