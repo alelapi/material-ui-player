@@ -1,5 +1,8 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import { CardActions, CardContent, Grid, Card } from '@material-ui/core';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
 import { getMimeType, getUrl } from '../lib/utils';
 import { FadeSettings } from '../types';
 import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';

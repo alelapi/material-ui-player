@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Slider } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Slider from '@material-ui/core/Slider';
 import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
 import { MaterialUIColor, SliderThickness } from '../types';
 import { getSliderSizes } from '../lib/utils';
