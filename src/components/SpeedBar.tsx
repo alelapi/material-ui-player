@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Slider from '@material-ui/core/Slider';
-import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import Slider, { SliderProps } from '@mui/material/Slider';
+import { Theme, styled } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { MaterialUIColor, SliderThickness } from '../types';
 import { getSliderSizes } from '../lib/utils';
 
@@ -22,33 +24,35 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const SpeedSlider = (props: SpeedBarProps) => withStyles((theme: Theme) => ({
-    ...getSliderSizes(props.thickness, ({
+const SpeedSlider = styled((props: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
+    ...getSliderSizes(thickness, ({
         thumb: {
-            color: theme.palette[props.color || 'primary'].main,
-            display: props.thumb === false ? 'none' : 'block',
+            color: theme.palette[color || 'primary'].main,
+            display: thumb === false ? 'none' : 'block',
         },
         rail: {
-            color: theme.palette[props.color || 'primary'].main,
+            color: theme.palette[color || 'primary'].main,
         },
         track: {
-            color: theme.palette[props.color || 'primary'].main,
+            color: theme.palette[color || 'primary'].main,
         },
-    })),
-}))(Slider);
+    }))
+}));
 
-export interface SpeedBarProps {
-    player: HTMLMediaElement;
+interface ProgressSliderProps {
     color?: MaterialUIColor;
     thickness?: SliderThickness;
     thumb?: boolean;
 }
 
-export const SpeedBar = (props: SpeedBarProps) => {
+export interface SpeedBarProps {
+    player: HTMLMediaElement;
+}
+
+export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
     const defaultSpeed: number = 50;
     const [speedBar, setSpeedBar] = useState(defaultSpeed);
     const classes = useStyles();
-    const PlayerSpeedBar = SpeedSlider(props);
 
     const toSpeedValue = (speed: number) => speed * 0.018 + 0.1;
 
@@ -75,7 +79,7 @@ export const SpeedBar = (props: SpeedBarProps) => {
             >
                 1x
             </Button>
-            <PlayerSpeedBar
+            <SpeedSlider
                 defaultValue={defaultSpeed}
                 value={speedBar}
                 onChange={onSpeedChange}

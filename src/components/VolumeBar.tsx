@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import VolumeOff from '@material-ui/icons/VolumeOff';
-import VolumeUp from '@material-ui/icons/VolumeUp';
-import IconButton from '@material-ui/core/IconButton';
-import Slider from '@material-ui/core/Slider';
-import { createStyles, makeStyles, withStyles, Theme } from '@material-ui/core/styles';
+import VolumeOff from '@mui/icons-material/VolumeOff';
+import VolumeUp from '@mui/icons-material/VolumeUp';
+import IconButton from '@mui/material/IconButton';
+import Slider, { SliderProps } from '@mui/material/Slider';
+import { Theme, styled } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { MaterialUIColor, SliderThickness, IconButtonProps } from '../types';
 import { getSliderSizes } from '../lib/utils';
 
@@ -19,35 +21,37 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const VolumeSlider = (props: VolumeBarProps) => withStyles((theme: Theme) => ({
-    ...getSliderSizes(props.thickness, ({
+interface ProgressSliderProps {
+    color?: MaterialUIColor;
+    thickness?: SliderThickness;
+    thumb?: boolean;
+}
+
+const VolumeSlider = styled((props: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
+    ...getSliderSizes(thickness, ({
         thumb: {
-            color: theme.palette[props.color || 'primary'].main,
-            display: props.thumb === false ? 'none' : 'block',
+            color: theme.palette[color || 'primary'].main,
+            display: thumb === false ? 'none' : 'block',
         },
         rail: {
-            color: theme.palette[props.color || 'primary'].main,
+            color: theme.palette[color || 'primary'].main,
         },
         track: {
-            color: theme.palette[props.color || 'primary'].main,
+            color: theme.palette[color || 'primary'].main,
         },
-    })),
-}))(Slider);
+    }))
+}));
 
 export interface VolumeBarProps {
     mute?: boolean;
     player: HTMLMediaElement;
-    color?: MaterialUIColor;
-    thickness?: SliderThickness;
-    thumb?: boolean;
     MuteProps?: IconButtonProps;
 }
 
-export const VolumeBar = (props: VolumeBarProps) => {
+export const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
     const [volumeBar, setVolumeBar] = useState(100);
     const [muted, setMuted] = useState(false);
     const classes = useStyles();
-    const PlayerSlider = VolumeSlider(props);
 
     const onVolumeChange = (_: any, newValue: number | number[]) => {
         const volume: number = (newValue as number);
@@ -69,13 +73,13 @@ export const VolumeBar = (props: VolumeBarProps) => {
                     aria-label="Mute"
                     onClick={onMuteClick}
                     {...props.MuteProps?.attributes}
-                >
+                    size="large">
                     {muted ?
                         props.MuteProps?.icons?.[0] || <VolumeOff /> :
                         props.MuteProps?.icons?.[1] || <VolumeUp />}
                 </IconButton>
             }
-            <PlayerSlider
+            <VolumeSlider
                 value={volumeBar}
                 onChange={onVolumeChange}
             />

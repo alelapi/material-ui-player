@@ -38,6 +38,6 @@ export interface IconButtonProps {
     icons?: Array<JSX.Element>;
 }
 
-export type MaterialUIColor = 'default' | 'inherit' | 'primary' | 'secondary';
+export type MaterialUIColor = 'inherit' | 'primary' | 'secondary';
 
 export type SliderThickness = 'thin' | 'medium' | 'large';

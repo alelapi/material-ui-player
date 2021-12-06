@@ -1,12 +1,13 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import FastForward from '@material-ui/icons/FastForward';
-import FastRewind from '@material-ui/icons/FastRewind';
-import PlayArrow from '@material-ui/icons/PlayArrow';
-import Pause from '@material-ui/icons/Pause';
-import StopIcon from '@material-ui/icons/Stop';
+import IconButton from '@mui/material/IconButton';
+import FastForward from '@mui/icons-material/FastForward';
+import FastRewind from '@mui/icons-material/FastRewind';
+import PlayArrow from '@mui/icons-material/PlayArrow';
+import Pause from '@mui/icons-material/Pause';
+import StopIcon from '@mui/icons-material/Stop';
 import { IconButtonProps, MaterialUIColor } from '../types';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -44,7 +45,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                     aria-label="Backward"
                     onClick={props.onBackwardClick}
                     {...props.BackwardProps?.attributes}
-                >
+                    size="large">
                     {props.BackwardProps?.icons?.[0] || <FastRewind />}
                 </IconButton>
             }
@@ -53,7 +54,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                 aria-label="Stop"
                 onClick={props.onStopClick}
                 {...props.StopProps?.attributes}
-            >
+                size="large">
                 {props.StopProps?.icons?.[0] || <StopIcon />}
             </IconButton>
             <IconButton
@@ -62,7 +63,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                 aria-label="Pause"
                 onClick={props.onPauseClick}
                 {...props.PauseProps?.attributes}
-            >
+                size="large">
                 {props.PauseProps?.icons?.[0] || <Pause />}
             </IconButton>
             <IconButton
@@ -71,7 +72,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                 aria-label="Play"
                 onClick={props.onPlayClick}
                 {...props.PlayProps?.attributes}
-            >
+                size="large">
                 {props.PlayProps?.icons?.[0] || <PlayArrow />}
             </IconButton>
             {props.forward !== undefined &&
@@ -81,11 +82,11 @@ export const ControlKeys = (props: ControlKeysProps) => {
                     aria-label="Forward"
                     onClick={props.onForwardClick}
                     {...props.ForwardProps?.attributes}
-                >
+                    size="large">
                     {props.ForwardProps?.icons?.[0] || <FastForward />}
                 </IconButton>
             }
         </div>
-    )
+    );
 }
 

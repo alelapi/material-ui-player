@@ -1,6 +1,7 @@
 import React from 'react';
 import { Time } from '../types';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { timeToString } from '../lib/utils';
 
 const useStyles = makeStyles(() =>

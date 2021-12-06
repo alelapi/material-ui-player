@@ -74,19 +74,19 @@ const thumbThick = {
 
 export const getSliderSizes = (thickness?: SliderThickness, others?: any) =>
 ({
-    thumb: {
+    '& .MuiSlider-thumb': {
         width: thumbThick[thickness || 'thin'],
         height: thumbThick[thickness || 'thin'],
-        marginTop: lineMargin[thickness || 'thin'] - 5,
+        marginTop: lineMargin[thickness || 'thin'],
         ...others.thumb
     },
-    rail: {
+    '& .MuiSlider-rail': {
         height: lineThick[thickness || 'thin'],
         marginTop: lineMargin[thickness || 'thin'],
         borderRadius: lineThick[thickness || 'thin'],
         ...others.rail
     },
-    track: {
+    '& .MuiSlider-track': {
         height: lineThick[thickness || 'thin'],
         marginTop: lineMargin[thickness || 'thin'],
         borderRadius: lineThick[thickness || 'thin'],

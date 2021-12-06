@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
 import { getMimeType, getUrl } from '../lib/utils';
 import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { State } from '../state/types';
 import { MaterialUIMediaProps } from '../types';
 import { useMedia } from '../hooks';

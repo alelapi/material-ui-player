@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { getMimeType, getUrl } from '../lib/utils';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import IconButton from '@material-ui/core/IconButton';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import IconButton from '@mui/material/IconButton';
 import { useMedia } from '../hooks';
 import { State } from '../state/types';
 import { BaseProps, IconButtonProps } from '../types';
@@ -63,7 +64,7 @@ export const SoundButton = (props: SoundButtonProps) => {
             onClick={onPlay}
             color={props.color}
             {...props.PlayProps?.attributes}
-        >
+            size="large">
             <audio
                 key={state.key}
                 ref={player}

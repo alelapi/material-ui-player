@@ -92,11 +92,14 @@ Prop | Description | Component
 ### Note
 Please Note: this module has following peerDependencies:
 ```
-    "@material-ui/core": "^4.0.0",
-    "@material-ui/icons": "^4.0.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "@mui/icons-material": ">=5.0.0",
+    "@mui/material": ">=5.0.0",
+    "@mui/styles": ">=5.0.0",
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
 ```
+
+NB: Still need to use Material UI 4? Use version 0.2.6
   
 ### License
 
