@@ -1,4 +1,4 @@
-import { muiTheme } from 'storybook-addon-material-ui';
+import { muiTheme } from 'storybook-addon-material-ui5';
 
 export const decorators = [
   muiTheme()
