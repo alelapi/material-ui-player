@@ -32,22 +32,24 @@ export interface ProgressProps {
 }
 
 export const Progress = (props: ProgressProps & ProgressSliderProps) => {
+    const { time, onProgressClick, ...styles } = props;
     const [progress, setProgress] = useState(timeToPercentage(props.time));
 
     useEffect(() => {
-        setProgress(timeToPercentage(props.time));
-    }, [props.time]);
+        setProgress(timeToPercentage(time));
+    }, [time]);
 
-    const onProgressClick = (e: any, value: number | number[], a) => {
+    const onProgressChange = (e: any, value: number | number[], a) => {
         const progressValue: number = !Number.isFinite(value) ? 0 : value as number;
         setProgress(progressValue);
-        props.onProgressClick(progressValue);
+        onProgressClick(progressValue);
     };
 
     return (
         <ProgressSlider
             value={progress}
-            onChange={onProgressClick}
+            onChange={onProgressChange}
+            {...styles}
         />
     );
 };

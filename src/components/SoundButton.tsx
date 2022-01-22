@@ -33,6 +33,7 @@ export interface SoundButtonProps extends BaseProps {
 }
 
 export const SoundButton = (props: SoundButtonProps) => {
+    const { color = 'primary' } = props;
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
     const { state, pause, load } = useMedia(getInitialState(props));
     const classes = useStyles();
@@ -62,7 +63,7 @@ export const SoundButton = (props: SoundButtonProps) => {
     return (
         <IconButton
             onClick={onPlay}
-            color={props.color}
+            color={color}
             {...props.PlayProps?.attributes}
             size="large">
             <audio

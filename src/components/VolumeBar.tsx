@@ -49,6 +49,7 @@ export interface VolumeBarProps {
 }
 
 export const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
+    const { mute, player, MuteProps, ...styles } = props;
     const [volumeBar, setVolumeBar] = useState(100);
     const [muted, setMuted] = useState(false);
     const classes = useStyles();
@@ -56,32 +57,33 @@ export const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
     const onVolumeChange = (_: any, newValue: number | number[]) => {
         const volume: number = (newValue as number);
         setVolumeBar(volume);
-        props.player.volume = volume / 100;
+        player.volume = volume / 100;
     };
 
     const onMuteClick = () => {
         const newState = !muted;
         setMuted(newState);
-        props.player.muted = newState;
+        player.muted = newState;
     };
 
     return (
         <div className={classes.root}>
-            {props.mute &&
+            {mute &&
                 <IconButton
-                    color={props.color || 'primary'}
+                    color={styles.color || 'primary'}
                     aria-label="Mute"
                     onClick={onMuteClick}
-                    {...props.MuteProps?.attributes}
+                    {...MuteProps?.attributes}
                     size="large">
                     {muted ?
-                        props.MuteProps?.icons?.[0] || <VolumeOff /> :
-                        props.MuteProps?.icons?.[1] || <VolumeUp />}
+                        MuteProps?.icons?.[0] || <VolumeOff /> :
+                        MuteProps?.icons?.[1] || <VolumeUp />}
                 </IconButton>
             }
             <VolumeSlider
                 value={volumeBar}
                 onChange={onVolumeChange}
+                {...styles}
             />
         </div>
     );

@@ -50,6 +50,7 @@ export interface SpeedBarProps {
 }
 
 export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
+    const { player, ...styles } = props;
     const defaultSpeed: number = 50;
     const [speedBar, setSpeedBar] = useState(defaultSpeed);
     const classes = useStyles();
@@ -59,18 +60,18 @@ export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
     const onSpeedChange = (_: any, newValue: number | number[]) => {
         const speed: number = (newValue as number);
         setSpeedBar(speed);
-        props.player.playbackRate = toSpeedValue(speed);
+        player.playbackRate = toSpeedValue(speed);
     };
 
     const onNormalSpeedClick = () => {
         setSpeedBar(defaultSpeed);
-        props.player.playbackRate = toSpeedValue(defaultSpeed);
+        player.playbackRate = toSpeedValue(defaultSpeed);
     };
 
     return (
         <div className={classes.root}>
             <Button
-                color={props.color || 'primary'}
+                color={styles.color || 'primary'}
                 variant="contained"
                 aria-label="Normal speed"
                 size="small"
@@ -83,6 +84,7 @@ export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
                 defaultValue={defaultSpeed}
                 value={speedBar}
                 onChange={onSpeedChange}
+                {...styles}
             />
         </div>
     );

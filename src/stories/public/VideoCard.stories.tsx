@@ -1,10 +1,18 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { VideoCard, VideoCardProps } from '../../components/VideoCard';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default {
     title: 'Components/VideoCard',
     component: VideoCard,
+    decorators: [
+        Story => (
+          <ThemeProvider theme={createTheme()}>
+            <Story />
+          </ThemeProvider>
+        ),
+      ],
     argTypes: {
         color: {
             defaultValue: 'primary',
@@ -34,35 +42,35 @@ export default {
             control: {
                 type: 'radio',
             },
-            options: [true, false]
+            options: [true, false, undefined]
         },
         backward: {
             defaultValue: true,
             control: {
                 type: 'radio',
             },
-            options: [true, false]
+            options: [true, false, undefined]
         },
         mute: {
             defaultValue: true,
             control: {
                 type: 'radio',
             },
-            options: [true, false]
+            options: [true, false, undefined]
         },
         speed: {
             defaultValue: true,
             control: {
                 type: 'radio',
             },
-            options: [true, false]
+            options: [true, false, undefined]
         },
         loop: {
             defaultValue: false,
             control: {
                 type: 'radio',
             },
-            options: [true, false]
+            options: [true, false, undefined]
         },
     }
 } as Meta;

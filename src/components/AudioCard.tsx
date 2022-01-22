@@ -55,6 +55,7 @@ const getInitialState = (props: AudioCardProps): State => ({
 })
 
 export const AudioCard = (props: AudioCardProps) => {
+    const { color = 'primary', thickness = 'medium' } = props;
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
     const { state, pause, setCurrentTime, load, play, stop, setProgress } = useMedia(getInitialState(props));
 
@@ -113,8 +114,8 @@ export const AudioCard = (props: AudioCardProps) => {
                     >
                         <Progress
                             time={state.time}
-                            color={props.color}
-                            thickness={props.thickness}
+                            color={color}
+                            thickness={thickness}
                             onProgressClick={async v => await setProgress(player.current, v)}
                         />
                     </Grid>
@@ -142,7 +143,7 @@ export const AudioCard = (props: AudioCardProps) => {
                             onForwardClick={onForwardClick}
                             onBackwardClick={onBackwardClick}
                             onStopClick={() => stop(player.current)}
-                            color={props.color}
+                            color={color}
                             BackwardProps={props.BackwardProps}
                             StopProps={props.StopProps}
                             PauseProps={props.PauseProps}
@@ -158,8 +159,8 @@ export const AudioCard = (props: AudioCardProps) => {
                         >
                             <SpeedBar
                                 player={player.current}
-                                color={props.color}
-                                thickness={props.thickness}
+                                color={color}
+                                thickness={thickness}
                             />
                         </Grid>
                     }
@@ -171,8 +172,8 @@ export const AudioCard = (props: AudioCardProps) => {
                         <VolumeBar
                             mute={props.mute}
                             player={player.current}
-                            color={props.color}
-                            thickness={props.thickness}
+                            color={color}
+                            thickness={thickness}
                             MuteProps={props.MuteProps}
                         />
                     </Grid>

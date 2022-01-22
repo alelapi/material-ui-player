@@ -35,12 +35,13 @@ export interface ControlKeysProps {
 }
 
 export const ControlKeys = (props: ControlKeysProps) => {
+    const { color = 'primary' } = props;
     const classes = useStyles(props);
     return (
         <div className={classes.controls}>
             {props.backward !== undefined &&
                 <IconButton
-                    color={props.color}
+                    color={color}
                     disabled={props.backward === false}
                     aria-label="Backward"
                     onClick={props.onBackwardClick}
@@ -50,7 +51,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                 </IconButton>
             }
             <IconButton
-                color={props.color}
+                color={color}
                 aria-label="Stop"
                 onClick={props.onStopClick}
                 {...props.StopProps?.attributes}
@@ -58,7 +59,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                 {props.StopProps?.icons?.[0] || <StopIcon />}
             </IconButton>
             <IconButton
-                color={props.color}
+                color={color}
                 disabled={!props.playing}
                 aria-label="Pause"
                 onClick={props.onPauseClick}
@@ -67,7 +68,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                 {props.PauseProps?.icons?.[0] || <Pause />}
             </IconButton>
             <IconButton
-                color={props.color}
+                color={color}
                 disabled={props.playing}
                 aria-label="Play"
                 onClick={props.onPlayClick}
@@ -77,7 +78,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
             </IconButton>
             {props.forward !== undefined &&
                 <IconButton
-                    color={props.color}
+                    color={color}
                     disabled={props.forward === false}
                     aria-label="Forward"
                     onClick={props.onForwardClick}

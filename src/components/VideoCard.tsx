@@ -78,6 +78,7 @@ const getInitialState = (props: VideoCardProps): State => ({
 });
 
 export const VideoCard = (props: VideoCardProps) => {
+    const { color = 'primary', thickness = 'medium' } = props;
     const player: React.MutableRefObject<HTMLVideoElement> = useRef(null!);
     const { state, pause, setSize, load, play, stop, setCurrentTime, setProgress } = useMedia(getInitialState(props), props.fadeSettings);
 
@@ -139,8 +140,8 @@ export const VideoCard = (props: VideoCardProps) => {
                     >
                         <Progress
                             time={state.time}
-                            color={props.color}
-                            thickness={props.thickness}
+                            color={color}
+                            thickness={thickness}
                             onProgressClick={async v => await setProgress(player.current, v)}
                         />
                     </Grid>
@@ -168,7 +169,7 @@ export const VideoCard = (props: VideoCardProps) => {
                             onForwardClick={onForwardClick}
                             onBackwardClick={onBackwardClick}
                             onStopClick={() => stop(player.current)}
-                            color={props.color}
+                            color={color}
                             BackwardProps={props.BackwardProps}
                             StopProps={props.StopProps}
                             PauseProps={props.PauseProps}
@@ -184,8 +185,8 @@ export const VideoCard = (props: VideoCardProps) => {
                         >
                             <SpeedBar
                                 player={player.current}
-                                color={props.color}
-                                thickness={props.thickness}
+                                color={color}
+                                thickness={thickness}
                             />
                         </Grid>
                     }
@@ -196,8 +197,8 @@ export const VideoCard = (props: VideoCardProps) => {
                     >
                         <VolumeBar
                             player={player.current}
-                            color={props.color}
-                            thickness={props.thickness}
+                            color={color}
+                            thickness={thickness}
                             MuteProps={props.MuteProps}
                         />
                     </Grid>
