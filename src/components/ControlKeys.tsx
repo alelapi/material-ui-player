@@ -1,13 +1,9 @@
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
-import FastForward from '@mui/icons-material/FastForward';
-import FastRewind from '@mui/icons-material/FastRewind';
-import PlayArrow from '@mui/icons-material/PlayArrow';
-import Pause from '@mui/icons-material/Pause';
-import StopIcon from '@mui/icons-material/Stop';
 import { IconButtonProps, MaterialUIColor } from '../types';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
+import { Play, Pause, Stop, Rewind, Forward } from '../icons';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -47,7 +43,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                     onClick={props.onBackwardClick}
                     {...props.BackwardProps?.attributes}
                     size="large">
-                    {props.BackwardProps?.icons?.[0] || <FastRewind />}
+                    {props.BackwardProps?.icons?.[0] || <Rewind />}
                 </IconButton>
             }
             <IconButton
@@ -56,7 +52,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                 onClick={props.onStopClick}
                 {...props.StopProps?.attributes}
                 size="large">
-                {props.StopProps?.icons?.[0] || <StopIcon />}
+                {props.StopProps?.icons?.[0] || <Stop />}
             </IconButton>
             <IconButton
                 color={color}
@@ -74,7 +70,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                 onClick={props.onPlayClick}
                 {...props.PlayProps?.attributes}
                 size="large">
-                {props.PlayProps?.icons?.[0] || <PlayArrow />}
+                {props.PlayProps?.icons?.[0] || <Play />}
             </IconButton>
             {props.forward !== undefined &&
                 <IconButton
@@ -84,7 +80,7 @@ export const ControlKeys = (props: ControlKeysProps) => {
                     onClick={props.onForwardClick}
                     {...props.ForwardProps?.attributes}
                     size="large">
-                    {props.ForwardProps?.icons?.[0] || <FastForward />}
+                    {props.ForwardProps?.icons?.[0] || <Forward />}
                 </IconButton>
             }
         </div>

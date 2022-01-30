@@ -92,7 +92,6 @@ Prop | Description | Component
 ### Note
 Please Note: this module has following peerDependencies:
 ```
-    "@mui/icons-material": ">=5.0.0",
     "@mui/material": ">=5.0.0",
     "@mui/styles": ">=5.0.0",
     "react": ">=17.0.0",

@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import VolumeOff from '@mui/icons-material/VolumeOff';
-import VolumeUp from '@mui/icons-material/VolumeUp';
 import IconButton from '@mui/material/IconButton';
 import Slider, { SliderProps } from '@mui/material/Slider';
 import { Theme, styled } from '@mui/material/styles';
@@ -8,6 +6,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { MaterialUIColor, SliderThickness, IconButtonProps } from '../types';
 import { getSliderSizes } from '../lib/utils';
+import { VolumeOff, VolumeUp } from '../icons';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -77,7 +76,8 @@ export const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
                     size="large">
                     {muted ?
                         MuteProps?.icons?.[0] || <VolumeOff /> :
-                        MuteProps?.icons?.[1] || <VolumeUp />}
+                        MuteProps?.icons?.[1] || <VolumeUp />
+                    }
                 </IconButton>
             }
             <VolumeSlider
