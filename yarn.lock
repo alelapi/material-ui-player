@@ -1598,14 +1598,14 @@
     prop-types "^15.7.2"
 
 "@mui/styles@^5.0.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@mui/styles/-/styles-5.5.0.tgz#10a9e013181d40b96dc5ee6b3a981f1876d3c623"
-  integrity sha512-elRM9/1t8jJJc2X/T/Yau40sQ3+IxM8sdxA9CbHas/EU4DJ2LjkdmmmnSv2lXG32SWUIPU1Pjr6Jy3KPt2NoUw==
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@mui/styles/-/styles-5.5.1.tgz#cfd2b6dbdb4b2cb0e989568bb9cc45f5d7346d2a"
+  integrity sha512-mxwfjwTwPE+r7/U4Nn/QKPzJ2cIqmRuK3xu44Us613D5jqPeB/ftOsAy0OpCYAwpkUxmQIrRQiilQ8zE+f4rBQ==
   dependencies:
     "@babel/runtime" "^7.17.2"
     "@emotion/hash" "^0.8.0"
     "@mui/private-theming" "^5.4.4"
-    "@mui/types" "^7.1.2"
+    "@mui/types" "^7.1.3"
     "@mui/utils" "^5.4.4"
     clsx "^1.1.1"
     csstype "^3.0.11"
@@ -1634,10 +1634,10 @@
     csstype "^3.0.11"
     prop-types "^15.7.2"
 
-"@mui/types@^7.1.2":
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.1.2.tgz#4f3678ae77a7a3efab73b6e040469cc6df2144ac"
-  integrity sha512-SD7O1nVzqG+ckQpFjDhXPZjRceB8HQFHEvdLLrPhlJy4lLbwEBbxK74Tj4t6Jgk0fTvLJisuwOutrtYe9P/xBQ==
+"@mui/types@^7.1.2", "@mui/types@^7.1.3":
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.1.3.tgz#d7636f3046110bcccc63e6acfd100e2ad9ca712a"
+  integrity sha512-DDF0UhMBo4Uezlk+6QxrlDbchF79XG6Zs0zIewlR4c0Dt6GKVFfUtzPtHCH1tTbcSlq/L2bGEdiaoHBJ9Y1gSA==
 
 "@mui/utils@^5.4.4":
   version "5.4.4"
@@ -3290,9 +3290,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@^17.0.38":
-  version "17.0.39"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.39.tgz#d0f4cde092502a6db00a1cded6e6bf2abb7633ce"
-  integrity sha512-UVavlfAxDd/AgAacMa60Azl7ygyQNRwC/DsHZmKgNvPmRR5p70AJ5Q9EAmL2NWOJmeV+vVUI4IAP7GZrN8h8Ug==
+  version "17.0.40"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.40.tgz#dc010cee6254d5239a138083f3799a16638e6bad"
+  integrity sha512-UrXhD/JyLH+W70nNSufXqMZNuUD2cXHu6UjCllC6pmOQgBX4SGXOH8fjRka0O0Ee0HrFxapDD8Bwn81Kmiz6jQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -10181,9 +10181,9 @@ ts-essentials@^2.0.3:
   integrity sha512-3IVX4nI6B5cc31/GFFE+i8ey/N2eA0CZDbo6n0yrz0zDX8ZJ8djmU1p+XRz7G3is0F3bB3pu2pAroFdAWQKU3w==
 
 ts-loader@^9.2.6:
-  version "9.2.7"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-9.2.7.tgz#948654099ca96992b62ec47bd9cee5632006e101"
-  integrity sha512-Fxh44mKli9QezgbdCXkEJWxnedQ0ead7DXTH+lfXEPedu+Y9EtMJ2aQ9G3Dj1j7Q612E8931rww8NDZha4Tibg==
+  version "9.2.8"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-9.2.8.tgz#e89aa32fa829c5cad0a1d023d6b3adecd51d5a48"
+  integrity sha512-gxSak7IHUuRtwKf3FIPSW1VpZcqF9+MBrHOvBp9cjHh+525SjtCIJKVGjRKIAfxBwDGDGCFF00rTfzB1quxdSw==
   dependencies:
     chalk "^4.1.0"
     enhanced-resolve "^5.0.0"
