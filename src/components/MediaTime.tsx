@@ -7,7 +7,7 @@ import { timeToString } from '../lib/utils';
 const useStyles = makeStyles(() =>
     createStyles({
         time: {
-            fontSize: 12,
+            fontSize: 16,
         },
     })
 );

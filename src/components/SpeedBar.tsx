@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Slider, { SliderProps } from '@mui/material/Slider';
-import { Theme, styled } from '@mui/material/styles';
+import { Theme, styled, useTheme } from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { MaterialUIColor, SliderThickness } from '../types';
@@ -14,12 +14,6 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: 'row',
             marginRight: theme.spacing(4),
             alignItems: 'center',
-        },
-        speedButton: {
-            fontSize: 10,
-            padding: 2,
-            minWidth: theme.spacing(3),
-            marginRight: theme.spacing(1),
         },
     })
 );
@@ -54,6 +48,7 @@ export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
     const defaultSpeed: number = 50;
     const [speedBar, setSpeedBar] = useState(defaultSpeed);
     const classes = useStyles();
+    const theme = useTheme();
 
     const toSpeedValue = (speed: number) => speed * 0.018 + 0.1;
 
@@ -75,8 +70,13 @@ export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
                 variant="contained"
                 aria-label="Normal speed"
                 size="small"
-                className={classes.speedButton}
                 onClick={onNormalSpeedClick}
+                sx={{
+                    fontSize: 10,
+                    padding: theme.spacing(0.5),
+                    minWidth: theme.spacing(3),
+                    marginRight: theme.spacing(1),
+                }}
             >
                 1x
             </Button>
@@ -85,6 +85,9 @@ export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
                 value={speedBar}
                 onChange={onSpeedChange}
                 {...styles}
+                sx={{
+                    marginTop: theme.spacing(1),
+                }}
             />
         </div>
     );

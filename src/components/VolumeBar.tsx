@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Slider, { SliderProps } from '@mui/material/Slider';
-import { Theme, styled } from '@mui/material/styles';
+import { Theme, styled, useTheme } from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { MaterialUIColor, SliderThickness, IconButtonProps } from '../types';
@@ -52,6 +52,7 @@ export const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
     const [volumeBar, setVolumeBar] = useState(100);
     const [muted, setMuted] = useState(false);
     const classes = useStyles();
+    const theme = useTheme();
 
     const onVolumeChange = (_: any, newValue: number | number[]) => {
         const volume: number = (newValue as number);
@@ -84,6 +85,9 @@ export const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
                 value={volumeBar}
                 onChange={onVolumeChange}
                 {...styles}
+                sx={{
+                    marginTop: theme.spacing(1),
+                }}
             />
         </div>
     );
