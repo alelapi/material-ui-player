@@ -88,6 +88,9 @@ Prop | Description | Component
 `onBackwardClick` | Called when backward button is clicked | AudioCard, VideoCard
 `onEnded` | Called when media ended | AudioCard, VideoCard
 
+### Demo
+
+Try it using the [storyboard](https://alelapi.github.io/material-ui-player/)
 
 ### Note
 Please Note: this module has following peerDependencies:
