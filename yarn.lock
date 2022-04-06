@@ -1570,15 +1570,6 @@
     react-is "^17.0.2"
     react-transition-group "^4.4.2"
 
-"@mui/private-theming@^5.4.4", "@mui/private-theming@^5.5.3":
-  version "5.5.3"
-  resolved "https://registry.yarnpkg.com/@mui/private-theming/-/private-theming-5.5.3.tgz#c232a39dd3c268fdef7e92ccc40d51bda9eec3ab"
-  integrity sha512-Wf7NurY7lk8SBWelSBY2U02zxLt1773JpIcXTHuEC9/GZdQA4CXCJGl2cVQzheKhee5rZ+8JwGulrRiVl1m+4A==
-  dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@mui/utils" "^5.5.3"
-    prop-types "^15.7.2"
-
 "@mui/private-theming@^5.5.3":
   version "5.5.3"
   resolved "https://registry.yarnpkg.com/@mui/private-theming/-/private-theming-5.5.3.tgz#c232a39dd3c268fdef7e92ccc40d51bda9eec3ab"
@@ -1639,7 +1630,7 @@
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.1.3.tgz#d7636f3046110bcccc63e6acfd100e2ad9ca712a"
   integrity sha512-DDF0UhMBo4Uezlk+6QxrlDbchF79XG6Zs0zIewlR4c0Dt6GKVFfUtzPtHCH1tTbcSlq/L2bGEdiaoHBJ9Y1gSA==
 
-"@mui/utils@^5.4.4", "@mui/utils@^5.5.3":
+"@mui/utils@^5.5.3":
   version "5.5.3"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.5.3.tgz#f6e1f10c0e8f4d0bf750588c2c3a96ad819c5b65"
   integrity sha512-t627eVRpl3SlxVya0cIVNs8jPl4KCEiGaTSWY9iKKTcMNaeDbuRML+zv/CFHDPr1zFv+FjJSP02ySB+tZ8xIag==
@@ -10251,10 +10242,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.5.5:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.2.tgz#fe12d2727b708f4eef40f51598b3398baa9611d4"
-  integrity sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==
+typescript@^4.6.3:
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
+  integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==
 
 uglify-js@^3.1.4:
   version "3.14.4"
