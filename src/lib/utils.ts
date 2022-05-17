@@ -66,7 +66,7 @@ const lineMargin = {
     'large': -6
 };
 
-const thumbThick = {
+export const thumbThick = {
     'thin': 15,
     'medium': 20,
     'large': 25

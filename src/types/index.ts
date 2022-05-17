@@ -30,12 +30,17 @@ export interface MaterialUIMediaProps extends BaseProps {
     PauseProps?: IconButtonProps;
     ForwardProps?: IconButtonProps;
     MuteProps?: IconButtonProps;
+    TimeProps?: TimeProps;
     background?: string;
 }
 
 export interface IconButtonProps {
     attributes?: Record<string, any>;
     icons?: Array<JSX.Element>;
+}
+
+export interface TimeProps {
+    fontSize?: number;
 }
 
 export type MaterialUIColor = 'primary' | 'secondary';

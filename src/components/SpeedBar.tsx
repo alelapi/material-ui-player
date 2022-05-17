@@ -12,8 +12,10 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             display: 'flex',
             flexDirection: 'row',
-            marginRight: theme.spacing(4),
+            marginRight: theme.spacing(1),
+            marginLeft: theme.spacing(1),
             alignItems: 'center',
+            flexGrow: 1,
         },
     })
 );

@@ -3,10 +3,10 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import { getMimeType, getUrl } from '../lib/utils';
+import { getMimeType, getUrl, thumbThick } from '../lib/utils';
 import { FadeSettings } from '../types';
 import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
-import { Theme } from '@mui/material/styles';
+import { Theme, useTheme } from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { State } from '../state/types';
@@ -19,6 +19,25 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
+            [theme.breakpoints.down('md')]: {
+                justifyContent: 'space-between',
+                flexGrow: 1,
+            },
+            [theme.breakpoints.up('md')]: {
+                justifyContent: 'start',
+            },
+        },
+        bars: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            [theme.breakpoints.down('md')]: {
+                justifyContent: 'space-between',
+                flexGrow: 1,
+            },
+            [theme.breakpoints.up('md')]: {
+                justifyContent: 'start',
+            },
         },
         videoContainer: {
             backgroundColor: theme.palette.common.black,
@@ -32,10 +51,6 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            paddingTop: theme.spacing(1),
-            paddingRight: theme.spacing(2),
-            paddingLeft: theme.spacing(2),
-            paddingBottom: theme.spacing(1),
             '&:last-child': {
                 paddingBottom: theme.spacing(1),
             },
@@ -81,6 +96,7 @@ export const VideoCard = (props: VideoCardProps) => {
     const { color = 'primary', thickness = 'medium' } = props;
     const player: React.MutableRefObject<HTMLVideoElement> = useRef(null!);
     const { state, pause, setSize, load, play, stop, setCurrentTime, setProgress } = useMedia(getInitialState(props), props.fadeSettings);
+    const theme = useTheme();
 
     const {
         onEnded = () => setCurrentTime(player.current, 0),
@@ -128,7 +144,12 @@ export const VideoCard = (props: VideoCardProps) => {
                     </video>
                 </div>
             </CardContent>
-            <CardActions className={classes.actions}>
+            <CardActions className={classes.actions} sx={{
+                paddingTop: theme.spacing(1),
+                paddingRight: theme.spacing(2),
+                paddingLeft: `calc(${thumbThick[thickness]/2}px + ${theme.spacing(2)})`,
+                paddingBottom: theme.spacing(1),
+            }}>
                 <Grid
                     container
                     justifyContent="center"
@@ -147,19 +168,14 @@ export const VideoCard = (props: VideoCardProps) => {
                     </Grid>
                     <Grid
                         item
-                        sm={1}
-                        xs={2}
+                        md={6}
+                        xs={12}
                         className={classes.controls}
                     >
                         <MediaTime
                             time={state.time}
+                            TimeProps={props.TimeProps}
                         />
-                    </Grid>
-                    <Grid
-                        item
-                        sm={5}
-                        xs={10}
-                    >
                         <ControlKeys
                             onPauseClick={() => pause(player.current)}
                             onPlayClick={onPlay}
@@ -177,24 +193,19 @@ export const VideoCard = (props: VideoCardProps) => {
                             ForwardProps={props.ForwardProps}
                         />
                     </Grid>
-                    {props.speed &&
-                        <Grid
-                            item
-                            xs={6}
-                            sm={3}
-                        >
+                    <Grid
+                        item
+                        md={6}
+                        sm={12}
+                        className={classes.bars}
+                    >
+                        {props.speed &&
                             <SpeedBar
                                 player={player.current}
                                 color={color}
                                 thickness={thickness}
                             />
-                        </Grid>
-                    }
-                    <Grid
-                        item
-                        xs={props.speed ? 6 : 12}
-                        sm={props.speed ? 3 : 6}
-                    >
+                        }
                         <VolumeBar
                             player={player.current}
                             color={color}

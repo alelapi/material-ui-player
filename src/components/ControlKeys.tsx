@@ -4,12 +4,20 @@ import { IconButtonProps, MaterialUIColor } from '../types';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { Play, Pause, Stop, Rewind, Forward } from '../icons';
+import { Theme } from '@mui/material';
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         controls: {
             display: 'flex',
             alignItems: 'center',
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+            [theme.breakpoints.down('sm')]: {
+                '& .MuiButtonBase-root': {
+                    padding: theme.spacing(1),
+                }
+            }
         },
     })
 );

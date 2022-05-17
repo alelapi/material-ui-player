@@ -34,6 +34,25 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
+            [theme.breakpoints.down('md')]: {
+                justifyContent: 'space-between',
+                flexGrow: 1,
+            },
+            [theme.breakpoints.up('md')]: {
+                justifyContent: 'start',
+            },
+        },
+        bars: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            [theme.breakpoints.down('md')]: {
+                justifyContent: 'space-between',
+                flexGrow: 1,
+            },
+            [theme.breakpoints.up('md')]: {
+                justifyContent: 'start',
+            },
         },
     })
 );
@@ -121,19 +140,14 @@ export const AudioCard = (props: AudioCardProps) => {
                     </Grid>
                     <Grid
                         item
-                        sm={1}
-                        xs={2}
+                        md={6}
+                        xs={12}
                         className={classes.controls}
                     >
                         <MediaTime
                             time={state.time}
+                            TimeProps={props.TimeProps}
                         />
-                    </Grid>
-                    <Grid
-                        item
-                        sm={5}
-                        xs={10}
-                    >
                         <ControlKeys
                             onPauseClick={() => pause(player.current)}
                             onPlayClick={onPlay}
@@ -151,24 +165,19 @@ export const AudioCard = (props: AudioCardProps) => {
                             ForwardProps={props.ForwardProps}
                         />
                     </Grid>
-                    {props.speed &&
-                        <Grid
-                            item
-                            xs={6}
-                            sm={3}
-                        >
+                    <Grid
+                        item
+                        md={6}
+                        sm={12}
+                        className={classes.bars}
+                    >
+                        {props.speed &&
                             <SpeedBar
                                 player={player.current}
                                 color={color}
                                 thickness={thickness}
                             />
-                        </Grid>
-                    }
-                    <Grid
-                        item
-                        xs={props.speed ? 6 : 12}
-                        sm={props.speed ? 3 : 6}
-                    >
+                        }
                         <VolumeBar
                             mute={props.mute}
                             player={player.current}
