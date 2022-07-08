@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { SoundButton, SoundButtonProps } from '../../components';
+import SoundButton, { SoundButtonProps } from '../../components/SoundButton';
 
 export default {
     title: 'Components/SoundButton',

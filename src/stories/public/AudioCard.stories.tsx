@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { AudioCard, AudioCardProps } from '../../components';
+import AudioCard, { AudioCardProps } from '../../components/AudioCard';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default {

@@ -38,7 +38,7 @@ export interface ControlKeysProps {
     ForwardProps?: IconButtonProps;
 }
 
-export const ControlKeys = (props: ControlKeysProps) => {
+const ControlKeys = (props: ControlKeysProps) => {
     const { color = 'primary' } = props;
     const classes = useStyles(props);
     return (
@@ -95,3 +95,4 @@ export const ControlKeys = (props: ControlKeysProps) => {
     );
 }
 
+export default ControlKeys;

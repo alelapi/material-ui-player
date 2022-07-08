@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { getMimeType, getUrl } from '../lib/utils';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
+import SvgIcon from '@mui/material/SvgIcon';
 import IconButton from '@mui/material/IconButton';
 import { useMedia } from '../hooks';
 import { State } from '../state/types';
@@ -32,7 +32,7 @@ export interface SoundButtonProps extends BaseProps {
     PlayProps?: IconButtonProps;
 }
 
-export const SoundButton = (props: SoundButtonProps) => {
+const SoundButton = (props: SoundButtonProps) => {
     const { color = 'primary' } = props;
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
     const { state, pause, load } = useMedia(getInitialState(props));
@@ -64,6 +64,7 @@ export const SoundButton = (props: SoundButtonProps) => {
         <IconButton
             onClick={onPlay}
             color={color}
+            aria-label="Play"
             {...props.PlayProps?.attributes}
             size="large">
             <audio
@@ -84,4 +85,6 @@ export const SoundButton = (props: SoundButtonProps) => {
         </IconButton>
     );
 };
+
+export default SoundButton;
 

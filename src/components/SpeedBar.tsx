@@ -45,7 +45,7 @@ export interface SpeedBarProps {
     player: HTMLMediaElement;
 }
 
-export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
+const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
     const { player, ...styles } = props;
     const defaultSpeed: number = 50;
     const [speedBar, setSpeedBar] = useState(defaultSpeed);
@@ -95,3 +95,4 @@ export const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
     );
 };
 
+export default SpeedBar;

@@ -20,8 +20,10 @@ export interface MediaTimeProps {
     TimeProps?: TimeProps
 }
 
-export const MediaTime = (props: MediaTimeProps) => {
+const MediaTime = (props: MediaTimeProps) => {
     const classes = useStyles(props.TimeProps);
     return (<div className={classes.time}>{timeToString(props.time)}</div>);
 };
+
+export default MediaTime;
 

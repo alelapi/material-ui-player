@@ -49,7 +49,7 @@ export interface VolumeBarProps {
     MuteProps?: IconButtonProps;
 }
 
-export const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
+const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
     const { mute, player, MuteProps, ...styles } = props;
     const [volumeBar, setVolumeBar] = useState(100);
     const [muted, setMuted] = useState(false);
@@ -94,3 +94,5 @@ export const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
         </div>
     );
 };
+
+export default VolumeBar;

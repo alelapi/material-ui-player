@@ -1,10 +1,18 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ControlKeys, ControlKeysProps } from '../components';
+import ControlKeys, { ControlKeysProps } from '../components/ControlKeys';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default {
     title: 'Components/ControlKeys',
     component: ControlKeys,
+    decorators: [
+        Story => (
+          <ThemeProvider theme={createTheme()}>
+            <Story />
+          </ThemeProvider>
+        ),
+      ],
     argTypes: {
         onPauseClick: {
             action: 'pause'

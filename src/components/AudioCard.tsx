@@ -3,7 +3,11 @@ import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import { getMimeType, getUrl } from '../lib/utils';
-import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
+import VolumeBar from './VolumeBar';
+import ControlKeys from './ControlKeys';
+import MediaTime from './MediaTime';
+import Progress from './Progress';
+import SpeedBar from './SpeedBar';
 import { Theme } from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -73,7 +77,7 @@ const getInitialState = (props: AudioCardProps): State => ({
     src: props.src,
 })
 
-export const AudioCard = (props: AudioCardProps) => {
+const AudioCard = (props: AudioCardProps) => {
     const { color = 'primary', thickness = 'medium' } = props;
     const player: React.MutableRefObject<HTMLAudioElement> = useRef(null!);
     const { state, pause, setCurrentTime, load, play, stop, setProgress } = useMedia(getInitialState(props));
@@ -191,3 +195,5 @@ export const AudioCard = (props: AudioCardProps) => {
         </Card>
     );
 };
+
+export default AudioCard;

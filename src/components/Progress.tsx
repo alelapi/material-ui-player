@@ -31,7 +31,7 @@ export interface ProgressProps {
     time: Time;
 }
 
-export const Progress = (props: ProgressProps & ProgressSliderProps) => {
+const Progress = (props: ProgressProps & ProgressSliderProps) => {
     const { time, onProgressClick, ...styles } = props;
     const [progress, setProgress] = useState(timeToPercentage(props.time));
 
@@ -54,3 +54,4 @@ export const Progress = (props: ProgressProps & ProgressSliderProps) => {
     );
 };
 
+export default Progress;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { VolumeBar, VolumeBarProps } from '../components';
+import VolumeBar, { VolumeBarProps } from '../components/VolumeBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default {

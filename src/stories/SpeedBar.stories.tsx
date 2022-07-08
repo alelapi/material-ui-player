@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 
-import { SpeedBar, SpeedBarProps } from '../components';
+import SpeedBar, { SpeedBarProps } from '../components/SpeedBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default {

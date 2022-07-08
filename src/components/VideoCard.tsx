@@ -5,7 +5,11 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import { getMimeType, getUrl, thumbThick } from '../lib/utils';
 import { FadeSettings } from '../types';
-import { VolumeBar, ControlKeys, MediaTime, Progress, SpeedBar } from './index';
+import VolumeBar from './VolumeBar';
+import ControlKeys from './ControlKeys';
+import MediaTime from './MediaTime';
+import Progress from './Progress';
+import SpeedBar from './SpeedBar';
 import { Theme, useTheme } from '@mui/material/styles';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -92,7 +96,7 @@ const getInitialState = (props: VideoCardProps): State => ({
     src: props.src,
 });
 
-export const VideoCard = (props: VideoCardProps) => {
+const VideoCard = (props: VideoCardProps) => {
     const { color = 'primary', thickness = 'medium' } = props;
     const player: React.MutableRefObject<HTMLVideoElement> = useRef(null!);
     const { state, pause, setSize, load, play, stop, setCurrentTime, setProgress } = useMedia(getInitialState(props), props.fadeSettings);
@@ -218,3 +222,5 @@ export const VideoCard = (props: VideoCardProps) => {
         </Card>
     );
 }
+
+export default VideoCard;
