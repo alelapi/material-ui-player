@@ -98,8 +98,6 @@ Please note:
 - As required from Material UI you mast be sure to use this library's components inside a `<ThemeProvider>` wrapper, in order to use your [custom theme](https://mui.com/material-ui/customization/theming/).
 - This module has following peerDependencies:
 ```
-    "@emotion/react": ">=11.0.0",
-    "@emotion/styled": ">=11.0.0",
     "@mui/material": ">=5.0.0",
     "@mui/styles": ">=5.0.0",
     "react": ">=17.0.0",
