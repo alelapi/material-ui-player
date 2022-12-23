@@ -11,7 +11,7 @@ specifiers:
   '@storybook/addon-links': 6.5.13
   '@storybook/react': 6.5.13
   '@types/react': 18.0.25
-  '@types/react-dom': 18.0.9
+  '@types/react-dom': 18.0.10
   babel-loader: 9.1.0
   babel-plugin-transform-imports: 2.0.0
   react: 18.2.0
@@ -32,7 +32,7 @@ devDependencies:
   '@storybook/addon-links': 6.5.13_biqbaboplfbrettd7655fr4n2y
   '@storybook/react': 6.5.13_szf7lvhnptm3asckpo5ziubova
   '@types/react': 18.0.25
-  '@types/react-dom': 18.0.9
+  '@types/react-dom': 18.0.10
   babel-loader: 9.1.0_npabyccmuonwo2rku4k53xo3hi
   babel-plugin-transform-imports: 2.0.0
   react: 18.2.0
@@ -3343,8 +3343,8 @@ packages:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
     dev: true
 
-  /@types/react-dom/18.0.9:
-    resolution: {integrity: sha512-qnVvHxASt/H7i+XG1U1xMiY5t+IHcPGUK7TDMDzom08xa7e86eCeKOiLZezwCKVxJn6NEiiy2ekgX8aQssjIKg==}
+  /@types/react-dom/18.0.10:
+    resolution: {integrity: sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg==}
     dependencies:
       '@types/react': 18.0.25
     dev: true
