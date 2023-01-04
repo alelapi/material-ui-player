@@ -12,7 +12,7 @@ specifiers:
   '@storybook/react': 6.5.13
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
-  babel-loader: 9.1.0
+  babel-loader: 9.1.2
   babel-plugin-transform-imports: 2.0.0
   react: 18.2.0
   react-dom: 18.2.0
@@ -33,7 +33,7 @@ devDependencies:
   '@storybook/react': 6.5.13_szf7lvhnptm3asckpo5ziubova
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
-  babel-loader: 9.1.0_npabyccmuonwo2rku4k53xo3hi
+  babel-loader: 9.1.2_npabyccmuonwo2rku4k53xo3hi
   babel-plugin-transform-imports: 2.0.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -4124,8 +4124,8 @@ packages:
       webpack: 4.46.0_webpack-cli@5.0.0
     dev: true
 
-  /babel-loader/9.1.0_npabyccmuonwo2rku4k53xo3hi:
-    resolution: {integrity: sha512-Antt61KJPinUMwHwIIz9T5zfMgevnfZkEVWYDWlG888fgdvRRGD0JTuf/fFozQnfT+uq64sk1bmdHDy/mOEWnA==}
+  /babel-loader/9.1.2_npabyccmuonwo2rku4k53xo3hi:
+    resolution: {integrity: sha512-mN14niXW43tddohGl8HPu5yfQq70iUThvFL/4QzESA7GcZoC0eVOhvWdQ8+3UlSjaDE9MVtsW9mxDY07W7VpVA==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       '@babel/core': ^7.12.0
