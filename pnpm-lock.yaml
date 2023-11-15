@@ -16,7 +16,7 @@ specifiers:
   babel-plugin-transform-imports: 2.0.0
   react: 18.2.0
   react-dom: 18.2.0
-  ts-loader: 9.4.2
+  ts-loader: 9.5.1
   typescript: 4.9.5
   webpack: 5.75.0
   webpack-cli: 5.0.1
@@ -37,7 +37,7 @@ devDependencies:
   babel-plugin-transform-imports: 2.0.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  ts-loader: 9.4.2_hhrrucqyg4eysmfpujvov2ym5u
+  ts-loader: 9.5.1_hhrrucqyg4eysmfpujvov2ym5u
   typescript: 4.9.5
   webpack: 5.75.0_webpack-cli@5.0.1
   webpack-cli: 5.0.1_webpack@5.75.0
@@ -6321,7 +6321,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -10364,8 +10364,8 @@ packages:
     engines: {node: '>=6.10'}
     dev: true
 
-  /ts-loader/9.4.2_hhrrucqyg4eysmfpujvov2ym5u:
-    resolution: {integrity: sha512-OmlC4WVmFv5I0PpaxYb+qGeGOdm5giHU7HwDDUjw59emP2UYMHy9fFSDcYgSNoH8sXcj4hGCSEhlDZ9ULeDraA==}
+  /ts-loader/9.5.1_hhrrucqyg4eysmfpujvov2ym5u:
+    resolution: {integrity: sha512-rNH3sK9kGZcH9dYzC7CewQm4NtxJTjSEVRJ2DyBZR7f8/wcta+iV44UPCXc5+nzDzivKtlzV6c9P4e+oFhDLYg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       typescript: '*'
@@ -10375,6 +10375,7 @@ packages:
       enhanced-resolve: 5.10.0
       micromatch: 4.0.5
       semver: 7.3.7
+      source-map: 0.7.4
       typescript: 4.9.5
       webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
