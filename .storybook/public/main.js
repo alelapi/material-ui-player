@@ -12,5 +12,12 @@ module.exports = {
   },
   "typescript": {
     "reactDocgen": false
-  }
+  },
+  "babel": async (options) => ({
+    ...options,
+    presets: [
+      ...(options.presets || []),
+      "@babel/preset-typescript"
+    ]
+  })
 }
