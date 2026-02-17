@@ -2,7 +2,7 @@
 
 [![NPM version][npm-image]][npm-url]
 ![Types included][types-image]
-[![install size](https://packagephobia.com/badge?p=material-ui-player@0.1.12)](https://packagephobia.com/result?p=material-ui-player@0.1.12)
+[![install size](https://packagephobia.com/badge?p=material-ui-player@2.0.0)](https://packagephobia.com/result?p=material-ui-player@2.0.0)
 [![minisize][min-image]][min-url]
 
 [npm-image]: https://img.shields.io/npm/v/material-ui-player.svg
@@ -98,13 +98,14 @@ Please note:
 - As required from Material UI you mast be sure to use this library's components inside a `<ThemeProvider>` wrapper, in order to use your [custom theme](https://mui.com/material-ui/customization/theming/).
 - This module has following peerDependencies:
 ```
-    "@mui/material": ">=5.0.0",
-    "@mui/styles": ">=5.0.0",
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "@emotion/react": ">=11.0.0",
+    "@emotion/styled": ">=11.0.0",
+    "@mui/material": ">=7.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
 ```
 
-NB: Still need to use Material UI 4? Use version 0.2.6
+NB: Still need to use Material UI 5? Use version 1.x. Material UI 4? Use version 0.2.6
   
 ### License
 

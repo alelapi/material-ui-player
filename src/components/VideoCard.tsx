@@ -10,72 +10,70 @@ import ControlKeys from './ControlKeys';
 import MediaTime from './MediaTime';
 import Progress from './Progress';
 import SpeedBar from './SpeedBar';
-import { Theme, useTheme } from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { styled, useTheme } from '@mui/material/styles';
 import { State } from '../state/types';
 import { MaterialUIMediaProps } from '../types';
 import { useMedia } from '../hooks';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        controls: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            [theme.breakpoints.down('md')]: {
-                justifyContent: 'space-between',
-                flexGrow: 1,
-            },
-            [theme.breakpoints.up('md')]: {
-                justifyContent: 'start',
-            },
-        },
-        bars: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            [theme.breakpoints.down('md')]: {
-                justifyContent: 'space-between',
-                flexGrow: 1,
-            },
-            [theme.breakpoints.up('md')]: {
-                justifyContent: 'start',
-            },
-        },
-        videoContainer: {
-            backgroundColor: theme.palette.common.black,
-            display: 'inline-block',
-        },
-        video: {
-            width: (props: StylesProps) => props.width,
-            height: (props: StylesProps) => props.height,
-        },
-        actions: {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            '&:last-child': {
-                paddingBottom: theme.spacing(1),
-            },
-        },
-        card: {
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: (props: StylesProps) => props.background || 'inherit'
-        },
-        cardContent: {
-            display: 'flex',
-            justifyContent: 'center',
-        }
-    })
-);
+const StyledCard = styled(Card, {
+    shouldForwardProp: (prop) => prop !== 'background',
+})<{ background?: string }>(({ background }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: background || 'inherit',
+}));
 
-interface StylesProps {
-    width?: number;
-    height: number;
-    background?: string;
-}
+const StyledCardContent = styled(CardContent)({
+    display: 'flex',
+    justifyContent: 'center',
+});
+
+const VideoContainer = styled('div')(({ theme }) => ({
+    backgroundColor: theme.palette.common.black,
+    display: 'inline-block',
+}));
+
+const StyledVideo = styled('video', {
+    shouldForwardProp: (prop) => prop !== 'videoWidth' && prop !== 'videoHeight',
+})<{ videoWidth?: number; videoHeight?: number }>(({ videoWidth, videoHeight }) => ({
+    width: videoWidth,
+    height: videoHeight,
+}));
+
+const StyledCardActions = styled(CardActions)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '&:last-child': {
+        paddingBottom: theme.spacing(1),
+    },
+}));
+
+const ControlsGrid = styled(Grid)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+        justifyContent: 'space-between',
+        flexGrow: 1,
+    },
+    [theme.breakpoints.up('md')]: {
+        justifyContent: 'start',
+    },
+}));
+
+const BarsGrid = styled(Grid)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+        justifyContent: 'space-between',
+        flexGrow: 1,
+    },
+    [theme.breakpoints.up('md')]: {
+        justifyContent: 'start',
+    },
+}));
 
 export interface VideoCardProps extends MaterialUIMediaProps {
     fadeSettings?: FadeSettings;
@@ -109,8 +107,6 @@ const VideoCard = (props: VideoCardProps) => {
         loop = !!props.loop,
         autoplay = !!props.autoplay,
     } = props;
-    const classes = useStyles({ width: state.width, height: state.height!, background: props.background });
-
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
             const videoUrl = await getUrl(props.src);
@@ -135,20 +131,21 @@ const VideoCard = (props: VideoCardProps) => {
     }, [autoplay, onPlay]);
 
     return (
-        <Card className={classes.card}>
-            <CardContent className={classes.cardContent}>
-                <div className={classes.videoContainer}>
-                    <video
+        <StyledCard background={props.background}>
+            <StyledCardContent>
+                <VideoContainer>
+                    <StyledVideo
                         style={{ opacity: state.fade }}
                         ref={player}
                         key={state.key}
-                        className={classes.video}
+                        videoWidth={state.width}
+                        videoHeight={state.height}
                     >
                         {state.url && <source type={getMimeType(state.url)} src={state.url} />}
-                    </video>
-                </div>
-            </CardContent>
-            <CardActions className={classes.actions} sx={{
+                    </StyledVideo>
+                </VideoContainer>
+            </StyledCardContent>
+            <StyledCardActions sx={{
                 paddingTop: theme.spacing(1),
                 paddingRight: theme.spacing(2),
                 paddingLeft: `calc(${thumbThick[thickness]/2}px + ${theme.spacing(2)})`,
@@ -158,10 +155,10 @@ const VideoCard = (props: VideoCardProps) => {
                     container
                     justifyContent="center"
                     alignItems="center"
+                    sx={{ width: '100%' }}
                 >
                     <Grid
-                        item
-                        xs={12}
+                        size={12}
                     >
                         <Progress
                             time={state.time}
@@ -170,11 +167,8 @@ const VideoCard = (props: VideoCardProps) => {
                             onProgressClick={async v => await setProgress(player.current, v)}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        md={6}
-                        xs={12}
-                        className={classes.controls}
+                    <ControlsGrid
+                        size={{ xs: 12, md: 6 }}
                     >
                         <MediaTime
                             time={state.time}
@@ -196,12 +190,9 @@ const VideoCard = (props: VideoCardProps) => {
                             PlayProps={props.PlayProps}
                             ForwardProps={props.ForwardProps}
                         />
-                    </Grid>
-                    <Grid
-                        item
-                        md={6}
-                        sm={12}
-                        className={classes.bars}
+                    </ControlsGrid>
+                    <BarsGrid
+                        size={{ xs: 12, md: 6 }}
                     >
                         {props.speed &&
                             <SpeedBar
@@ -216,10 +207,10 @@ const VideoCard = (props: VideoCardProps) => {
                             thickness={thickness}
                             MuteProps={props.MuteProps}
                         />
-                    </Grid>
+                    </BarsGrid>
                 </Grid>
-            </CardActions>
-        </Card>
+            </StyledCardActions>
+        </StyledCard>
     );
 }
 

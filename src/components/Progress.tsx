@@ -7,14 +7,15 @@ import { timeToPercentage, getSliderSizes } from '../lib/utils';
 const ProgressSlider = styled((props: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
     ...getSliderSizes(thickness, ({
         thumb: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
             display: thumb === false ? 'none' : 'block',
         },
         rail: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
         },
         track: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
+            borderColor: theme.palette[color || 'primary'].main,
         },
     }))
 }));

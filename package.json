@@ -1,6 +1,6 @@
 {
   "name": "material-ui-player",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "types": "dist/index.d.ts",
   "description": "React/Material-UI Audio and Video Components",
   "main": "dist/index.js",
@@ -10,8 +10,8 @@
   "scripts": {
     "prepublish": "tsc",
     "build": "webpack",
-    "storybook": "start-storybook -p 6006 -c .storybook",
-    "build-storybook": "build-storybook -c .storybook/public -o public"
+    "storybook": "storybook dev -p 6006 -c .storybook",
+    "build-storybook": "storybook build -c .storybook/public -o public"
   },
   "keywords": [
     "react",
@@ -31,25 +31,23 @@
   "author": "Alessio Lapi",
   "license": "MIT",
   "peerDependencies": {
-    "@mui/material": ">=5.0.0",
-    "@mui/styles": ">=5.0.0",
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "@emotion/react": ">=11.0.0",
+    "@emotion/styled": ">=11.0.0",
+    "@mui/material": ">=7.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.21.0",
-    "@babel/plugin-transform-typescript": "7.21.0",
-    "@babel/preset-env": "7.20.2",
-    "@babel/preset-react": "7.18.6",
-    "@mui/material": "5.11.10",
-    "@mui/styles": "5.11.9",
-    "@storybook/addon-essentials": "6.5.16",
-    "@storybook/addon-links": "6.5.16",
-    "@storybook/react": "6.5.16",
-    "@types/react": "18.0.28",
-    "@types/react-dom": "18.0.11",
-    "babel-loader": "9.1.2",
-    "babel-plugin-transform-imports": "2.0.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
+    "@mui/material": "7.0.2",
+    "@storybook/addon-essentials": "7.6.20",
+    "@storybook/addon-links": "7.6.20",
+    "@storybook/react": "7.6.20",
+    "@storybook/react-webpack5": "7.6.20",
+    "storybook": "7.6.20",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.25",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "ts-loader": "9.4.2",

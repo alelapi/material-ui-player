@@ -1,19 +1,15 @@
 import React from 'react';
 import { Time, TimeProps } from '../types';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material/styles';
 import { timeToString } from '../lib/utils';
-import { Theme } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        time: {
-            fontSize: (props?: TimeProps) => props?.fontSize || 16,
-            marginRight: theme.spacing(1),
-            marginLeft: theme.spacing(1),
-        },
-    })
-);
+const TimeRoot = styled('div', {
+    shouldForwardProp: (prop) => prop !== 'timeFontSize',
+})<{ timeFontSize?: number }>(({ theme, timeFontSize }) => ({
+    fontSize: timeFontSize || 16,
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+}));
 
 export interface MediaTimeProps {
     time: Time;
@@ -21,8 +17,7 @@ export interface MediaTimeProps {
 }
 
 const MediaTime = (props: MediaTimeProps) => {
-    const classes = useStyles(props.TimeProps);
-    return (<div className={classes.time}>{timeToString(props.time)}</div>);
+    return (<TimeRoot timeFontSize={props.TimeProps?.fontSize}>{timeToString(props.time)}</TimeRoot>);
 };
 
 export default MediaTime;

@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Slider, { SliderProps } from '@mui/material/Slider';
-import { Theme, styled, useTheme } from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { styled, useTheme } from '@mui/material/styles';
 import { MaterialUIColor, SliderThickness, IconButtonProps } from '../types';
 import { getSliderSizes } from '../lib/utils';
 import { VolumeOff, VolumeUp } from '../icons';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            maxWidth: theme.spacing(40),
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-            flexGrow: 1,
-        },
-    })
-);
+const Root = styled('div')(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    maxWidth: theme.spacing(40),
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    flexGrow: 1,
+}));
 
 interface ProgressSliderProps {
     color?: MaterialUIColor;
@@ -31,14 +25,15 @@ interface ProgressSliderProps {
 const VolumeSlider = styled((props: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
     ...getSliderSizes(thickness, ({
         thumb: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
             display: thumb === false ? 'none' : 'block',
         },
         rail: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
         },
         track: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
+            borderColor: theme.palette[color || 'primary'].main,
         },
     }))
 }));
@@ -53,7 +48,6 @@ const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
     const { mute, player, MuteProps, ...styles } = props;
     const [volumeBar, setVolumeBar] = useState(100);
     const [muted, setMuted] = useState(false);
-    const classes = useStyles();
     const theme = useTheme();
 
     const onVolumeChange = (_: any, newValue: number | number[]) => {
@@ -69,7 +63,7 @@ const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
     };
 
     return (
-        <div className={classes.root}>
+        <Root>
             {mute &&
                 <IconButton
                     color={styles.color || 'primary'}
@@ -91,7 +85,7 @@ const VolumeBar = (props: VolumeBarProps & ProgressSliderProps) => {
                     marginTop: theme.spacing(1),
                 }}
             />
-        </div>
+        </Root>
     );
 };
 

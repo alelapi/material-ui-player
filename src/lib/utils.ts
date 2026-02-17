@@ -84,6 +84,7 @@ export const getSliderSizes = (thickness?: SliderThickness, others?: any) =>
         height: lineThick[thickness || 'thin'],
         marginTop: lineMargin[thickness || 'thin'],
         borderRadius: lineThick[thickness || 'thin'],
+        opacity: 0.38,
         ...others.rail
     },
     '& .MuiSlider-track': {

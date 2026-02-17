@@ -8,58 +8,54 @@ import ControlKeys from './ControlKeys';
 import MediaTime from './MediaTime';
 import Progress from './Progress';
 import SpeedBar from './SpeedBar';
-import { Theme } from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material/styles';
 import { State } from '../state/types';
 import { MaterialUIMediaProps } from '../types';
 import { useMedia } from '../hooks';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        container: {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1),
-            '&:last-child': {
-                paddingBottom: theme.spacing(1),
-            },
-        },
-        card: {
-            width: '100%',
-            backgroundColor: (props: AudioCardProps) => props.background || 'inherit'
-        },
-        audio: {
-            display: 'none',
-        },
-        controls: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            [theme.breakpoints.down('md')]: {
-                justifyContent: 'space-between',
-                flexGrow: 1,
-            },
-            [theme.breakpoints.up('md')]: {
-                justifyContent: 'start',
-            },
-        },
-        bars: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            [theme.breakpoints.down('md')]: {
-                justifyContent: 'space-between',
-                flexGrow: 1,
-            },
-            [theme.breakpoints.up('md')]: {
-                justifyContent: 'start',
-            },
-        },
-    })
-);
+const StyledCard = styled(Card, {
+    shouldForwardProp: (prop) => prop !== 'background',
+})<{ background?: string }>(({ background }) => ({
+    width: '100%',
+    backgroundColor: background || 'inherit',
+}));
+
+const StyledCardContent = styled(CardContent)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    '&:last-child': {
+        paddingBottom: theme.spacing(1),
+    },
+}));
+
+const ControlsGrid = styled(Grid)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+        justifyContent: 'space-between',
+        flexGrow: 1,
+    },
+    [theme.breakpoints.up('md')]: {
+        justifyContent: 'start',
+    },
+}));
+
+const BarsGrid = styled(Grid)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+        justifyContent: 'space-between',
+        flexGrow: 1,
+    },
+    [theme.breakpoints.up('md')]: {
+        justifyContent: 'start',
+    },
+}));
 
 export interface AudioCardProps extends MaterialUIMediaProps {
     mute?: boolean;
@@ -89,7 +85,6 @@ const AudioCard = (props: AudioCardProps) => {
         loop = !!props.loop,
         autoplay = !!props.autoplay,
     } = props;
-    const classes = useStyles(props);
 
     const onPlay = useCallback(async () => {
         if (!player.current.src) {
@@ -114,17 +109,18 @@ const AudioCard = (props: AudioCardProps) => {
     }, [autoplay, onPlay]);
 
     return (
-        <Card className={classes.card}>
-            <CardContent className={classes.container}>
+        <StyledCard background={props.background}>
+            <StyledCardContent>
                 <Grid
                     container
                     justifyContent="center"
                     alignItems="center"
+                    sx={{ width: '100%' }}
                 >
                     <audio
                         ref={player}
                         key={state.key}
-                        className={classes.audio}
+                        style={{ display: 'none' }}
                     >
                         {state.url && <source
                             type={getMimeType(state.url)}
@@ -132,8 +128,7 @@ const AudioCard = (props: AudioCardProps) => {
                         />}
                     </audio>
                     <Grid
-                        item
-                        xs={12}
+                        size={12}
                     >
                         <Progress
                             time={state.time}
@@ -142,11 +137,8 @@ const AudioCard = (props: AudioCardProps) => {
                             onProgressClick={async v => await setProgress(player.current, v)}
                         />
                     </Grid>
-                    <Grid
-                        item
-                        md={6}
-                        xs={12}
-                        className={classes.controls}
+                    <ControlsGrid
+                        size={{ xs: 12, md: 6 }}
                     >
                         <MediaTime
                             time={state.time}
@@ -168,12 +160,9 @@ const AudioCard = (props: AudioCardProps) => {
                             PlayProps={props.PlayProps}
                             ForwardProps={props.ForwardProps}
                         />
-                    </Grid>
-                    <Grid
-                        item
-                        md={6}
-                        sm={12}
-                        className={classes.bars}
+                    </ControlsGrid>
+                    <BarsGrid
+                        size={{ xs: 12, md: 6 }}
                     >
                         {props.speed &&
                             <SpeedBar
@@ -189,10 +178,10 @@ const AudioCard = (props: AudioCardProps) => {
                             thickness={thickness}
                             MuteProps={props.MuteProps}
                         />
-                    </Grid>
+                    </BarsGrid>
                 </Grid>
-            </CardContent>
-        </Card>
+            </StyledCardContent>
+        </StyledCard>
     );
 };
 

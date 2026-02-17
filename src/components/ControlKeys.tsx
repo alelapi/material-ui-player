@@ -1,26 +1,21 @@
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import { IconButtonProps, MaterialUIColor } from '../types';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { styled } from '@mui/material/styles';
 import { Play, Pause, Stop, Rewind, Forward } from '../icons';
-import { Theme } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        controls: {
-            display: 'flex',
-            alignItems: 'center',
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-            [theme.breakpoints.down('sm')]: {
-                '& .MuiButtonBase-root': {
-                    padding: theme.spacing(1),
-                }
-            }
-        },
-    })
-);
+const ControlsRoot = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+        '& .MuiButtonBase-root': {
+            padding: theme.spacing(1),
+        }
+    }
+}));
+
 export interface ControlKeysProps {
     onPauseClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     onPlayClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -40,9 +35,8 @@ export interface ControlKeysProps {
 
 const ControlKeys = (props: ControlKeysProps) => {
     const { color = 'primary' } = props;
-    const classes = useStyles(props);
     return (
-        <div className={classes.controls}>
+        <ControlsRoot>
             {props.backward !== undefined &&
                 <IconButton
                     color={color}
@@ -91,7 +85,7 @@ const ControlKeys = (props: ControlKeysProps) => {
                     {props.ForwardProps?.icons?.[0] || <Forward />}
                 </IconButton>
             }
-        </div>
+        </ControlsRoot>
     );
 }
 

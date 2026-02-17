@@ -1,36 +1,31 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Slider, { SliderProps } from '@mui/material/Slider';
-import { Theme, styled, useTheme } from '@mui/material/styles';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { styled, useTheme } from '@mui/material/styles';
 import { MaterialUIColor, SliderThickness } from '../types';
 import { getSliderSizes } from '../lib/utils';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            display: 'flex',
-            flexDirection: 'row',
-            marginRight: theme.spacing(1),
-            marginLeft: theme.spacing(1),
-            alignItems: 'center',
-            flexGrow: 1,
-        },
-    })
-);
+const Root = styled('div')(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+    alignItems: 'center',
+    flexGrow: 1,
+}));
 
 const SpeedSlider = styled((props: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
     ...getSliderSizes(thickness, ({
         thumb: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
             display: thumb === false ? 'none' : 'block',
         },
         rail: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
         },
         track: {
-            color: theme.palette[color || 'primary'].main,
+            backgroundColor: theme.palette[color || 'primary'].main,
+            borderColor: theme.palette[color || 'primary'].main,
         },
     }))
 }));
@@ -49,7 +44,6 @@ const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
     const { player, ...styles } = props;
     const defaultSpeed: number = 50;
     const [speedBar, setSpeedBar] = useState(defaultSpeed);
-    const classes = useStyles();
     const theme = useTheme();
 
     const toSpeedValue = (speed: number) => speed * 0.018 + 0.1;
@@ -66,7 +60,7 @@ const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
     };
 
     return (
-        <div className={classes.root}>
+        <Root>
             <Button
                 color={styles.color || 'primary'}
                 variant="contained"
@@ -91,7 +85,7 @@ const SpeedBar = (props: SpeedBarProps & ProgressSliderProps) => {
                     marginTop: theme.spacing(1),
                 }}
             />
-        </div>
+        </Root>
     );
 };
 
