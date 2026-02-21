@@ -1,126 +1,44 @@
-# Material UI Player - Agent Guide
+# Material UI Player
 
-## Project Overview
+## Dev environment tips
+- Run `pnpm install` to set up dependencies. The project uses pnpm (CI uses `pnpm install --frozen-lockfile`).
+- Node 22 is used in CI. There is no `.nvmrc`, so just match that version.
+- Source lives entirely in `src/`. The entry point is `src/index.ts`, which re-exports `AudioCard`, `VideoCard`, and `SoundButton` from `src/components/`.
+- TypeScript strict mode is on (`tsconfig.json`). Fix all type errors before committing.
+- There is no linter or formatter configured. Follow the existing code style — no semicolons are used inconsistently, so just match what's already in the file you're editing.
+- Peer dependencies (`react`, `@mui/material`, `@emotion/react`, `@emotion/styled`) are externalized in the Webpack build. Never bundle them — they must stay in `peerDependencies`.
 
-React component library for audio and video playback styled with Material UI. Exports three components: `AudioCard`, `VideoCard`, and `SoundButton`.
+## Building
+- `pnpm run build` — runs Webpack, outputs `dist/index.js` (CommonJS). Run this to verify your changes compile.
+- `pnpm run prepublish` — runs `tsc` only (generates `.d.ts` type declarations into `dist/`).
+- If the build fails, check TypeScript errors first. The Webpack config uses `ts-loader`, so TS errors will block the build.
 
-- **Package**: `material-ui-player` (v2.0.0)
-- **Language**: TypeScript
-- **Framework**: React 18+ with Material UI 7+
-- **Build**: Webpack 5 (output: CommonJS)
-- **Docs**: Storybook 7
+## Storybook
+- `pnpm run storybook` — starts Storybook dev server on port 6006. This is the primary way to visually test components.
+- Stories are in `src/stories/`. Public-facing stories live in `src/stories/public/`.
+- `pnpm run build-storybook` — builds static Storybook into `public/`. This is what CI deploys to GitHub Pages.
+- When adding or changing a component's props, update or add the relevant story in `src/stories/` so the change is visible.
 
-## Repository Structure
+## Testing
+- There is no test suite. No Jest, Vitest, or Testing Library.
+- Validate changes by running `pnpm run build` (must succeed) and checking behavior in Storybook (`pnpm run storybook`).
 
-```
-src/
-├── components/         # Exported components + internal sub-components
-│   ├── AudioCard.tsx   # Full audio player with controls
-│   ├── VideoCard.tsx   # Full video player with controls
-│   ├── SoundButton.tsx # Simple play-audio icon button
-│   ├── ControlKeys.tsx # Play/Pause/Stop/Forward/Backward buttons
-│   ├── Progress.tsx    # Seek slider
-│   ├── VolumeBar.tsx   # Volume slider + mute
-│   ├── SpeedBar.tsx    # Playback speed control
-│   └── MediaTime.tsx   # Time display (current / duration)
-├── hooks/
-│   └── useMedia.ts     # Core hook: manages playback state via useReducer
-├── state/
-│   ├── types.ts        # Action type constants
-│   └── reducer.ts      # Reducer handling PLAY, PAUSE, UPDATE_TIME, etc.
-├── icons/              # Custom SVG icon components (Play, Pause, Stop, etc.)
-├── lib/
-│   └── utils.ts        # Time formatting, MIME detection, slider sizing, fade math
-├── types/
-│   └── index.ts        # Public TypeScript interfaces and types
-├── stories/            # Storybook stories (public/ = exported API demos)
-└── index.ts            # Package entry point (re-exports the 3 components)
-```
+## Project structure
+- `src/components/` — all React components. `AudioCard`, `VideoCard`, `SoundButton` are exported; the rest (`ControlKeys`, `Progress`, `VolumeBar`, `SpeedBar`, `MediaTime`) are internal.
+- `src/hooks/useMedia.ts` — core hook that manages playback state via `useReducer`. All player logic flows through here.
+- `src/state/` — reducer and action types for the player state machine.
+- `src/types/index.ts` — all public TypeScript interfaces (`MaterialUIMediaProps`, `BaseProps`, `IconButtonProps`, etc.). Update this file when changing component APIs.
+- `src/icons/` — custom SVG icon components. These are used instead of `@mui/icons-material`.
+- `src/lib/utils.ts` — utility functions (time formatting, MIME detection, slider sizing, fade math).
 
-## Key Commands
+## CI
+- GitHub Actions workflow in `.github/workflows/main.yml`. Triggers on push to `master`.
+- CI only builds Storybook and deploys to gh-pages. There are no test or lint steps in CI.
+- Make sure `pnpm run build-storybook` succeeds before pushing to master.
 
-```bash
-# Build the library (TypeScript → dist/)
-npm run build
-
-# Start Storybook dev server on port 6006
-npm run storybook
-
-# Build static Storybook site to public/
-npm run build-storybook
-```
-
-There is no test suite configured.
-
-## Architecture
-
-### State Management
-
-Each player instance uses `useReducer` with a local reducer (`src/state/reducer.ts`). The `useMedia` hook (`src/hooks/useMedia.ts`) wraps the reducer and exposes actions: `play`, `pause`, `stop`, `setCurrentTime`, `setProgress`, `load`, `setSize`.
-
-Playback time updates are driven by `setInterval` during play, dispatching `UPDATE_TIME` on each tick.
-
-### Source Resolution
-
-The `src` prop accepts four forms:
-- `string` — direct URL
-- `Promise<string>` — resolved when play is clicked
-- `() => string` — called on play
-- `() => Promise<string>` — called on play, then awaited
-
-This deferred resolution enables dynamic URLs (e.g., Firebase Storage signed URLs).
-
-### Component Hierarchy
-
-```
-AudioCard / VideoCard
-├── <audio> / <video>     (hidden/visible HTML element)
-├── Progress              (seek slider)
-├── ControlKeys           (play/pause/stop/fwd/bwd buttons)
-├── VolumeBar             (volume slider + mute)
-├── SpeedBar              (playback rate)
-└── MediaTime             (time display)
-
-SoundButton
-└── IconButton + hidden <audio>
-```
-
-### Styling
-
-Components use Material UI's `sx` prop and `Grid` layout. Slider appearance is customized via the `thickness` prop (`thin` | `medium` | `large`), which maps to pixel values in `utils.ts`. The `color` prop (`primary` | `secondary`) passes through to MUI components. All components must be rendered inside a MUI `<ThemeProvider>`.
-
-### Video Fade Effect
-
-`VideoCard` supports optional `fadeSettings` (`{ fadeInTime, fadeOutTime }`) that adjust the video element's opacity at the beginning and end of playback, calculated in `utils.ts:getFade()`.
-
-## Peer Dependencies
-
-```
-@emotion/react   >= 11.0.0
-@emotion/styled   >= 11.0.0
-@mui/material     >= 7.0.0
-react             >= 18.0.0
-react-dom         >= 18.0.0
-```
-
-These are externalized in the Webpack build and must be provided by the consuming application.
-
-## Public API
-
-Exports from `material-ui-player`:
-
-| Export | Description |
-|---|---|
-| `AudioCard` | Audio player card with full controls |
-| `VideoCard` | Video player card with full controls and optional fade |
-| `SoundButton` | Minimal icon button for short audio playback |
-
-All prop interfaces are defined in `src/types/index.ts`. Key interfaces: `MaterialUIMediaProps` (shared AudioCard/VideoCard props), `BaseProps` (shared by all), `IconButtonProps` (button customization), `FadeSettings` (video fade config).
-
-## Conventions
-
-- Components are default-exported from their files, then re-exported as named exports from `src/index.ts`.
-- Internal sub-components (`ControlKeys`, `Progress`, etc.) are not exported from the package.
-- Icons are custom SVG components in `src/icons/`, not imported from `@mui/icons-material`.
-- No external state libraries — all state is local via `useReducer`.
-- No test framework is set up; interactive testing is done through Storybook.
+## Common patterns
+- Components are default-exported from their files, then named-exported from `src/index.ts`.
+- The `src` prop on all components accepts `string | Promise<string> | (() => string) | (() => Promise<string>)`. URL resolution is deferred until the user clicks play — keep this pattern for any new source handling.
+- State changes go through the reducer in `src/state/reducer.ts`. Don't mutate state directly in components.
+- Styling uses MUI's `sx` prop and `Grid` layout. No CSS files, no styled-components beyond what MUI provides.
+- All components must be rendered inside a MUI `<ThemeProvider>`. Don't add standalone styling that bypasses the theme.
