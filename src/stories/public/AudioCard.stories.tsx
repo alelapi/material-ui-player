@@ -79,7 +79,7 @@ const Template: Story<AudioCardProps> = (args) => <AudioCard {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-    src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    src: '/file_example.mp3',
 };
 
 export const FirebaseStorage = Template.bind({});
@@ -87,7 +87,7 @@ FirebaseStorage.args = {
     src: new Promise((resolve) => {
         //simulate get downloadURL
         setTimeout(() => {
-            resolve('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')
+            resolve('/file_example.mp3')
         }, 500);
     }),
 };

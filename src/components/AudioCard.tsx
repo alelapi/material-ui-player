@@ -58,7 +58,6 @@ const BarsGrid = styled(Grid)(({ theme }) => ({
 }));
 
 export interface AudioCardProps extends MaterialUIMediaProps {
-    mute?: boolean;
 }
 
 const getInitialState = (props: AudioCardProps): State => ({
@@ -90,6 +89,9 @@ const AudioCard = (props: AudioCardProps) => {
         if (!player.current.src) {
             const audioUrl = await getUrl(props.src);
             load(player.current, audioUrl);
+            await new Promise<void>((resolve) => {
+                player.current.oncanplay = () => resolve();
+            });
         }
 
         await play(player.current);

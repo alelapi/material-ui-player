@@ -111,7 +111,12 @@ const VideoCard = (props: VideoCardProps) => {
         if (!player.current.src) {
             const videoUrl = await getUrl(props.src);
             load(player.current, videoUrl);
-            player.current.onloadedmetadata = () => setSize(player.current);
+            await new Promise<void>((resolve) => {
+                player.current.onloadedmetadata = () => {
+                    setSize(player.current);
+                    resolve();
+                };
+            });
         }
 
         await play(player.current);
@@ -205,6 +210,7 @@ const VideoCard = (props: VideoCardProps) => {
                             player={player.current}
                             color={color}
                             thickness={thickness}
+                            mute={props.mute}
                             MuteProps={props.MuteProps}
                         />
                     </BarsGrid>

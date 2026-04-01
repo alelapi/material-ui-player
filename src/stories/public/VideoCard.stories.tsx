@@ -79,7 +79,7 @@ const Template: Story<VideoCardProps> = (args) => <VideoCard {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-    src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    src: '/file_example.mp4',
     width: 500,
 };
 
@@ -88,7 +88,7 @@ FirebaseStorage.args = {
     src: new Promise((resolve) => {
         //simulate get downloadURL
         setTimeout(() => {
-            resolve('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')
+            resolve('/file_example.mp4')
         }, 500);
     }),
     width: 500,

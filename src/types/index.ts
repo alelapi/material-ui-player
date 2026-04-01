@@ -23,6 +23,7 @@ export interface MaterialUIMediaProps extends BaseProps {
     autoplay?: boolean;
     loop?: boolean;
     width?: number;
+    mute?: boolean;
     speed?: boolean;
     thickness?: SliderThickness;
     BackwardProps?: IconButtonProps;

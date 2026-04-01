@@ -6,7 +6,7 @@ const getTime = (n: number): string => {
     return seconds >= 3600 ? dateString.substr(11, 8) : dateString.substr(14, 5);
 };
 
-export const timeToPercentage = (time?: Time): number => time ? (time.currentTime / time.duration) * 100 : 0;
+export const timeToPercentage = (time?: Time): number => (time && Number.isFinite(time.duration) && time.duration > 0) ? (time.currentTime / time.duration) * 100 : 0;
 export const timeToString = (time: Time): string => `${getTime(time.currentTime)}/${getTime(time.duration)}`;
 
 export const getMimeType = (url: string): string => {

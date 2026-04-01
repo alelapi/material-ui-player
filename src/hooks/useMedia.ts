@@ -46,13 +46,23 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     }, []);
 
     const play = useCallback(async (el: HTMLMediaElement) => {
+        const intervalId = setInterval(() => {
+            setCurrentTime(el)
+        }, 50);
         dispatch({
             type: ActionType.PLAY,
-            payload: setInterval(() => {
-                setCurrentTime(el)
-            }, 50),
+            payload: intervalId,
         });
-        await el.play();
+        try {
+            await el.play();
+        } catch (e) {
+            if (e instanceof DOMException && e.name === 'AbortError') {
+                clearInterval(intervalId);
+                dispatch({ type: ActionType.PAUSE });
+                return;
+            }
+            throw e;
+        }
     }, [setCurrentTime]);
 
     const stop = useCallback((el: HTMLMediaElement) => {

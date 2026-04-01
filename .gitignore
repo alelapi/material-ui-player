@@ -2,4 +2,4 @@
 /dist
 *.log
 /storybook-static
-public
+/public
