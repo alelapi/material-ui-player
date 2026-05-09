@@ -1,9 +1,9 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import MediaTime, { MediaTimeProps } from '../components/MediaTime';
+import type { Meta, StoryObj } from '@storybook/react';
+import MediaTime from '../components/MediaTime';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default {
+const meta: Meta<typeof MediaTime> = {
     title: 'Components/MediaTime',
     component: MediaTime,
     decorators: [
@@ -12,15 +12,17 @@ export default {
             <Story />
           </ThemeProvider>
         ),
-      ],
-} as Meta;
+    ],
+};
 
-const Template: Story<MediaTimeProps> = (args) => <MediaTime {...args} />;
+export default meta;
+type Story = StoryObj<typeof MediaTime>;
 
-export const Default = Template.bind({});
-Default.args = {
-    time: {
-        currentTime: 12,
-        duration: 87
+export const Default: Story = {
+    args: {
+        time: {
+            currentTime: 12,
+            duration: 87,
+        },
     },
 };

@@ -1,10 +1,9 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-
-import SpeedBar, { SpeedBarProps } from '../components/SpeedBar';
+import type { Meta, StoryObj } from '@storybook/react';
+import SpeedBar from '../components/SpeedBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default {
+const meta: Meta<typeof SpeedBar> = {
     title: 'Components/SpeedBar',
     component: SpeedBar,
     decorators: [
@@ -13,29 +12,30 @@ export default {
             <Story />
           </ThemeProvider>
         ),
-      ],
+    ],
+    args: {
+        color: 'primary',
+        thickness: 'medium',
+    },
     argTypes: {
         color: {
-            defaultValue: 'primary',
-            control: {
-                type: 'radio',
-            },
-            options: ['primary', 'secondary']
+            control: { type: 'radio' },
+            options: ['primary', 'secondary'],
         },
         thickness: {
-            defaultValue: 'medium',
-            control: {
-                type: 'radio',
-            },
-            options: ['thin', 'medium', 'large']
-        }
-    }
-} as Meta;
+            control: { type: 'radio' },
+            options: ['thin', 'medium', 'large'],
+        },
+    },
+};
+
+export default meta;
+type Story = StoryObj<typeof SpeedBar>;
 
 const mediaPlayer = new Audio();
-const Template: Story<SpeedBarProps> = (args) => <SpeedBar {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
-    player: mediaPlayer,
+export const Default: Story = {
+    args: {
+        player: mediaPlayer,
+    },
 };

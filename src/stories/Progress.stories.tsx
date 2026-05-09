@@ -1,44 +1,44 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import Progress, { ProgressProps } from '../components/Progress';
+import type { Meta, StoryObj } from '@storybook/react';
+import Progress from '../components/Progress';
 
-export default {
+const meta: Meta<typeof Progress> = {
     title: 'Components/Progress',
     component: Progress,
+    args: {
+        color: 'primary',
+        thickness: 'medium',
+    },
     argTypes: {
-        onChange: {
-            action: 'changed'
-        },
+        onProgressClick: { action: 'changed' },
         color: {
-            defaultValue: 'primary',
-            control: {
-                type: 'radio',
-            },
-            options: ['primary', 'secondary']
+            control: { type: 'radio' },
+            options: ['primary', 'secondary'],
         },
         thickness: {
-            defaultValue: 'medium',
-            control: {
-                type: 'radio',
-            },
-            options: ['thin', 'medium', 'large']
-        }
-    }
-} as Meta;
-
-const Template: Story<ProgressProps> = (args) => <Progress {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-    time: {
-        currentTime: 12,
-        duration: 87
+            control: { type: 'radio' },
+            options: ['thin', 'medium', 'large'],
+        },
     },
 };
-export const Reset = Template.bind({});
-Reset.args = {
-    time: {
-        currentTime: 0,
-        duration: 87
+
+export default meta;
+type Story = StoryObj<typeof Progress>;
+
+export const Default: Story = {
+    args: {
+        time: {
+            currentTime: 12,
+            duration: 87,
+        },
+    },
+};
+
+export const Reset: Story = {
+    args: {
+        time: {
+            currentTime: 0,
+            duration: 87,
+        },
     },
 };

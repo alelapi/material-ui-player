@@ -158,9 +158,7 @@ const VideoCard = (props: VideoCardProps) => {
             }}>
                 <Grid
                     container
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={{ width: '100%' }}
+                    sx={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
                 >
                     <Grid
                         size={12}

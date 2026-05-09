@@ -1,9 +1,9 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import ControlKeys, { ControlKeysProps } from '../components/ControlKeys';
+import type { Meta, StoryObj } from '@storybook/react';
+import ControlKeys from '../components/ControlKeys';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default {
+const meta: Meta<typeof ControlKeys> = {
     title: 'Components/ControlKeys',
     component: ControlKeys,
     decorators: [
@@ -12,50 +12,44 @@ export default {
             <Story />
           </ThemeProvider>
         ),
-      ],
+    ],
+    args: {
+        color: 'primary',
+    },
     argTypes: {
-        onPauseClick: {
-            action: 'pause'
-        },
-        onPlayClick: {
-            action: 'play'
-        },
-        onForwardClick: {
-            action: 'forward'
-        },
-        onBackwardClick: {
-            action: 'backward'
-        },
-        onStopClick: {
-            action: 'stop'
-        },
+        onPauseClick: { action: 'pause' },
+        onPlayClick: { action: 'play' },
+        onForwardClick: { action: 'forward' },
+        onBackwardClick: { action: 'backward' },
+        onStopClick: { action: 'stop' },
         color: {
-            defaultValue: 'primary',
-            control: {
-                type: 'radio',
-            },
-            options: ['primary', 'secondary']
+            control: { type: 'radio' },
+            options: ['primary', 'secondary'],
         },
-    }
-} as Meta;
-
-const Template: Story<ControlKeysProps> = (args) => <ControlKeys {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-    backward: true,
-    forward: true,
-    playing: false
+    },
 };
 
-export const Playing = Template.bind({});
-Playing.args = {
-    backward: true,
-    forward: true,
-    playing: true
+export default meta;
+type Story = StoryObj<typeof ControlKeys>;
+
+export const Default: Story = {
+    args: {
+        backward: true,
+        forward: true,
+        playing: false,
+    },
 };
 
-export const NoBackwardAndForward = Template.bind({});
-NoBackwardAndForward.args = {
-    playing: false
+export const Playing: Story = {
+    args: {
+        backward: true,
+        forward: true,
+        playing: true,
+    },
+};
+
+export const NoBackwardAndForward: Story = {
+    args: {
+        playing: false,
+    },
 };

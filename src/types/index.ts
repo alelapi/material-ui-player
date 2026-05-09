@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface Time {
     currentTime: number;
     duration: number;
@@ -37,7 +39,7 @@ export interface MaterialUIMediaProps extends BaseProps {
 
 export interface IconButtonProps {
     attributes?: Record<string, any>;
-    icons?: Array<JSX.Element>;
+    icons?: Array<React.ReactElement>;
 }
 
 export interface TimeProps {

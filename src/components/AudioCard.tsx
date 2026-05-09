@@ -115,9 +115,7 @@ const AudioCard = (props: AudioCardProps) => {
             <StyledCardContent>
                 <Grid
                     container
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={{ width: '100%' }}
+                    sx={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
                 >
                     <audio
                         ref={player}

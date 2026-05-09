@@ -1,10 +1,9 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-
-import VolumeBar, { VolumeBarProps } from '../components/VolumeBar';
+import type { Meta, StoryObj } from '@storybook/react';
+import VolumeBar from '../components/VolumeBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default {
+const meta: Meta<typeof VolumeBar> = {
     title: 'Components/VolumeBar',
     component: VolumeBar,
     decorators: [
@@ -13,42 +12,42 @@ export default {
             <Story />
           </ThemeProvider>
         ),
-      ],
+    ],
+    args: {
+        color: 'primary',
+        thickness: 'medium',
+        mute: true,
+    },
     argTypes: {
         color: {
-            defaultValue: 'primary',
-            control: {
-                type: 'radio',
-            },
-            options: ['primary', 'secondary']
+            control: { type: 'radio' },
+            options: ['primary', 'secondary'],
         },
         mute: {
-            defaultValue: true,
-            control: {
-                type: 'radio',
-            },
-            options: [true, false]
+            control: { type: 'radio' },
+            options: [true, false],
         },
         thickness: {
-            defaultValue: 'medium',
-            control: {
-                type: 'radio',
-            },
-            options: ['thin', 'medium', 'large']
-        }
-    }
-} as Meta;
-
-const mediaPlayer = new Audio();
-const Template: Story<VolumeBarProps> = (args) => <VolumeBar {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-    player: mediaPlayer,
+            control: { type: 'radio' },
+            options: ['thin', 'medium', 'large'],
+        },
+    },
 };
 
-export const HideMute = Template.bind({});
-HideMute.args = {
-    player: mediaPlayer,
-    mute: false,
+export default meta;
+type Story = StoryObj<typeof VolumeBar>;
+
+const mediaPlayer = new Audio();
+
+export const Default: Story = {
+    args: {
+        player: mediaPlayer,
+    },
+};
+
+export const HideMute: Story = {
+    args: {
+        player: mediaPlayer,
+        mute: false,
+    },
 };

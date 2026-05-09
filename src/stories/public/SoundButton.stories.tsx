@@ -1,38 +1,38 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import SoundButton, { SoundButtonProps } from '../../components/SoundButton';
+import type { Meta, StoryObj } from '@storybook/react';
+import SoundButton from '../../components/SoundButton';
 
-export default {
+const meta: Meta<typeof SoundButton> = {
     title: 'Components/SoundButton',
     component: SoundButton,
+    args: {
+        color: 'primary',
+    },
     argTypes: {
         color: {
-            defaultValue: 'primary',
-            control: {
-                type: 'radio',
-            },
-            options: ['primary', 'secondary']
+            control: { type: 'radio' },
+            options: ['primary', 'secondary'],
         },
-        onEnded: {
-            action: 'end'
-        },
-    }
-} as Meta;
-
-const Template: Story<SoundButtonProps> = (args) => <SoundButton {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-    src: '/file_example.mp3',
+        onEnded: { action: 'end' },
+    },
 };
 
-export const FirebaseStorage = Template.bind({});
-FirebaseStorage.args = {
-    src: new Promise((resolve) => {
-        //simulate get downloadURL
-        setTimeout(() => {
-            resolve('/file_example.mp3')
-        }, 500);
-    }),
-    color: 'secondary'
+export default meta;
+type Story = StoryObj<typeof SoundButton>;
+
+export const Default: Story = {
+    args: {
+        src: '/file_example.mp3',
+    },
+};
+
+export const FirebaseStorage: Story = {
+    args: {
+        src: new Promise((resolve) => {
+            setTimeout(() => {
+                resolve('/file_example.mp3');
+            }, 500);
+        }),
+        color: 'secondary',
+    },
 };
