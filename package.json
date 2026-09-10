@@ -40,7 +40,7 @@
   "devDependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
-    "@mui/material": "9.0.1",
+    "@mui/material": "9.4.0",
     "@storybook/addon-links": "10.3.6",
     "@storybook/addon-webpack5-compiler-swc": "4.0.3",
     "@storybook/react": "10.3.6",
