@@ -1,0 +1,7 @@
+# pnpm 11+ removed `onlyBuiltDependencies` and no longer reads the `pnpm`
+# field in package.json; build approvals live here as an `allowBuilds` map.
+# Both entries are transitive deps of storybook (@swc/core via
+# @storybook/addon-webpack5-compiler-swc, esbuild via storybook core).
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
