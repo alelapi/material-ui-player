@@ -3,3 +3,4 @@
 *.log
 /storybook-static
 /public
+.storybook/.DS_Store
