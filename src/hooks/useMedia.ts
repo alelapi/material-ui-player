@@ -9,9 +9,8 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
 
     const pause = useCallback((el: HTMLMediaElement) => {
         el.pause();
-        state.playerTimeout && clearInterval(state.playerTimeout);
         dispatch({ type: ActionType.PAUSE });
-    }, [state.playerTimeout]);
+    }, []);
 
     const setCurrentTime = useCallback((el: HTMLMediaElement, value?: number) => {
         const currentFade = fadeSettings ? getFade(fadeSettings, el.duration, el.currentTime) : 1;
@@ -46,19 +45,15 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     }, []);
 
     const play = useCallback(async (el: HTMLMediaElement) => {
-        const intervalId = setInterval(() => {
-            setCurrentTime(el)
-        }, 50);
-        dispatch({
-            type: ActionType.PLAY,
-            payload: intervalId,
-        });
+        // timeupdate also fires on seeks, so the UI stays in sync without polling
+        el.ontimeupdate = () => setCurrentTime(el);
+        dispatch({ type: ActionType.PLAY });
         try {
             await el.play();
         } catch (e) {
-            if (e instanceof DOMException && e.name === 'AbortError') {
-                clearInterval(intervalId);
-                dispatch({ type: ActionType.PAUSE });
+            dispatch({ type: ActionType.PAUSE });
+            // AbortError: play() interrupted by a new load; NotAllowedError: autoplay blocked by the browser
+            if (e instanceof DOMException && (e.name === 'AbortError' || e.name === 'NotAllowedError')) {
                 return;
             }
             throw e;
@@ -105,21 +100,19 @@ const useMedia = (initialState: State, fadeSettings?: FadeSettings) => {
     }, []);
 
     useEffect(() => {
+        if (Object.is(state.src, initialState.src)) return;
         dispatch({
             type: ActionType.RELOAD,
             payload: initialState,
         });
+        // `initialState` is rebuilt by callers on every render and `state.src` must
+        // stay the pre-reload value — only the src identity is a valid trigger here.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialState.src]);
 
     useEffect(() => {
         updateSrc(state.src);
     }, [state.src, updateSrc]);
-
-    useEffect(() => {
-        return () => {
-            state.playerTimeout && clearInterval(state.playerTimeout);
-        }
-    }, [state.playerTimeout]);
 
     return { state, pause, stop, setCurrentTime, load, play, setProgress, setSize };
 }

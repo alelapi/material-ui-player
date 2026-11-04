@@ -14,7 +14,7 @@ const Root = styled('div')(({ theme }) => ({
     flexGrow: 1,
 }));
 
-const SpeedSlider = styled((props: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
+const SpeedSlider = styled(({ thickness, thumb, ...props }: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
     ...getSliderSizes(thickness, ({
         thumb: {
             backgroundColor: theme.palette[color || 'primary'].main,

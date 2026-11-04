@@ -23,6 +23,5 @@ export interface State {
     height?: number;
     width?: number;
     time: Time;
-    playerTimeout: ReturnType<typeof setInterval> | null;
     src: string | Promise<string> | (() => Promise<string>) | (() => string);
 }

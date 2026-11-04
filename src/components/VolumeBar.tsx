@@ -22,7 +22,7 @@ interface ProgressSliderProps {
     thumb?: boolean;
 }
 
-const VolumeSlider = styled((props: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
+const VolumeSlider = styled(({ thickness, thumb, ...props }: ProgressSliderProps & SliderProps) => <Slider {...props}/>)(({ theme, thickness, color, thumb }) => ({
     ...getSliderSizes(thickness, ({
         thumb: {
             backgroundColor: theme.palette[color || 'primary'].main,

@@ -2,16 +2,17 @@
 
 ## Dev environment tips
 - Run `pnpm install` to set up dependencies. The project uses pnpm (CI uses `pnpm install --frozen-lockfile`).
-- Node 22 is used in CI. There is no `.nvmrc`, so just match that version.
+- Node 24 is used in CI. There is no `.nvmrc`, so just match that version.
+- CI installs pnpm with `pnpm/action-setup` — local pnpm 10 and CI pnpm 12 read different build-approval config: `allowBuilds` in `pnpm-workspace.yaml` (pnpm 12) and `pnpm.onlyBuiltDependencies` in `package.json` (pnpm 10). Keep both in sync.
 - Source lives entirely in `src/`. The entry point is `src/index.ts`, which re-exports `AudioCard`, `VideoCard`, and `SoundButton` from `src/components/`.
-- TypeScript strict mode is on (`tsconfig.json`). Fix all type errors before committing.
-- There is no linter or formatter configured. Follow the existing code style — no semicolons are used inconsistently, so just match what's already in the file you're editing.
-- Peer dependencies (`react`, `@mui/material`, `@emotion/react`, `@emotion/styled`) are externalized in the Webpack build. Never bundle them — they must stay in `peerDependencies`.
+- TypeScript strict mode is on (`tsconfig.json`). Fix all type errors before committing (`pnpm run typecheck`).
+- ESLint is configured in `eslint.config.mjs` (typescript-eslint + react-hooks). Run `pnpm run lint`; it must pass with zero errors.
+- Peer dependencies (`react`, `@mui/material`, `@emotion/react`, `@emotion/styled`) are externalized in the tsup build (`tsup.config.ts`). Never bundle them — they must stay in `peerDependencies`.
 
 ## Building
-- `pnpm run build` — runs Webpack, outputs `dist/index.js` (CommonJS). Run this to verify your changes compile.
-- `pnpm run prepublish` — runs `tsc` only (generates `.d.ts` type declarations into `dist/`).
-- If the build fails, check TypeScript errors first. The Webpack config uses `ts-loader`, so TS errors will block the build.
+- `pnpm run build` — runs tsup, outputs `dist/index.js` (CJS), `dist/index.mjs` (ESM), and bundled type declarations (`index.d.ts`/`index.d.mts`). Run this to verify your changes compile.
+- `pnpm run typecheck` — runs `tsc --noEmit` over `src/` (tsup uses esbuild and does not type-check on its own).
+- `prepublishOnly` runs the build automatically before `npm publish`.
 
 ## Storybook
 - `pnpm run storybook` — starts Storybook dev server on port 6006. This is the primary way to visually test components.
@@ -20,8 +21,10 @@
 - When adding or changing a component's props, update or add the relevant story in `src/stories/` so the change is visible.
 
 ## Testing
-- There is no test suite. No Jest, Vitest, or Testing Library.
-- Validate changes by running `pnpm run build` (must succeed) and checking behavior in Storybook (`pnpm run storybook`).
+- `pnpm run test` — runs the Vitest suite (jsdom environment, config in `vitest.config.mts`). Tests are colocated with the code (`src/**/*.test.{ts,tsx}`).
+- `useMedia` is tested with `renderHook` from `@testing-library/react` and fake media-element objects — the hook's functions take the element as an argument, so no real `<audio>` is needed.
+- When creating hook test state, build the initial state object once per test, not inside the `renderHook` callback: a fresh `src` identity on every render is treated as a source change and reloads in a loop.
+- Also validate changes by running `pnpm run build` (must succeed) and checking behavior in Storybook (`pnpm run storybook`).
 
 ## Project structure
 - `src/components/` — all React components. `AudioCard`, `VideoCard`, `SoundButton` are exported; the rest (`ControlKeys`, `Progress`, `VolumeBar`, `SpeedBar`, `MediaTime`) are internal.
@@ -33,7 +36,7 @@
 
 ## CI
 - GitHub Actions workflow in `.github/workflows/main.yml`. Triggers on push to `master`.
-- CI only builds Storybook and deploys to gh-pages. There are no test or lint steps in CI.
+- CI only builds Storybook and deploys to gh-pages. There are no test or lint steps in CI — run `pnpm run lint`, `pnpm run test`, and `pnpm run typecheck` locally before pushing.
 - Make sure `pnpm run build-storybook` succeeds before pushing to master.
 
 ## Common patterns

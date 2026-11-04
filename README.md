@@ -74,6 +74,7 @@ Prop | Description | Default | Component
 `fadeSettings` | Object with `fadeInTime` and `fadeOutTime` (number, seconds) to fadein and fadeout video | `undefined` | VideoCard
 `thickness` | Set sliders line thickness (`thin`, `medium` or `large`) | `medium` | AudioCard, VideoCard
 `background` | Set container card background | `inherit` | all
+`color` | Set controls color: any standard MUI palette color (`primary`, `secondary`, `error`, `info`, `success`, `warning`) | `primary` | all
 `PlayProps` | enable customization using Material UI IconButton props | `undefined` | all
 `BackwardProps`, `StopProps`, `PauseProps`, `ForwardProps`, `MuteProps` | enable customization using Material UI IconButton props | `undefined` | AudioCard, VideoCard
 
@@ -95,12 +96,13 @@ Try it using the [storyboard](https://alelapi.github.io/material-ui-player/)
 ### Note
 
 Please note:
-- As required from Material UI you mast be sure to use this library's components inside a `<ThemeProvider>` wrapper, in order to use your [custom theme](https://mui.com/material-ui/customization/theming/).
+- As required from Material UI you must be sure to use this library's components inside a `<ThemeProvider>` wrapper, in order to use your [custom theme](https://mui.com/material-ui/customization/theming/).
+- When passing a function or a `fetch(...)` Promise as `src`, memoize it (e.g. with `useCallback`/`useMemo`): a new `src` identity on every parent render is treated as a source change and resets the player.
 - This module has following peerDependencies:
 ```
     "@emotion/react": ">=11.0.0",
     "@emotion/styled": ">=11.0.0",
-    "@mui/material": ">=7.0.0",
+    "@mui/material": ">=9.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
 ```

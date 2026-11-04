@@ -22,7 +22,6 @@ const reducer = (state: State, action: StateAction): State => {
             return {
                 ...state,
                 playing: true,
-                playerTimeout: action.payload,
             };
         case ActionType.UPDATE_KEY:
             return {

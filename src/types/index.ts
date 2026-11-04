@@ -46,6 +46,6 @@ export interface TimeProps {
     fontSize?: number;
 }
 
-export type MaterialUIColor = 'primary' | 'secondary';
+export type MaterialUIColor = 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
 
 export type SliderThickness = 'thin' | 'medium' | 'large';

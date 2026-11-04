@@ -3,19 +3,26 @@ import { FadeSettings, Time, SliderThickness } from '../types';
 const getTime = (n: number): string => {
     const seconds: number = !Number.isFinite(n) ? 0 : Math.trunc(n);
     const dateString: string = new Date(seconds * 1000).toISOString();
-    return seconds >= 3600 ? dateString.substr(11, 8) : dateString.substr(14, 5);
+    return seconds >= 3600 ? dateString.slice(11, 19) : dateString.slice(14, 19);
 };
 
 export const timeToPercentage = (time?: Time): number => (time && Number.isFinite(time.duration) && time.duration > 0) ? (time.currentTime / time.duration) * 100 : 0;
 export const timeToString = (time: Time): string => `${getTime(time.currentTime)}/${getTime(time.duration)}`;
 
-export const getMimeType = (url: string): string => {
+export const getMimeType = (url: string): string | undefined => {
     const mimeMap: Record<string, string> = {
         mid: 'audio/midi',
         midi: 'audio/midi',
         kar: 'audio/midi',
         mp3: 'audio/mpeg',
         ogg: 'audio/ogg',
+        oga: 'audio/ogg',
+        opus: 'audio/ogg',
+        wav: 'audio/wav',
+        flac: 'audio/flac',
+        aac: 'audio/aac',
+        m4a: 'audio/mp4',
+        weba: 'audio/webm',
         ra: 'audio/x-realaudio',
         '3gpp': 'video/3gpp',
         '3gp': 'video/3gpp',
@@ -28,10 +35,14 @@ export const getMimeType = (url: string): string => {
         asf: 'video/x-ms-asf',
         wmv: 'video/x-ms-wmv',
         avi: 'video/x-msvideo',
+        webm: 'video/webm',
+        ogv: 'video/ogg',
         m4v: 'video/mp4',
         mp4: 'video/mp4',
     };
-    return mimeMap[url.split(/[#?]/)[0].split('.').pop()!.trim()];
+    const path = url.split(/[#?]/)[0];
+    const extension = path.includes('.') ? path.split('.').pop()!.trim().toLowerCase() : '';
+    return mimeMap[extension];
 };
 
 export const getFade = (settings: FadeSettings | undefined, duration: number, currentTime: number): number => {
@@ -72,7 +83,7 @@ export const thumbThick = {
     'large': 25
 };
 
-export const getSliderSizes = (thickness?: SliderThickness, others?: any) =>
+export const getSliderSizes = (thickness?: SliderThickness, others: any = {}) =>
 ({
     '& .MuiSlider-thumb': {
         width: thumbThick[thickness || 'thin'],

@@ -14,7 +14,6 @@ const getInitialState = (props: BaseProps): State => ({
         currentTime: 0,
         duration: 0,
     },
-    playerTimeout: null,
     src: props.src,
 });
 
@@ -46,7 +45,15 @@ const SoundButton = (props: SoundButtonProps) => {
 
         player.current.pause();
         player.current.currentTime = 0;
-        player.current.play();
+        try {
+            await player.current.play();
+        } catch (e) {
+            // AbortError: play() interrupted by a new load; NotAllowedError: blocked by autoplay policy
+            if (e instanceof DOMException && (e.name === 'AbortError' || e.name === 'NotAllowedError')) {
+                return;
+            }
+            throw e;
+        }
     }, [props.src, load]);
 
     return (

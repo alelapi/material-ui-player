@@ -90,7 +90,6 @@ const getInitialState = (props: VideoCardProps): State => ({
     fade: 1,
     width: props.width,
     height: (props.width || 0) * 9 / 16,
-    playerTimeout: null,
     src: props.src,
 });
 
@@ -111,11 +110,12 @@ const VideoCard = (props: VideoCardProps) => {
         if (!player.current.src) {
             const videoUrl = await getUrl(props.src);
             load(player.current, videoUrl);
-            await new Promise<void>((resolve) => {
+            await new Promise<void>((resolve, reject) => {
                 player.current.onloadedmetadata = () => {
                     setSize(player.current);
                     resolve();
                 };
+                player.current.onerror = () => reject(new Error(`Failed to load media: ${videoUrl}`));
             });
         }
 
@@ -132,7 +132,10 @@ const VideoCard = (props: VideoCardProps) => {
     }, [pause, onEnded, autoplay, loop]);
 
     useEffect(() => {
-        autoplay && onPlay();
+        if (autoplay) {
+            // autoplay is best-effort: browsers may block it, which is not actionable here
+            onPlay().catch(() => { });
+        }
     }, [autoplay, onPlay]);
 
     return (

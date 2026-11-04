@@ -1,5 +1,13 @@
-# pnpm 11+ removed `onlyBuiltDependencies` and no longer reads the `pnpm`
-# field in package.json; build approvals live here as an `allowBuilds` map.
+# Single-package repo; `packages` is required for this file to parse as a
+# workspace manifest (pnpm <12 errors on every command without it).
+packages:
+  - '.'
+
+# pnpm 12+ (used in CI via action-setup `version: latest`) removed
+# `onlyBuiltDependencies` and no longer reads the `pnpm` field in
+# package.json; build approvals live here as an `allowBuilds` map.
+# pnpm 10 (local) ignores this key and reads `pnpm.onlyBuiltDependencies`
+# from package.json instead — keep both in sync.
 # Both entries are transitive deps of storybook (@swc/core via
 # @storybook/addon-webpack5-compiler-swc, esbuild via storybook core).
 allowBuilds:

@@ -57,8 +57,7 @@ const BarsGrid = styled(Grid)(({ theme }) => ({
     },
 }));
 
-export interface AudioCardProps extends MaterialUIMediaProps {
-}
+export type AudioCardProps = MaterialUIMediaProps;
 
 const getInitialState = (props: AudioCardProps): State => ({
     url: '',
@@ -68,7 +67,6 @@ const getInitialState = (props: AudioCardProps): State => ({
         currentTime: 0,
         duration: 0,
     },
-    playerTimeout: null,
     src: props.src,
 })
 
@@ -89,8 +87,9 @@ const AudioCard = (props: AudioCardProps) => {
         if (!player.current.src) {
             const audioUrl = await getUrl(props.src);
             load(player.current, audioUrl);
-            await new Promise<void>((resolve) => {
+            await new Promise<void>((resolve, reject) => {
                 player.current.oncanplay = () => resolve();
+                player.current.onerror = () => reject(new Error(`Failed to load media: ${audioUrl}`));
             });
         }
 
@@ -107,7 +106,10 @@ const AudioCard = (props: AudioCardProps) => {
     }, [pause, onEnded, autoplay, loop]);
 
     useEffect(() => {
-        autoplay && onPlay();
+        if (autoplay) {
+            // autoplay is best-effort: browsers may block it, which is not actionable here
+            onPlay().catch(() => { });
+        }
     }, [autoplay, onPlay]);
 
     return (
