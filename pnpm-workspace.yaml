@@ -13,3 +13,10 @@ packages:
 allowBuilds:
   '@swc/core': true
   esbuild: true
+
+# pnpm 12 rejects lockfile entries younger than 24h (minimumReleaseAge
+# defaults to 1440 minutes). This version was resolved locally by pnpm 10
+# (which has no such policy) on its release day; exempt the exact version
+# instead of relaxing the policy. Safe to remove once it ages past 24h.
+minimumReleaseAgeExclude:
+  - 'is-core-module@2.18.0'
